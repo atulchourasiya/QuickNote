@@ -1,0 +1,108 @@
+:root {
+	--fw-regular: 400;
+	--fw-bold: 600;
+
+	--fs-400: 1rem;
+	--fs-500: 1.5rem;
+	--fs-600: 2rem;
+
+	--size-100: 0.25rem;
+	--size-200: 0.5rem;
+	--size-300: 0.75rem;
+	--size-400: 1rem;
+	--size-500: 1.5rem;
+	--size-600: 2rem;
+	--size-700: 2.5rem;
+	--size-800: 3rem;
+
+	--box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+*,
+*::after,
+*::before {
+	box-sizing: inherit;
+	margin: 0;
+	padding: 0;
+	border: none;
+	outline: none;
+	-webkit-tap-highlight-color: transparent;
+}
+html {
+	box-sizing: border-box;
+}
+img,
+svg {
+	max-width: 100%;
+	display: block;
+}
+a {
+	text-decoration: none;
+	color: inherit;
+}
+ul,
+ol {
+	list-style: none;
+}
+body {
+	scroll-behavior: smooth;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+/* Utility Classes */
+.d-flex {
+	display: flex;
+}
+.d-none{
+	display: none;
+}
+.justify-center {
+	justify-content: center;
+}
+.align-center {
+	align-items: center;
+}
+.fw-regular {
+	font-weight: var(--fw-regular);
+}
+.fw-bold {
+	font-weight: var(--fw-bold);
+}
+.fs-400 {
+	font-size: var(--fs-400);
+}
+.fs-500 {
+	font-size: var(--fs-500);
+}
+.fs-600 {
+	font-size: var(--fs-600);
+}
+.ff {
+	font-family: var(--ff-primary);
+}
+.pointer {
+	cursor: pointer;
+}
+.w-max {
+	width: max-content;
+}
+.shadow {
+	box-shadow: var(--box-shadow);
+}
+::placeholder {
+	font-family: var(--ff-primary);
+	font-weight: var(--fw-regular);
+	font-size: var(--fs-400);
+}
+input {
+	font-size: var(--fs-400);
+}
+hr {
+	color: var(--bg-hr);
+	background-color: var(--bg-hr);
+	height: 1px;
+	width: 100%;
+}
+.spacing{
+	letter-spacing: .5px;
+}

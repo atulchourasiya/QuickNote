@@ -1,0 +1,90 @@
+:root {
+	--bg-light: #fff;
+	--bg-input-search: #94949427;
+	--bg-hover: #88888827;
+	--bg-dropdown-hover: #8181812d;
+	--bg-hr: #9191918a;
+
+	--ff-primary: 'productSans', Roboto, arial, sans-serif;
+}
+@font-face {
+	font-family: productSans;
+	src: url(../Assets/Font/Product\ Sans\ Regular.ttf);
+}
+/* icon & icon hover section  */
+.icon-size {
+	width: var(--size-500);
+	height: var(--size-500);
+	z-index: 2;
+}
+.icon-size-arrow {
+	width: 1.8rem;
+	height: 1.8rem;
+	z-index: 2;
+}
+svg,
+img {
+	pointer-events: auto;
+	cursor: pointer;
+}
+.svg-container {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: var(--size-800);
+	height: var(--size-800);
+	pointer-events: none;
+}
+.svg-container::before {
+	content: '';
+	position: absolute;
+	padding-top: 0;
+	width: 0;
+	height: 0;
+	border-radius: 50%;
+	background-color: var(--bg-hover);
+}
+@media (hover: hover) and (pointer: fine) {
+	.svg-container:hover::before {
+		width: var(--size-800);
+		height: var(--size-800);
+	}
+	.small-icon-hover:hover::before {
+		width: var(--size-700);
+		height: var(--size-700);
+	}
+}
+/* theme section */
+.dark {
+	--bg-clr: #222222;
+	--text-clr: #fff;
+	--icon-clr: #ffffffde;
+	--list-icon-clr: #98989a;
+	--bg-overlap-clr: #202124;
+}
+
+.light {
+	--bg-clr: #fff;
+	--text-clr: #000;
+	--icon-clr: #5f6368;
+	--list-icon-clr: #767676;
+	--bg-overlap-clr: #fff;
+}
+body {
+	background-color: var(--bg-clr);
+	color: var(--text-clr);
+	font-size: var(--fs-500);
+}
+@media (max-width: 575.98px) {
+	.icon-size {
+		width: 1.7rem;
+		height: 1.7rem;
+		z-index: 2;
+	}
+	.icon-size-arrow {
+		width: 2rem;
+		height: 2rem;
+		z-index: 2;
+	}
+}
