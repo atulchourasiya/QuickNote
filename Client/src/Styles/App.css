@@ -15,17 +15,16 @@
 .icon-size {
 	width: var(--size-500);
 	height: var(--size-500);
-	z-index: 2;
 }
 .icon-size-arrow {
 	width: 1.8rem;
 	height: 1.8rem;
-	z-index: 2;
 }
 svg,
 img {
 	pointer-events: auto;
 	cursor: pointer;
+	z-index: 2;
 }
 .svg-container {
 	position: relative;
@@ -34,14 +33,13 @@ img {
 	align-items: center;
 	width: var(--size-800);
 	height: var(--size-800);
-	pointer-events: none;
 }
 .svg-container::before {
 	content: '';
 	position: absolute;
 	padding-top: 0;
-	width: 0;
-	height: 0;
+	width: var(--hover-size, 0);
+	height: var(--hover-size, 0);
 	border-radius: 50%;
 	background-color: var(--bg-hover);
 }
@@ -49,6 +47,7 @@ img {
 	.svg-container:hover::before {
 		width: var(--size-800);
 		height: var(--size-800);
+		transition: 0.1s width linear, 0.1s height linear;
 	}
 	.small-icon-hover:hover::before {
 		width: var(--size-700);

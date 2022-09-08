@@ -4,7 +4,7 @@ import '../Styles/App.css';
 function App() {
 	return (
 		<BrowserRouter>
-				<Navbar />
+			<Navbar />
 		</BrowserRouter>
 	);
 }

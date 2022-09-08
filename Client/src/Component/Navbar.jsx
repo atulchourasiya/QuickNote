@@ -15,11 +15,13 @@ const Navbar = () => {
 	const accountMenu = useRef();
 	const inputCancleIcon = useRef();
 	const searchSection = useRef();
-	const logoContainer = useRef();
 	const searchIcon = useRef();
-	const searchBoxContainer = useRef();
 	const arrowIcon = useRef();
 	const driveLogo = useRef();
+	const logoContainer = useRef();
+	const searchBoxContainer = useRef();
+	const accountContainer = useRef();
+	const menuContainer = useRef();
 
 	const [size, setSize] = useState(getComputedStyle(document.body).fontSize);
 	let deviceType = null;
@@ -67,47 +69,28 @@ const Navbar = () => {
 		dispatch(setLoading(false));
 	};
 
-	const handleToggleTheme = ()=>{
-		if(theme==='dark')dispatch(setTheme('light'))
+	const handleToggleTheme = () => {
+		if (theme === 'dark') dispatch(setTheme('light'));
 		else dispatch(setTheme('dark'));
-	}
-	useEffect(() => {
-		const checkIfClickedOutside = (event) => {
-			const isDropdownButton = event.target.matches('[data-dropdown-button]');
-			const isAccountButton = event.target.matches('[data-account-button]');
-			if (
-				searchBoxContainer.current &&
-				!searchIcon.current.contains(event.target) &&
-				!searchBoxContainer.current.contains(event.target)
-			) {
-				let media = window.matchMedia('(max-width: 767.98px)');
-				if (media.matches) {
-					handleExitsearch();
-				}
-			}
-			if (isDropdownButton) {
-				dropdownMenu.current.classList.toggle(`${styles.dropdownShow}`);
-			} else if (!event.target.closest('.dropdownContainer')) {
-				dropdownMenu.current.classList.remove(`${styles.dropdownShow}`);
-			}
-			if (isAccountButton) {
-				accountMenu.current.classList.toggle(`${styles.accountShow}`);
-			} else {
-				accountMenu.current.classList.remove(`${styles.accountShow}`);
-			}
-		};
-		document.addEventListener('click', checkIfClickedOutside);
-		return () => {
-			document.removeEventListener('click', checkIfClickedOutside);
-		};
-		// eslint-disable-next-line
-	}, []);
+	};
 
-	const spinnerSize = () => {
+	const handleSpinnerSize = () => {
 		setSize(getComputedStyle(document.body).fontSize);
 	};
 
-	const mediaWidth = () => {
+	const handleDriveIcon = async () => {
+		driveLogo.current?.classList.remove('d-none');
+		arrowIcon.current?.classList.add('d-none');
+		await new Promise((resolve) =>
+			setTimeout(() => {
+				driveLogo.current?.classList.add('d-none');
+				arrowIcon.current?.classList.remove('d-none');
+				resolve();
+			}, 1000)
+		);
+	};
+
+	const handleMediaWidth = () => {
 		let media768 = window.matchMedia('(min-width: 768px)');
 		if (media768.matches && deviceType !== 'laptop') {
 			deviceType = 'laptop';
@@ -124,39 +107,77 @@ const Navbar = () => {
 		}
 	};
 
+	const handleHover = (element) => {
+		const svgContainer = document.getElementsByClassName('svg-container');
+		Array.from(svgContainer).forEach((element) => {
+			element.style.setProperty('--hover-size', '0');
+		});
+		const isCoarse = matchMedia('(pointer:coarse)').matches;
+		if (element && isCoarse) {
+			if (element.classList.contains('small-icon-hover')) {
+				element.style.setProperty('--hover-size', 'var(--size-700)');
+			} else {
+				element.style.setProperty('--hover-size', 'var(--size-800)');
+			}
+			if (!element.classList.contains('active')) {
+				setTimeout(() => {
+					element.style.setProperty('--hover-size', '0');
+				}, 200);
+			}
+		}
+	};
+
+	const checkIfClickedOutside = (event) => {
+		const isDropdownButton = event.target.hasAttribute('data-dropdown');
+		const isAccountButton = event.target.hasAttribute('data-account');
+		const dropdownContainer = document.getElementsByClassName('dropdownContainer')[0];
+		if (
+			searchBoxContainer.current &&
+			!searchIcon.current.contains(event.target) &&
+			!searchBoxContainer.current.contains(event.target)
+		) {
+			let media = window.matchMedia('(max-width: 767.98px)');
+			if (media.matches) {
+				handleExitsearch();
+			}
+		}
+		if (isDropdownButton) {
+			dropdownMenu.current.classList.toggle(`${styles.dropdownShow}`);
+			dropdownContainer.classList.toggle('active');
+		} else if (!event.target.closest('.dropdownContainer')) {
+			dropdownMenu.current.classList.remove(`${styles.dropdownShow}`);
+			dropdownContainer.classList.remove('active');
+		}
+
+		if (isAccountButton) {
+			accountMenu.current.classList.toggle(`${styles.accountShow}`);
+			accountContainer.current.classList.toggle('active');
+		} else {
+			accountMenu.current.classList.remove(`${styles.accountShow}`);
+			accountContainer.current.classList.remove('active');
+		}
+		handleHover(event.target.closest('.svg-container'));
+	};
+
 	useEffect(() => {
-		mediaWidth();
-		window.addEventListener('resize', spinnerSize);
-		window.addEventListener('resize', mediaWidth);
+		handleMediaWidth();
+		dispatch(setTheme('dark'));
+		dispatch(getUser());
+		window.addEventListener('resize', handleSpinnerSize);
+		window.addEventListener('resize', handleMediaWidth);
+		document.addEventListener('click', checkIfClickedOutside);
 		return () => {
-			window.removeEventListener('resize', spinnerSize);
-			window.removeEventListener('resize', mediaWidth);
+			window.removeEventListener('resize', handleSpinnerSize);
+			window.removeEventListener('resize', handleMediaWidth);
+			document.removeEventListener('click', checkIfClickedOutside);
 		};
 		// eslint-disable-next-line
 	}, []);
 
 	useEffect(() => {
-		dispatch(setTheme('dark'));
-		dispatch(getUser());
-		// eslint-disable-next-line
-	}, []);
-
-	useEffect(() => {
 		if (!loading) {
-			const handleDriveIcon = async () => {
-				driveLogo.current?.classList.remove('d-none');
-				arrowIcon.current?.classList.add('d-none');
-				await new Promise((resolve) =>
-				setTimeout(() => {
-					driveLogo.current?.classList.add('d-none');
-					arrowIcon.current?.classList.remove('d-none');
-					resolve();
-					}, 1000)
-				);
-			};
 			handleDriveIcon();
-		}
-		else{
+		} else {
 			driveLogo.current?.classList.add('d-none');
 			arrowIcon.current?.classList.add('d-none');
 		}
@@ -166,7 +187,7 @@ const Navbar = () => {
 		<header>
 			<nav className='d-flex'>
 				<div ref={logoContainer} className={`${styles.logoContainer} d-flex align-center`}>
-					<div className='svg-container'>
+					<div ref={menuContainer} className='svg-container'>
 						<svg
 							xmlns='http://www.w3.org/2000/svg'
 							className='icon-size'
@@ -187,24 +208,26 @@ const Navbar = () => {
 							onChange={handleInput}
 							ref={inputFiled}
 						/>
-						<div className='svg-container small-icon-hover'>
+						<div
+							className='svg-container small-icon-hover'
+							id={styles.inputSearchIcon}
+							onClick={handleSearchFocus}>
 							<svg
 								xmlns='http://www.w3.org/2000/svg'
 								fill='var(--list-icon-clr)'
 								className='icon-size'
-								onClick={handleSearchFocus}
-								id={styles.inputSearchIcon}
 								viewBox='0 0 16 16'>
 								<path d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z' />
 							</svg>
 						</div>
-						<div className='svg-container small-icon-hover'>
+						<div
+							className='svg-container small-icon-hover'
+							id={styles.inputExitIcon}
+							onClick={handleExitsearch}>
 							<svg
 								xmlns='http://www.w3.org/2000/svg'
 								fill='var(--list-icon-clr)'
 								className='icon-size '
-								id={styles.inputExitIcon}
-								onClick={handleExitsearch}
 								viewBox='0 0 16 16'>
 								<path
 									fillRule='evenodd'
@@ -216,13 +239,14 @@ const Navbar = () => {
 								/>
 							</svg>
 						</div>
-						<div className='svg-container small-icon-hover'>
+						<div
+							ref={inputCancleIcon}
+							className='svg-container small-icon-hover d-none'
+							onClick={handleCancle}>
 							<svg
 								xmlns='http://www.w3.org/2000/svg'
 								fill='var(--list-icon-clr)'
-								className='icon-size d-none'
-								onClick={handleCancle}
-								ref={inputCancleIcon}
+								className='icon-size'
 								viewBox='0 0 16 16'>
 								<path d='M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z' />
 								<path d='M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z' />
@@ -230,17 +254,25 @@ const Navbar = () => {
 						</div>
 					</div>
 					<ul className='d-flex'>
-						<li ref={searchIcon} id={styles.searchIcon} className='svg-container'>
+						<li
+							ref={searchIcon}
+							id={styles.searchIcon}
+							className='svg-container'
+							onClick={handleSearch}>
 							<svg
 								xmlns='http://www.w3.org/2000/svg'
 								fill='var(--list-icon-clr)'
 								className='icon-size'
-								onClick={handleSearch}
 								viewBox='0 0 16 16'>
 								<path d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z' />
 							</svg>
 						</li>
-						<li id={styles.loading} className='svg-container'>
+						<li
+							id={styles.loading}
+							className='svg-container'
+							onClick={() => {
+								window.location.reload();
+							}}>
 							{loading ? (
 								<div className='icon-size'>
 									<Spinner size={size} />
@@ -251,9 +283,6 @@ const Navbar = () => {
 									fill='none'
 									className='icon-size-arrow d-none'
 									ref={arrowIcon}
-									onClick={() => {
-										window.location.reload();
-									}}
 									strokeWidth='1.6'
 									viewBox='0 0 24 24'
 									strokeLinecap='round'
@@ -305,15 +334,21 @@ const Navbar = () => {
 								</svg>
 							)}
 						</li>
-						<li className='svg-container dropdownContainer'>
+						<li className='svg-container dropdownContainer' data-dropdown>
 							<svg
 								xmlns='http://www.w3.org/2000/svg'
 								fill='var(--list-icon-clr)'
 								className='icon-size'
-								data-dropdown-button
+								data-dropdown
 								viewBox='0 0 16 16'>
-								<path d='M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492zM5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0z' />
-								<path d='M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52l-.094-.319zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115l.094-.319z' />
+								<path
+									data-dropdown
+									d='M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492zM5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0z'
+								/>
+								<path
+									data-dropdown
+									d='M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52l-.094-.319zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115l.094-.319z'
+								/>
 							</svg>
 							<div ref={dropdownMenu} className={`${styles.dropdownMenu} ff pointer fs-400 w-max`}>
 								<div>Settings</div>
@@ -327,17 +362,19 @@ const Navbar = () => {
 						</li>
 					</ul>
 				</div>
-				<div className='svg-container small-icon-hover'>
+				<div ref={accountContainer} className='svg-container small-icon-hover' data-account>
 					<img
 						src={user ? user.imageLink : userDemo}
 						alt='profile'
 						className={`${styles.profileImg}`}
-						data-account-button
+						data-account
 						referrerPolicy='no-referrer'
 					/>
-					<div ref={accountMenu} className={`${styles.dropdownMenu} ${styles.account} d-flex fs-400 w-max`}>
-						<p >{user?.name??'Atul Chourasiya'}</p>
-						<p>{user?.email??'Example@gmail.com'}</p>
+					<div
+						ref={accountMenu}
+						className={`${styles.dropdownMenu} ${styles.account} d-flex fs-400 w-max`}>
+						<p>{user?.name ?? 'Atul Chourasiya'}</p>
+						<p>{user?.email ?? 'Example@gmail.com'}</p>
 					</div>
 				</div>
 			</nav>

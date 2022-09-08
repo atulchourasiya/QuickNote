@@ -87,7 +87,7 @@ nav > div {
 	pointer-events: none;
 }
 .dropdownMenu div {
-	padding: var(--size-100) var(--size-300);
+	padding: var(--size-150) var(--size-300);
 }
 .dropdownShow {
 	opacity: 1 !important;
@@ -100,10 +100,10 @@ nav > div {
 #loading {
 	display: flex;
 }
+.dropdownMenu div:hover {
+	background-color: var(--bg-dropdown-hover);
+}
 @media (hover: hover) and (pointer : fine) {
-	.dropdownMenu div:hover {
-		background-color: var(--bg-dropdown-hover);
-	}
 	[data-dropdown-button]:hover + div {
 		opacity: 1;
 		transform: translateY(0);
