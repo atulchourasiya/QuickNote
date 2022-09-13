@@ -1,0 +1,117 @@
+.sidebarContainer {
+	padding-top: var(--size-200);
+	flex-direction: column;
+	height: calc(100vh - 4rem);
+	width: max-content;
+	box-shadow: var(--box-shadow);
+	background-color: var(--bg-clr);
+	z-index: 1;
+}
+.section {
+	overflow-y: hidden;
+	overflow-x: hidden;
+	height: calc(100% - var(--size-800));
+}
+.sidebarSectionContainer {
+	width: 4rem !important;
+	z-index: -1;
+}
+.sidebarText {
+	width: 0rem !important;
+	justify-content: left !important;
+	transition: 0.2s 0.4s width linear;
+	z-index: -1;
+}
+.sidebarText p {
+	white-space: nowrap;
+	overflow: hidden;
+}
+.sign {
+	white-space: nowrap;
+	overflow: hidden;
+	position: fixed;
+	height: var(--size-800);
+	bottom: 0;
+	width: 0rem;
+	transition: 0.2s 0.4s width linear;
+	background-color: var(--bg-clr);
+}
+:global(.sidebarOpen),
+.sidebarContainer:hover > .section {
+	overflow-y: auto;
+}
+:global(.active) .sidebarSectionContainer::before {
+	border-radius: 50%;
+	width: var(--size-800);
+	height: var(--size-800);
+	transition: 0.2s width linear, 0.2s height linear, 0.2s border-radius linear;
+	z-index: -1;
+	background-color: var(--sidebar-active-clr);
+}
+:global(.sidebarOpen) :global(.active) .sidebarSectionContainer::before,
+.sidebarContainer:hover :global(.active) .sidebarSectionContainer::before {
+	width: 100%;
+	height: var(--size-800);
+	border-radius: 0;
+}
+:global(.active) .sidebarText:before {
+	height: 100%;
+	border-radius: 0;
+}
+:global(.sidebarOpen) :global(.active) .sidebarText::before,
+.sidebarContainer:hover :global(.active) .sidebarText::before {
+	width: 100%;
+	height: 100%;
+	border-radius: 0 var(--size-800) var(--size-800) 0;
+	background-color: var(--sidebar-active-clr);
+	z-index: -1;
+}
+:global(.sidebarOpen) .sidebarText,
+.sidebarContainer:hover .sidebarText {
+	width: 10rem !important;
+}
+
+:global(.sidebarOpen) + .sign,
+.sidebarContainer:hover .sign {
+	width: 14rem;
+}
+.sidebarSection:hover:not(:global(.active)) .sidebarSectionContainer::before {
+	animation: borderStrech 0.2s linear forwards;
+}
+.sidebarSection:hover:not(:global(.active)) .sidebarText:before {
+	animation: borderTextStrech 0.2s 0.2s linear forwards;
+}
+
+@keyframes borderStrech {
+	0% {
+		border-radius: 50%;
+		width: var(--size-800);
+		height: var(--size-800);
+	}
+	95% {
+		border-radius: 50%;
+		width: var(--size-800);
+		height: var(--size-800);
+	}
+	100% {
+		width: 100%;
+		height: var(--size-800);
+		border-radius: 0;
+	}
+}
+@keyframes borderTextStrech {
+	0% {
+		height: 100%;
+		border-radius: 0;
+	}
+	100% {
+		width: 100%;
+		height: 100%;
+		border-radius: 0 var(--size-800) var(--size-800) 0;
+	}
+}
+@media (max-width: 575.98px) {
+	.sidebarContainer {
+		position: absolute;
+	}
+}

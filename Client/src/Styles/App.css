@@ -3,6 +3,7 @@
 	--bg-input-search: #94949427;
 	--bg-hover: #88888827;
 	--bg-dropdown-hover: #8181812d;
+	--sidebar-active-clr:#ffc40025;
 	--bg-hr: #9191918a;
 
 	--ff-primary: 'productSans', Roboto, arial, sans-serif;
@@ -61,6 +62,7 @@ img {
 	--icon-clr: #ffffffde;
 	--list-icon-clr: #98989a;
 	--bg-overlap-clr: #202124;
+	--sidebar-active-clr:#ff9d0034;
 }
 
 .light {
@@ -69,6 +71,7 @@ img {
 	--icon-clr: #5f6368;
 	--list-icon-clr: #767676;
 	--bg-overlap-clr: #fff;
+	--sidebar-active-clr:#ffee004b;
 }
 body {
 	background-color: var(--bg-clr);

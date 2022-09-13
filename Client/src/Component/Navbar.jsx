@@ -54,7 +54,7 @@ const Navbar = () => {
 		inputFiled.current.focus();
 	};
 
-	const handleExitsearch = () => {
+	const handleExitSearch = () => {
 		logoContainer.current.style.display = 'flex';
 		searchBoxContainer.current.style.display = 'none';
 		searchIcon.current.style.display = 'flex';
@@ -107,12 +107,17 @@ const Navbar = () => {
 		}
 	};
 
-	const handleHover = (element) => {
+	const removeHover = () => {
 		const svgContainer = document.getElementsByClassName('svg-container');
 		Array.from(svgContainer).forEach((element) => {
+			if(!element.classList.contains('active'))
 			element.style.setProperty('--hover-size', '0');
 		});
+	};
+
+	const handleHover = (element) => {
 		const isCoarse = matchMedia('(pointer:coarse)').matches;
+		removeHover();
 		if (element && isCoarse) {
 			if (element.classList.contains('small-icon-hover')) {
 				element.style.setProperty('--hover-size', 'var(--size-700)');
@@ -127,20 +132,9 @@ const Navbar = () => {
 		}
 	};
 
-	const checkIfClickedOutside = (event) => {
+	const handleDropdownHover = (event) => {
 		const isDropdownButton = event.target.hasAttribute('data-dropdown');
-		const isAccountButton = event.target.hasAttribute('data-account');
 		const dropdownContainer = document.getElementsByClassName('dropdownContainer')[0];
-		if (
-			searchBoxContainer.current &&
-			!searchIcon.current.contains(event.target) &&
-			!searchBoxContainer.current.contains(event.target)
-		) {
-			let media = window.matchMedia('(max-width: 767.98px)');
-			if (media.matches) {
-				handleExitsearch();
-			}
-		}
 		if (isDropdownButton) {
 			dropdownMenu.current.classList.toggle(`${styles.dropdownShow}`);
 			dropdownContainer.classList.toggle('active');
@@ -148,7 +142,23 @@ const Navbar = () => {
 			dropdownMenu.current.classList.remove(`${styles.dropdownShow}`);
 			dropdownContainer.classList.remove('active');
 		}
+	};
+	
+	const handleMenuHover = (event) => {
+		const isMenuButton = event.target.hasAttribute('data-menu');
+		const sign = document.getElementById('sign');
+		const section = document.getElementById('section');
+		if (isMenuButton && window.getComputedStyle(sign, null).getPropertyValue('width') === '0px') {
+			section.classList.add('sidebarOpen');
+			menuContainer.current.classList.add('active');
+		} else if (!event.target.closest('#sidebarContainer')) {
+			section.classList.remove('sidebarOpen');
+			menuContainer.current.classList.remove('active');
+		}
+	};
 
+	const handleAccountHover = (event) => {
+		const isAccountButton = event.target.hasAttribute('data-account');
 		if (isAccountButton) {
 			accountMenu.current.classList.toggle(`${styles.accountShow}`);
 			accountContainer.current.classList.toggle('active');
@@ -156,6 +166,26 @@ const Navbar = () => {
 			accountMenu.current.classList.remove(`${styles.accountShow}`);
 			accountContainer.current.classList.remove('active');
 		}
+	};
+
+	const handleExitSearchHover = (event) => {
+		if (
+			searchBoxContainer.current &&
+			!searchIcon.current.contains(event.target) &&
+			!searchBoxContainer.current.contains(event.target)
+		) {
+			let media = window.matchMedia('(max-width: 767.98px)');
+			if (media.matches) {
+				handleExitSearch();
+			}
+		}
+	};
+
+	const checkIfClickedOutside = (event) => {
+		handleExitSearchHover(event);
+		handleDropdownHover(event);
+		handleAccountHover(event);
+		handleMenuHover(event);
 		handleHover(event.target.closest('.svg-container'));
 	};
 
@@ -185,19 +215,22 @@ const Navbar = () => {
 
 	return (
 		<header>
-			<nav className='d-flex'>
+			<div className={`d-flex ${styles.headerContainer} `}>
 				<div ref={logoContainer} className={`${styles.logoContainer} d-flex align-center`}>
-					<div ref={menuContainer} className='svg-container'>
+					<div data-menu ref={menuContainer} className='svg-container'>
 						<svg
 							xmlns='http://www.w3.org/2000/svg'
 							className='icon-size'
 							fill='var(--icon-clr)'
+							data-menu
 							viewBox='0 0 24 24'>
-							<path d='M 2 5 L 2 7 L 22 7 L 22 5 L 2 5 z M 2 11 L 2 13 L 22 13 L 22 11 L 2 11 z M 2 17 L 2 19 L 22 19 L 22 17 L 2 17 z'></path>
+							<path
+								data-menu
+								d='M 2 5 L 2 7 L 22 7 L 22 5 L 2 5 z M 2 11 L 2 13 L 22 13 L 22 11 L 2 11 z M 2 17 L 2 19 L 22 19 L 22 17 L 2 17 z'></path>
 						</svg>
 					</div>
 					<img src={logo} alt='logo' className={styles.logoImg} />
-					<div className='ff fs-500 w-max pointer spacing'>Quick Note</div>
+					<h1 className='ff fs-500 w-max pointer spacing fw-regular'>Quick Note</h1>
 				</div>
 				<div ref={searchSection} className={`${styles.searchContainer} d-flex`}>
 					<div ref={searchBoxContainer} className={`${styles.searchBox}`}>
@@ -223,7 +256,7 @@ const Navbar = () => {
 						<div
 							className='svg-container small-icon-hover'
 							id={styles.inputExitIcon}
-							onClick={handleExitsearch}>
+							onClick={handleExitSearch}>
 							<svg
 								xmlns='http://www.w3.org/2000/svg'
 								fill='var(--list-icon-clr)'
@@ -350,15 +383,15 @@ const Navbar = () => {
 									d='M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52l-.094-.319zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115l.094-.319z'
 								/>
 							</svg>
-							<div ref={dropdownMenu} className={`${styles.dropdownMenu} ff pointer fs-400 w-max`}>
-								<div>Settings</div>
-								<div onClick={handleToggleTheme}>{theme === 'dark' ? 'Light' : 'Dark'} Theme</div>
-								<div>Send Feedback</div>
-								<div>About Developer</div>
-								<a href='http://localhost:5000/auth/logout'>
-									<div>Logout</div>
-								</a>
-							</div>
+							<ul ref={dropdownMenu} className={`${styles.dropdownMenu} ff pointer fs-400 w-max`}>
+								<li>Settings</li>
+								<li onClick={handleToggleTheme}>{theme === 'dark' ? 'Light' : 'Dark'} Theme</li>
+								<li>Send Feedback</li>
+								<li>About Developer</li>
+								<li>
+									<a href='http://localhost:5000/auth/logout'>Logout</a>
+								</li>
+							</ul>
 						</li>
 					</ul>
 				</div>
@@ -377,7 +410,7 @@ const Navbar = () => {
 						<p>{user?.email ?? 'Example@gmail.com'}</p>
 					</div>
 				</div>
-			</nav>
+			</div>
 			<hr />
 		</header>
 	);
