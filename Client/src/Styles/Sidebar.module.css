@@ -4,7 +4,6 @@
 	height: calc(100vh - (4rem + 1px));
 	width: max-content;
 	box-shadow: var(--box-shadow);
-	background-color: var(--bg-clr);
 	z-index: 1;
 }
 .section {
@@ -114,5 +113,6 @@
 @media (max-width: 575.98px) {
 	.sidebarContainer {
 		position: absolute;
+		background-color: var(--bg-clr);
 	}
 }
