@@ -1,7 +1,7 @@
 .sidebarContainer {
 	padding-top: var(--size-200);
 	flex-direction: column;
-	height: calc(100vh - 4rem);
+	height: calc(100vh - (4rem + 1px));
 	width: max-content;
 	box-shadow: var(--box-shadow);
 	background-color: var(--bg-clr);
@@ -10,7 +10,7 @@
 .section {
 	overflow-y: hidden;
 	overflow-x: hidden;
-	height: calc(100% - var(--size-800));
+	height: 100%;
 }
 .sidebarSectionContainer {
 	width: 4rem !important;
@@ -39,6 +39,7 @@
 :global(.sidebarOpen),
 .sidebarContainer:hover > .section {
 	overflow-y: auto;
+	height: calc(100% - var(--size-800));
 }
 :global(.active) .sidebarSectionContainer::before {
 	border-radius: 50%;

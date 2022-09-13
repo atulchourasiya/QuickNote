@@ -74,6 +74,7 @@ img {
 	--sidebar-active-clr:#ffee004b;
 }
 body {
+	height: 100vh;
 	background-color: var(--bg-clr);
 	color: var(--text-clr);
 	font-size: var(--fs-500);

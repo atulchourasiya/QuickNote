@@ -70,8 +70,13 @@ const Navbar = () => {
 	};
 
 	const handleToggleTheme = () => {
-		if (theme === 'dark') dispatch(setTheme('light'));
-		else dispatch(setTheme('dark'));
+		if (theme === 'dark') {
+			dispatch(setTheme('light'));
+			localStorage.setItem('currentTheme', 'light');
+		} else {
+			dispatch(setTheme('dark'));
+			localStorage.setItem('currentTheme', 'dark');
+		}
 	};
 
 	const handleSpinnerSize = () => {
@@ -189,9 +194,17 @@ const Navbar = () => {
 		handleHover(event.target.closest('.svg-container'));
 	};
 
+	const currentTheme = () => {
+		let currentTheme = localStorage.getItem('currentTheme');
+		if(!currentTheme){
+			currentTheme = theme;
+			localStorage.setItem('currentTheme',currentTheme)
+		}
+		return currentTheme;
+	};
 	useEffect(() => {
 		handleMediaWidth();
-		dispatch(setTheme('dark'));
+		dispatch(setTheme(currentTheme()));
 		dispatch(getUser());
 		window.addEventListener('resize', handleSpinnerSize);
 		window.addEventListener('resize', handleMediaWidth);
