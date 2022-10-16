@@ -1,10 +1,12 @@
 :root {
 	--bg-light: #fff;
+	--text-primary: #8ab4f8;
 	--bg-input-search: #94949427;
 	--bg-hover: #88888827;
 	--bg-dropdown-hover: #8181812d;
-	--sidebar-active-clr:#ffc40025;
-	--bg-hr: #9191918a;
+	--feedback-heading-clr: #546e7a;
+	--borderline-clr: #c5c5c5;
+	--bg-hr: #74747483;
 
 	--ff-primary: 'productSans', Roboto, arial, sans-serif;
 }
@@ -13,6 +15,10 @@
 	src: url(../Assets/Font/Product\ Sans\ Regular.ttf);
 }
 /* icon & icon hover section  */
+.small-icon-size{
+	width: calc(var(--size-400) + 4px);
+	height: calc(var(--size-400) + 4px);
+}
 .icon-size {
 	width: var(--size-500);
 	height: var(--size-500);
@@ -24,14 +30,14 @@
 svg,
 img {
 	pointer-events: auto;
-	cursor: pointer;
-	z-index: 2;
+	z-index: var(--index-medium);
 }
 .svg-container {
 	position: relative;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	cursor: pointer;
 	width: var(--size-800);
 	height: var(--size-800);
 }
@@ -44,6 +50,12 @@ img {
 	border-radius: 50%;
 	background-color: var(--bg-hover);
 }
+.pinSvgContainer {
+	float: right;
+}
+.pinSvgContainer > div {
+	z-index: var(--index-medium);
+}
 @media (hover: hover) and (pointer: fine) {
 	.svg-container:hover::before {
 		width: var(--size-800);
@@ -54,6 +66,10 @@ img {
 		width: var(--size-700);
 		height: var(--size-700);
 	}
+	.noteSvg-icon-hover:hover::before {
+		width: calc(var(--size-600) + var(--size-100));
+		height: calc(var(--size-600) + var(--size-100));
+	}
 }
 /* theme section */
 .dark {
@@ -62,7 +78,8 @@ img {
 	--icon-clr: #ffffffde;
 	--list-icon-clr: #98989a;
 	--bg-overlap-clr: #202124;
-	--sidebar-active-clr:#ff9d0034;
+	--sidebar-active-clr: #442f14;
+	--bg-button-clr: #9aa0a60a;
 }
 
 .light {
@@ -71,23 +88,37 @@ img {
 	--icon-clr: #5f6368;
 	--list-icon-clr: #767676;
 	--bg-overlap-clr: #fff;
-	--sidebar-active-clr:#ffee004b;
+	--sidebar-active-clr: #fffea7;
+	--bg-button-clr: #5f63680a;
 }
 body {
 	height: 100vh;
+	overflow-y: auto;
+	overflow-x: hidden;
 	background-color: var(--bg-clr);
 	color: var(--text-clr);
 	font-size: var(--fs-500);
+	position: relative;
+}
+::backdrop {
+	background-color: var(--bg-clr);
+}
+.text-primary {
+	color: var(--text-primary) !important;
+}
+input[type='checkbox'] {
+	width: var(--size-400);
+	height: var(--size-400);
 }
 @media (max-width: 575.98px) {
 	.icon-size {
 		width: 1.7rem;
 		height: 1.7rem;
-		z-index: 2;
+		z-index: var(--index-medium);
 	}
 	.icon-size-arrow {
 		width: 2rem;
 		height: 2rem;
-		z-index: 2;
+		z-index: var(--index-medium);
 	}
 }

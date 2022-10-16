@@ -1,0 +1,4 @@
+.noteContainer{
+   flex-wrap: wrap;
+   gap: var(--size-400);
+}

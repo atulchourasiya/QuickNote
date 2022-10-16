@@ -1,0 +1,57 @@
+.feedbackContainer {
+	position: absolute;
+	left: calc(50% - 10rem);
+	top: 15%;
+	flex-direction: column;
+	border-radius: var(--size-200);
+	box-shadow: var(--box-shadow);
+	z-index: var(--index-high);
+}
+
+.feedbackHeading {
+	color: var(--bg-light);
+	padding: var(--size-400) var(--size-400);
+	background-color: var(--feedback-heading-clr);
+}
+
+.feedbackForm {
+	flex-direction: column;
+	background-color: var(--bg-light);
+	padding: var(--size-200) var(--size-400);
+}
+
+.feedbackEmail {
+	padding: var(--size-300) var(--size-400);
+	border-radius: var(--size-800);
+   background-color: var(--bg-hover);
+   color: var(--bg-hr);
+}
+
+.feedbackMessage {
+	padding-left: var(--size-400);
+	margin: var(--size-200) 0;
+	resize: none;
+	width: 18rem;
+	height: 15rem;
+}
+.feedbackButton {
+	width: 100%;
+	justify-content: right;
+}
+
+.feedbackButton button {
+	background-color: var(--bg-light);
+	margin: var(--size-100);
+	border-radius: var(--size-100);
+	padding: var(--size-200) var(--size-500);
+}
+
+.feedbackButton button:active {
+	background-color: var(--bg-button-clr);
+}
+
+@media (hover: hover) {
+	.feedbackButton button:hover {
+		background-color: var(--bg-button-clr);
+	}
+}

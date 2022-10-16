@@ -1,0 +1,48 @@
+.settingContainer {
+	position: absolute;
+	left: calc(50% - 10rem);
+	top: 15%;
+	flex-direction: column;
+	padding: var(--size-200) var(--size-400);
+	background-color: var(--bg-overlap-clr);
+	border-radius: var(--size-200);
+	box-shadow: var(--box-shadow);
+	z-index: var(--index-high);
+}
+.settingContainer h2 {
+	margin-bottom: var(--size-200);
+	line-height: 1.5;
+	padding: var(--size-200);
+}
+.settingChildContainer {
+	width: 18rem;
+}
+.setting {
+	flex-direction: column;
+}
+.settingList {
+	justify-content: space-between;
+	width: 100%;
+	color: var(--text-clr);
+	font-size: var(--size-400);
+	padding: var(--size-300) var(--size-100);
+}
+.settingButton {
+	width: 100%;
+	justify-content: right;
+}
+.settingButton button {
+   margin: var(--size-100);
+   color: var(--text-clr);
+	background-color: var(--bg-overlap-clr);
+	border-radius: var(--size-100);
+	padding: var(--size-200) var(--size-500);
+}
+.settingButton button:active{
+   background-color: var(--bg-button-clr);
+}
+@media (hover:hover) {
+   .settingButton button:hover{
+   background-color: var(--bg-button-clr);
+}
+}

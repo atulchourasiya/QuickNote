@@ -1,0 +1,34 @@
+.noteItemContainer {
+	border: 1px solid var(--borderline-clr);
+	border-radius: var(--size-200);
+   width: min-content;
+   max-width: 50%;
+}
+.noteItemTitle {
+	font-size: calc(var(--fs-400) + 1px );
+	line-height: 1.3;
+	font-weight: var(--fw-semiBold);
+	color: var(--text-clr);
+	padding: var(--size-300) var(--size-400) 0px;
+}
+.noteItemNote {
+	line-height: 1.2;
+	font-weight: var(--fw-regular);
+	color: var(--text-clr);
+	padding: var(--size-100) var(--size-400) var(--size-300) var(--size-400);
+}
+.noteItemContainer ul li:nth-child(7),
+.noteItemContainer ul li:nth-child(8){
+	display: none;
+}
+@media (max-width: 767.98px) {
+	.noteItemContainer{
+		width: 90%;
+		max-width: 35rem;
+	}
+}
+@media (max-width: 319.98px) {
+	.noteItemContainer{
+		width: 100%;
+	}
+}

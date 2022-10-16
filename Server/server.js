@@ -5,6 +5,7 @@ require('dotenv').config();
 const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const auth = require('./routes/auth')
+const note = require('./routes/note')
 const connectToMongoose = require('./config/mongo');
 
 
@@ -29,7 +30,9 @@ app.use(
 
 app.use(passport.initialize());
 app.use(cookieParser());
+app.use(express.json())
 app.use('/auth',auth)
+app.use('/note',note)
 
 app.listen(PORT, () => {
 	console.log(`Congrats! your server is listening on port ${PORT}`);

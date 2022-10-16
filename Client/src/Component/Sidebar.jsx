@@ -1,4 +1,3 @@
-import React from 'react';
 import styles from '../Styles/Sidebar.module.css';
 import SidebarSection from './SidebarSection';
 
@@ -50,9 +49,8 @@ const Sidebar = () => {
 				<ul>
 					{sectionArray.map((section, index) => {
 						return (
-							<li>
+							<li key={'sectionlist'+index}>
 								<SidebarSection
-									key={'sectionid' + index}
 									id={'sectionid' + index}
 									link={section.link}
 									text={section.text}

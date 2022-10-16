@@ -1,5 +1,6 @@
 :root {
 	--fw-regular: 400;
+	--fw-semiBold: 500;
 	--fw-bold: 600;
 
 	--fs-400: 1rem;
@@ -20,6 +21,11 @@
 	--bg-scrollbar-thumb-hover: #999999;
 
 	--box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+
+	--index-high: 5;
+	--index-medium: 2;
+	--index-low: 1;
+	--index-negative: -1;
 }
 *,
 *::after,
@@ -48,6 +54,7 @@ ol {
 	list-style: none;
 }
 body {
+	direction: ltr;
 	scroll-behavior: smooth;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
@@ -68,6 +75,9 @@ body {
 }
 .fw-regular {
 	font-weight: var(--fw-regular);
+}
+.fw-semiBold {
+	font-weight: var(--fw-semiBold);
 }
 .fw-bold {
 	font-weight: var(--fw-bold);
@@ -114,7 +124,7 @@ hr {
 	width: 14px;
 }
 ::-webkit-scrollbar-track {
-	background-color: var(--bg-clr);
+	background-color: transparent;
 }
 ::-webkit-scrollbar-thumb {
 	background-color: var(--bg-scrollbar-thumb);

@@ -1,0 +1,12 @@
+.mainContainer {
+	display: block;
+   width: 100%;
+	padding: var(--size-200);
+	height: calc(100vh - (4rem + 1px));
+	overflow-y: auto;
+}
+@media (max-width: 575.98px) {
+	.mainContainer {
+		margin-left: 4rem;
+	}
+}

@@ -1,0 +1,8 @@
+.CheckBoxContainer {
+	height: var(--size-400);
+	width: var(--size-400);
+	border: calc(var(--size-400)/8) solid var(--list-icon-clr);
+	border-radius: 20%;
+	pointer-events: auto;
+}
+

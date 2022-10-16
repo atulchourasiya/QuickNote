@@ -1,0 +1,18 @@
+.noteSvgIconSize {
+	width: var(--size-500) ;
+	height: var(--size-500) ;
+}
+.noteSvgIconHover{
+	fill: var(--list-icon-clr);
+}
+@media (hover:hover) {
+	li:hover .noteSvgIconHover{
+		fill: var(--icon-clr);
+	}
+}
+@media (max-width: 319.98px) {
+   .noteSvgIconSize {
+	width: calc( var(--size-400) + .25rem);
+	height: calc( var(--size-400) + .25rem);
+}
+}

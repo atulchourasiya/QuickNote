@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import logo from '../Assets/Image/logo.png';
 import userDemo from '../Assets/Image/user.png';
 import Spinner from './Spinner';
@@ -8,7 +8,6 @@ import { getUser } from '../Redux/Slice/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { setView } from '../Redux/Slice/viewSlice';
 import { setLoading } from '../Redux/Slice/loadingSlice';
-
 const Navbar = () => {
 	const inputFiled = useRef();
 	const dropdownMenu = useRef();
@@ -24,6 +23,7 @@ const Navbar = () => {
 	const menuContainer = useRef();
 
 	const [size, setSize] = useState(getComputedStyle(document.body).fontSize);
+	const [fullScreen, setFullScreen] = useState(false);
 	let deviceType = null;
 
 	const dispatch = useDispatch();
@@ -83,6 +83,35 @@ const Navbar = () => {
 		setSize(getComputedStyle(document.body).fontSize);
 	};
 
+	function isDocumentInFullScreenMode() {
+		return document.fullscreenElement !== null;
+	}
+
+	const handleFullScreen = () => {
+		if (!isDocumentInFullScreenMode()) {
+			if (document.documentElement.requestFullscreen) {
+				document.documentElement.requestFullscreen();
+			} else if (document.documentElement.webkitRequestFullscreen) {
+				document.documentElement.webkitRequestFullscreen();
+			} else if (document.documentElement.mozRequestFullScreen) {
+				document.documentElement.mozRequestFullScreen();
+			} else if (document.documentElement.msRequestFullscreen) {
+				document.documentElement.msRequestFullscreen();
+			}
+			setFullScreen(true);
+		} else {
+			if (document.exitFullscreen) {
+				document.exitFullscreen();
+			} else if (document.webkitExitFullscreen) {
+				document.webkitExitFullscreen();
+			} else if (document.mozCancelFullScreen) {
+				document.mozCancelFullScreen();
+			} else if (document.msExitFullscreen) {
+				document.msExitFullscreen();
+			}
+			setFullScreen(false);
+		}
+	};
 	const handleDriveIcon = async () => {
 		driveLogo.current?.classList.remove('d-none');
 		arrowIcon.current?.classList.add('d-none');
@@ -115,17 +144,20 @@ const Navbar = () => {
 	const removeHover = () => {
 		const svgContainer = document.getElementsByClassName('svg-container');
 		Array.from(svgContainer).forEach((element) => {
-			if(!element.classList.contains('active'))
-			element.style.setProperty('--hover-size', '0');
+			if (!element.classList.contains('active')) element.style.setProperty('--hover-size', '0');
 		});
 	};
 
 	const handleHover = (element) => {
 		const isCoarse = matchMedia('(pointer:coarse)').matches;
+		const media320 = matchMedia('(max-width: 319.98px)').matches;
 		removeHover();
 		if (element && isCoarse) {
 			if (element.classList.contains('small-icon-hover')) {
 				element.style.setProperty('--hover-size', 'var(--size-700)');
+			} else if (element.classList.contains('noteSvg-icon-hover')) {
+				if (media320) element.style.setProperty('--hover-size', 'var(--size-600)');
+				else element.style.setProperty('--hover-size', 'calc(var(--size-600) + var(--size-100))');
 			} else {
 				element.style.setProperty('--hover-size', 'var(--size-800)');
 			}
@@ -143,22 +175,25 @@ const Navbar = () => {
 		if (isDropdownButton) {
 			dropdownMenu.current.classList.toggle(`${styles.dropdownShow}`);
 			dropdownContainer.classList.toggle('active');
-		} else if (!event.target.closest('.dropdownContainer')) {
+		} else {
 			dropdownMenu.current.classList.remove(`${styles.dropdownShow}`);
 			dropdownContainer.classList.remove('active');
 		}
 	};
-	
+
 	const handleMenuHover = (event) => {
 		const isMenuButton = event.target.hasAttribute('data-menu');
+		const sidebarContainer = document.getElementById('sidebarContainer');
 		const sign = document.getElementById('sign');
 		const section = document.getElementById('section');
 		if (isMenuButton && window.getComputedStyle(sign, null).getPropertyValue('width') === '0px') {
 			section.classList.add('sidebarOpen');
 			menuContainer.current.classList.add('active');
+			sidebarContainer.style.boxShadow = 'var(--box-shadow)';
 		} else if (!event.target.closest('#sidebarContainer')) {
 			section.classList.remove('sidebarOpen');
 			menuContainer.current.classList.remove('active');
+			sidebarContainer.style.removeProperty('box-shadow');
 		}
 	};
 
@@ -196,9 +231,9 @@ const Navbar = () => {
 
 	const currentTheme = () => {
 		let currentTheme = localStorage.getItem('currentTheme');
-		if(!currentTheme){
+		if (!currentTheme) {
 			currentTheme = theme;
-			localStorage.setItem('currentTheme',currentTheme)
+			localStorage.setItem('currentTheme', currentTheme);
 		}
 		return currentTheme;
 	};
@@ -368,7 +403,7 @@ const Navbar = () => {
 									fill='var(--list-icon-clr)'
 									className='icon-size'
 									viewBox='0 0 16 16'>
-									<path d='M3 0h10a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2zm0 1a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3zm0 8h10a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2zm0 1a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1H3z' />
+									<path d='M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5v-3zM2.5 2a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zM1 10.5A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3z' />
 								</svg>
 							) : (
 								<svg
@@ -376,7 +411,7 @@ const Navbar = () => {
 									fill='var(--list-icon-clr)'
 									className='icon-size'
 									viewBox='0 0 16 16'>
-									<path d='M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5v-3zM2.5 2a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zM1 10.5A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3z' />
+									<path d='M3 0h10a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2zm0 1a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3zm0 8h10a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2zm0 1a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1H3z' />
 								</svg>
 							)}
 						</li>
@@ -397,10 +432,25 @@ const Navbar = () => {
 								/>
 							</svg>
 							<ul ref={dropdownMenu} className={`${styles.dropdownMenu} ff pointer fs-400 w-max`}>
-								<li>Settings</li>
+								<li
+									onClick={(_) => {
+										document.getElementById('settingContainer').classList.remove('d-none');
+									}}
+									data-setting>
+									Settings
+								</li>
 								<li onClick={handleToggleTheme}>{theme === 'dark' ? 'Light' : 'Dark'} Theme</li>
-								<li>Send Feedback</li>
-								<li>About Developer</li>
+								<li onClick={handleFullScreen}>{fullScreen ? 'Disable' : 'Enable'} FullScreen</li>
+								<li
+									onClick={(_) => {
+										document.getElementById('feedbackContainer').classList.remove('d-none');
+									}}
+									data-feedback>
+									Send Feedback
+								</li>
+								<li>
+									<a href='https://github.com/atulchourasiya'>About Developer</a>
+								</li>
 								<li>
 									<a href='http://localhost:5000/auth/logout'>Logout</a>
 								</li>

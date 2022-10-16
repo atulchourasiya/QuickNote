@@ -3,8 +3,7 @@
 	flex-direction: column;
 	height: calc(100vh - (4rem + 1px));
 	width: max-content;
-	box-shadow: var(--box-shadow);
-	z-index: 1;
+	z-index:var(--index-high);
 }
 .section {
 	overflow-y: hidden;
@@ -13,13 +12,13 @@
 }
 .sidebarSectionContainer {
 	width: 4rem !important;
-	z-index: -1;
+	z-index: var(--index-negative);
 }
 .sidebarText {
 	width: 0rem !important;
 	justify-content: left !important;
 	transition: 0.2s 0.4s width linear;
-	z-index: -1;
+	z-index: var(--index-negative);
 }
 .sidebarText p {
 	white-space: nowrap;
@@ -35,6 +34,10 @@
 	transition: 0.2s 0.4s width linear;
 	background-color: var(--bg-clr);
 }
+.sidebarContainer:hover {
+	box-shadow: var(--box-shadow);
+}
+
 :global(.sidebarOpen),
 .sidebarContainer:hover > .section {
 	overflow-y: auto;
@@ -45,7 +48,7 @@
 	width: var(--size-800);
 	height: var(--size-800);
 	transition: 0.2s width linear, 0.2s height linear, 0.2s border-radius linear;
-	z-index: -1;
+	z-index: var(--index-negative);
 	background-color: var(--sidebar-active-clr);
 }
 :global(.sidebarOpen) :global(.active) .sidebarSectionContainer::before,
@@ -64,7 +67,7 @@
 	height: 100%;
 	border-radius: 0 var(--size-800) var(--size-800) 0;
 	background-color: var(--sidebar-active-clr);
-	z-index: -1;
+	z-index: var(--index-negative);
 }
 :global(.sidebarOpen) .sidebarText,
 .sidebarContainer:hover .sidebarText {

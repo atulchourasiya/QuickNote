@@ -1,0 +1,60 @@
+.CheckListContainer {
+	position: relative;
+	width: 100%;
+	min-height: var(--size-800);
+}
+.CheckListContainer > div {
+	white-space: pre-line;
+	padding: var(--size-300);
+	line-height: 1.5;
+	padding-left: 4rem;
+	padding-right: var(--size-700);
+	z-index: var(--index-low);
+}
+.CheckListContainer > p {
+	position: absolute;
+	padding: var(--size-300);
+	padding-left: 4.1rem;
+	color: var(--icon-clr);
+	z-index: var(--index-negative);
+	top: 5%;
+}
+.CheckListContainer div:focus {
+	border: 1px var(--bg-hr);
+	border-style: solid none;
+}
+.CheckListContainer div:not(:empty) + p {
+	display: none;
+}
+.CheckListSvgContainer {
+	position: absolute;
+	pointer-events: none;
+	width: 100%;
+	padding-left: var(--size-300);
+	top: 0;
+}
+.CheckBox {
+	display: none;
+}
+.dragIcon {
+	visibility: hidden;
+	cursor: move;
+}
+.cancleList {
+	visibility: hidden;
+	margin-left: auto;
+}
+.CheckListContainer div:not(:empty) ~ .CheckListSvgContainer > .plusIcon {
+	display: none;
+}
+.CheckListContainer div:not(:empty) ~ .CheckListSvgContainer .CheckBox {
+	display: block;
+}
+.CheckListContainer:hover  div:not(:empty) ~ .CheckListSvgContainer > .cancleList,
+.CheckListContainer div:not(:empty):focus ~ .CheckListSvgContainer > .cancleList {
+	visibility: visible;
+}
+.CheckListContainer:hover div:not(:empty) ~ .CheckListSvgContainer > .dragIcon
+{
+	visibility: visible;
+}
