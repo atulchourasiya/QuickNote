@@ -3,6 +3,11 @@ import themeSlice from './Slice/themeSlice';
 import loadingSlice from './Slice/loadingSlice';
 import userSlice from './Slice/userSlice';
 import viewSlice from './Slice/viewSlice';
+import notesSlice from './Slice/notesSlice';
+import beforeState from './Slice/beforeState';
+import sharedEmail from './Slice/sharedEmail';
+import alert from './Slice/alertSlice';
+import settingSlice from './Slice/settingSlice';
 
 const store = configureStore({
 	reducer: {
@@ -10,6 +15,11 @@ const store = configureStore({
 		loading: loadingSlice,
 		view: viewSlice,
 		user: userSlice,
+		beforeState: beforeState,
+		notes: notesSlice,
+		sharedEmail :sharedEmail,
+		alert:alert,
+		setting:settingSlice,
 	}
 });
 

@@ -65,7 +65,7 @@
 .inputFieldSvgContainer button {
 	margin-left: auto;
 	color: var(--text-clr);
-	background-color: var(--bg-clr);
+	background-color: transparent;
 	border-radius: var(--size-100);
 	padding: var(--size-200) var(--size-500);
 }

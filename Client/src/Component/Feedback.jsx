@@ -1,11 +1,13 @@
 import styles from '../Styles/Feedback.module.css';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import React, { useRef, useEffect } from 'react';
 import emailjs from '@emailjs/browser';
+import { setAlert } from '../Redux/Slice/alertSlice';
 
 const Feedback = () => {
 	const form = useRef();
 	const message = useRef();
+	const dispatch = useDispatch();
 	let { user } = useSelector((state) => state.user);
 
 	const checkIfClickedOutside = (event) => {
@@ -22,16 +24,22 @@ const Feedback = () => {
 
 	const sendEmail = (e) => {
 		e.preventDefault();
-		emailjs.sendForm('service_ob8v73g', 'template_w04jzi8', form.current, 'xG1ig44JSUUr3h1jZ').then(
-			(result) => {
-				console.log(result.text);
-			},
-			(error) => {
-				console.log(error.text);
-			}
-		);
-
-		closeFeedback(null)
+		emailjs
+			.sendForm(
+				process.env.REACT_APP_SERVICE_ID,
+				process.env.REACT_APP_TEMPLETE_ID,
+				form.current,
+				process.env.REACT_APP_PUBLIC_KEY
+			)
+			.then(
+				() => {
+					dispatch(setAlert('Feedback Sent SuccessFully!✅'));
+				},
+				() => {
+					dispatch(setAlert('Something Went Wrong!❌'));
+				}
+			);
+		closeFeedback(null);
 		message.current.value = '';
 	};
 	useEffect(() => {

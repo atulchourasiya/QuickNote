@@ -39,7 +39,7 @@ const CheckList = (props) => {
 				</li>
 				<li>
 					<div className={`${styles.CheckBox}`}>
-						<CheckBox />
+						<CheckBox isChecked={props.isChecked} setCheckBoxState={props.setCheckBoxState} />
 					</div>
 				</li>
 				<li

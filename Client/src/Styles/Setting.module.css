@@ -27,6 +27,9 @@
 	font-size: var(--size-400);
 	padding: var(--size-300) var(--size-100);
 }
+.settingList input{
+	cursor: pointer;
+}
 .settingButton {
 	width: 100%;
 	justify-content: right;

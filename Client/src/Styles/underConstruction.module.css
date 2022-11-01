@@ -1,0 +1,36 @@
+.UCContainer {
+	position: absolute;
+	top: 0;
+	flex-direction: column;
+	width: 100vw;
+	height: 100vh;
+	background-color: white;
+	z-index: var(--index-high);
+}
+.UCContainer Img {
+	width: 50%;
+}
+.UCContainer p {
+	text-align: center;
+	color: black;
+	margin: var(--size-100) 0;
+}
+.UCText {
+	color: black;
+	width: 60%;
+}
+
+.UCButton {
+	padding: var(--size-200) var(--size-400);
+	border-radius: var(--size-800);
+	margin: var(--size-200) 0;
+}
+
+@media (max-width: 767.98px) {
+	.UCContainer Img {
+		width: 70%;
+	}
+	.UCText {
+		width: 90%;
+	}
+}

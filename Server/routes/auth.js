@@ -1,10 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
-const auth = require('../middleware/reqAuth')
+const auth = require('../middleware/reqAuth');
 require('../config/passportAuth');
-const {signToken} = require('../middleware/jwt');
-
+const { signToken } = require('../middleware/jwt');
 
 router.get('/failed', (req, res) => {
 	res.status(401).json({
@@ -13,11 +12,11 @@ router.get('/failed', (req, res) => {
 	});
 });
 
-router.post('/success', auth , (req, res) => {
+router.post('/success', auth, (req, res) => {
 	res.status(200).json({
 		success: true,
 		message: 'successful',
-		user: req.user,
+		user: req.user
 	});
 });
 
@@ -40,7 +39,7 @@ router.get(
 			const token = signToken(req);
 			res
 				.cookie('jwt_auth', token, {
-					maxAge: 60* 60 * 1000,
+					maxAge: 11 * 60 * 60 * 1000,
 					httpOnly: true,
 					sameSite: true,
 					secure: true

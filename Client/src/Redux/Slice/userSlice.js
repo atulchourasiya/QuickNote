@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { setLoading } from './loadingSlice';
+import { fetchAllNotes } from './notesSlice';
 
 const initialState = {
 	user: null
@@ -8,7 +9,7 @@ const initialState = {
 export const getUser = createAsyncThunk('user/getUser', async (_, { dispatch }) => {
 	dispatch(setLoading(true));
 	try {
-		const response = await fetch('http://localhost:5000/auth/success', {
+		const response = await fetch(`${process.env.REACT_APP_API_HOST}/auth/success`, {
 			method: 'POST',
 			credentials: 'include',
 			headers: {
@@ -19,14 +20,15 @@ export const getUser = createAsyncThunk('user/getUser', async (_, { dispatch }) 
 		});
 		if (response.status === 200) {
 			const json = await response.json();
+			dispatch(fetchAllNotes(json.user.email));
 			dispatch(setLoading(false));
-			return json;
+			return json.user;
 		} else throw new Error('Authentication has been failed!');
 	} catch (err) {
 		console.error(err);
 		dispatch(setLoading(false));
-		// window.open('http://localhost:5000/auth/google','_self');
-		return { user: null };
+		window.open(`${process.env.REACT_APP_API_HOST}/auth/google`, '_self');
+		return null;
 	}
 });
 const userSlice = createSlice({
@@ -34,10 +36,10 @@ const userSlice = createSlice({
 	initialState,
 	extraReducers: {
 		[getUser.fulfilled]: (state, action) => {
-			state.user = action.payload?.user;
+			state.user = action.payload;
 		},
 		[getUser.rejected]: (state) => {
-			state.user = { user: null };
+			state.user = null;
 		}
 	}
 });

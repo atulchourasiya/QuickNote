@@ -19,6 +19,14 @@ const NotesSchema = mongoose.Schema({
 		type: Boolean,
 		required: true
 	},
+	isChecked: {
+		type: Array,
+		required: true
+	},
+	bin: {
+		type: Boolean,
+		required: true
+	},
 	pin: {
 		type: Boolean,
 		required: true
@@ -26,6 +34,9 @@ const NotesSchema = mongoose.Schema({
 	archive: {
 		type: Boolean,
 		required: true
+	},
+	deleteDate: {
+		type: String,
 	}
 });
 
