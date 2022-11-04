@@ -21,7 +21,7 @@ const NoteSvg = (props) => {
 						<path d='M18 17v-6c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v6H4v2h16v-2h-2zm-2 0H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6zm-4 5c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2z' />
 					</svg>
 				</li>
-				<a href='/#emailFiledContainer'>
+				<a href={`#emailFiledContainer`}>
 					<li
 						className={`svg-container noteSvg-icon-hover`}
 						onClick={() => {
@@ -41,7 +41,7 @@ const NoteSvg = (props) => {
 						</svg>
 					</li>
 				</a>
-				<li
+				{/* <li
 					className={`svg-container noteSvg-icon-hover`}
 					onClick={() => {
 						document.getElementById('underConstructionContainer').classList.remove('d-none');
@@ -55,7 +55,7 @@ const NoteSvg = (props) => {
 						<circle cx='14.5' cy='7.5' r='1.5' />
 						<circle cx='17.5' cy='11.5' r='1.5' />
 					</svg>
-				</li>
+				</li> */}
 				{/* <li
 					className={`svg-container noteSvg-icon-hover`}
 					onClick={() => {
@@ -98,6 +98,20 @@ const NoteSvg = (props) => {
 						className={`${styles.noteSvgIconHover} ${styles.noteSvgIconSize}`}
 						viewBox='0 0 18 18'>
 						<path d='m9 5.5c1 0 1.8-0.8 1.8-1.8s-0.8-1.7-1.8-1.7-1.8 0.8-1.8 1.8 0.8 1.7 1.8 1.7zm0 1.7c-1 0-1.8 0.8-1.8 1.8s0.8 1.8 1.8 1.8 1.8-0.8 1.8-1.8-0.8-1.8-1.8-1.8zm0 5.3c-1 0-1.8 0.8-1.8 1.8s0.8 1.7 1.8 1.7 1.8-0.8 1.8-1.8-0.8-1.7-1.8-1.7z' />
+					</svg>
+				</li>
+				<li
+					data-addlablebtn
+					onClick={() => {
+						props.toggleLableContainer();
+					}}
+					className={`svg-container noteSvg-icon-hover`}>
+					<svg
+						className={`${styles.noteSvgIconHover} ${styles.noteSvgIconSize}`}
+						viewBox='0 0 1024 1024'
+						xmlns='http://www.w3.org/2000/svg'>
+						<path d='M696 480H544V328c0-4.4-3.6-8-8-8h-48c-4.4 0-8 3.6-8 8v152H328c-4.4 0-8 3.6-8 8v48c0 4.4 3.6 8 8 8h152v152c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8V544h152c4.4 0 8-3.6 8-8v-48c0-4.4-3.6-8-8-8z'></path>
+						<path d='M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z'></path>
 					</svg>
 				</li>
 				{/* <li

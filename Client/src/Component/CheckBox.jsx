@@ -14,15 +14,15 @@ const CheckBox = (props) => {
 				data-checkbox>
 				<path data-checkbox fill-rule='evenodd' d='M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z'></path>
 			</svg>`;
-   const setCheckBoxState =()=>{
+	const setCheckBoxState = () => {
 		const newState = props.isChecked.map((obj) => {
 			if (obj === props.isChecked[props.index]) {
 				return { isChecked: !obj.isChecked };
 			}
 			return obj;
 		});
-		return newState
-	}
+		return newState;
+	};
 	const toggleCheckbox = () => {
 		if (props.id !== undefined) {
 			props.UpdateNote({
@@ -36,6 +36,14 @@ const CheckBox = (props) => {
 				CheckBoxContainer.current.innerHTML = '';
 				props.setCheckBoxState(false, props.isChecked.value);
 			}
+		} else {
+			if (props.isChecked[props.index] === false) {
+				CheckBoxContainer.current.innerHTML = tick;
+				props.setIsCheckedState(props.index, true);
+			} else {
+				CheckBoxContainer.current.innerHTML = '';
+				props.setIsCheckedState(props.index, false);
+			}
 		}
 	};
 	const initializeCheckBox = () => {
@@ -43,6 +51,13 @@ const CheckBox = (props) => {
 			if (props.isChecked[props.index].isChecked === true) {
 				CheckBoxContainer.current.innerHTML = tick;
 			} else if (props.isChecked[props.index].isChecked === false) {
+				CheckBoxContainer.current.innerHTML = '';
+			}
+		}
+		else{
+			if (props.isChecked[props.index] === true) {
+				CheckBoxContainer.current.innerHTML = tick;
+			} else if (props.isChecked[props.index] === false) {
 				CheckBoxContainer.current.innerHTML = '';
 			}
 		}

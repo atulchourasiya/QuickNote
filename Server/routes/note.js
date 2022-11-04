@@ -25,7 +25,7 @@ router.post('/addNote', async (req, res) => {
 			bin,
 			pin,
 			archive,
-			deleteDate,
+			deleteDate
 		});
 		const savedNote = await newNote.save();
 		res.status(200).json(savedNote);
@@ -37,7 +37,7 @@ router.post('/addNote', async (req, res) => {
 
 router.put('/updateNote/:id', async (req, res) => {
 	try {
-		const { title, note, email, check, isChecked, bin, pin, archive, deleteDate } = req.body;
+		const { title, note, email, tag, check, isChecked, bin, pin, archive, deleteDate } = req.body;
 		let isVerified = false;
 		const newNote = {};
 		if (title !== undefined) {
@@ -48,6 +48,9 @@ router.put('/updateNote/:id', async (req, res) => {
 		}
 		if (email !== undefined) {
 			newNote.email = email;
+		}
+		if (tag !== undefined) {
+			newNote.tag = tag;
 		}
 		if (check !== undefined) {
 			newNote.check = check;

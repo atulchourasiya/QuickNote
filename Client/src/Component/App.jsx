@@ -7,6 +7,8 @@ import Setting from './Setting';
 import Feedback from './Feedback';
 import UnderConstruction from './UnderConstruction';
 import Alert from './Alert';
+import EditLables from './EditLable';
+
 function App() {
 	return (
 		<BrowserRouter>
@@ -19,6 +21,7 @@ function App() {
 				<UnderConstruction/>
 				<Setting />
 				<Feedback/>
+				<EditLables/>
 		</BrowserRouter>
 	);
 }

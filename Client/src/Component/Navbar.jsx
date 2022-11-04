@@ -8,6 +8,7 @@ import { getUser } from '../Redux/Slice/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { setView } from '../Redux/Slice/viewSlice';
 import { setLoading } from '../Redux/Slice/loadingSlice';
+
 const Navbar = () => {
 	const inputFiled = useRef();
 	const dropdownMenu = useRef();

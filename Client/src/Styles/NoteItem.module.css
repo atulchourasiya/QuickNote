@@ -54,6 +54,39 @@
 	transition: background-size 1s linear;
 	animation: StrikeThrough 2s linear 1 forwards;
 }
+.lableContainer {
+	position: absolute;
+	top: 100%;
+	width: min-content;
+	padding: var(--size-200) var(--size-100);
+	background-color: var(--bg-overlap-clr);
+	border-radius: var(--size-200);
+	box-shadow: var(--box-shadow);
+	z-index: var(--index-high);
+}
+.lableContainer h2{
+	padding:var(--size-100) var(--size-300);
+}
+.lableItem {
+	padding: var(--size-200) var(--size-400);
+}
+.lableItem span {
+	margin-left: var(--size-200);
+}
+.lableButton {
+	width: 100%;
+	justify-content: right;
+}
+.lableButton button {
+   margin: var(--size-100);
+   color: var(--text-clr);
+	background-color: var(--bg-overlap-clr);
+	border-radius: var(--size-100);
+	padding: var(--size-200) var(--size-500);
+}
+.lableButton button:hover{
+   background-color: var(--bg-button-clr);
+}
 @keyframes StrikeThrough {
 	0% {
 		background-size: 0% calc(var(--size-100) / 2);
@@ -62,10 +95,9 @@
 		background-size: 100% calc(var(--size-100) / 2);
 	}
 }
-/* .noteItemContainer ul li:nth-child(7),
-   .noteItemContainer ul li:nth-child(8){
+.noteItemContainer ul li:nth-child(5){
 	display: none;
-} */
+}
 @media (max-width: 767.98px) {
 	.container {
 		width: 90%;

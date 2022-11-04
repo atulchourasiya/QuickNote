@@ -8,6 +8,7 @@ import beforeState from './Slice/beforeState';
 import sharedEmail from './Slice/sharedEmail';
 import alert from './Slice/alertSlice';
 import settingSlice from './Slice/settingSlice';
+import lableSlice from './Slice/lableSlice';
 
 const store = configureStore({
 	reducer: {
@@ -20,6 +21,7 @@ const store = configureStore({
 		sharedEmail :sharedEmail,
 		alert:alert,
 		setting:settingSlice,
+		lable:lableSlice,
 	}
 });
 

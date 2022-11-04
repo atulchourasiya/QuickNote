@@ -9,6 +9,10 @@
 	border-radius: var(--size-200);
 	max-width: 40rem;
 	width: 80%;
+	position: relative;
+}
+.inputContainer [data-noteoption] {
+	display: none;
 }
 .inputChildContainer {
 	overflow-y: visible;
@@ -72,6 +76,29 @@
 .inputFieldSvgContainer button:active,
 .inputFieldSvgContainer button:hover {
 	background-color: var(--bg-button-clr);
+}
+.lableContainer {
+	position: absolute;
+	width: min-content;
+	padding: var(--size-200) var(--size-100);
+	background-color: var(--bg-overlap-clr);
+	border-radius: var(--size-200);
+	box-shadow: var(--box-shadow);
+	z-index: var(--index-high);
+}
+.lableContainer h2{
+	padding:var(--size-100) var(--size-300);
+}
+.lableItem {
+	padding: var(--size-200) var(--size-400);
+}
+.lableItem span {
+	margin-left: var(--size-200);
+}
+@media (hover: hover) {
+	.inputContainer:has(li[data-addlablebtn]:hover) .lableContainer {
+		display: block;
+	}
 }
 @media (max-width: 767.98px) {
 	.inputContainer {

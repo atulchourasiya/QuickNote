@@ -1,19 +1,22 @@
 import styles from '../Styles/Sidebar.module.css';
 import SidebarSection from './SidebarSection';
-
+import { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 const Sidebar = () => {
-	const fetchArray = [
-		// {
-		// 	text: 'Ichchha Chourasiya',
-		// 	link: '/ichchha',
-		// 	path: `<path d='M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7v10c0 1.1.9 1.99 2 1.99L16 19c.67 0 1.27-.33 1.63-.84L22 12l-4.37-6.16zM16 17H5V7h11l3.55 5L16 17z'></path>`
-		// },
-		// {
-		// 	text: 'Neha Chourasiya',
-		// 	link: '/neha',
-		// 	path: `<path d='M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7v10c0 1.1.9 1.99 2 1.99L16 19c.67 0 1.27-.33 1.63-.84L22 12l-4.37-6.16zM16 17H5V7h11l3.55 5L16 17z'></path>`
-		// }
-	];
+	const { lable } = useSelector((state) => state.lable);
+	const [label, setLabel] = useState([]);
+	const [fetchArray, setFetchArray] = useState([]);
+	const setFetchArrayFunc = () => {
+		const tempArray = [];
+		label.forEach((item) => {
+			tempArray.push({
+				text: item,
+				link: item.toLowerCase(),
+				path: `<path d='M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7v10c0 1.1.9 1.99 2 1.99L16 19c.67 0 1.27-.33 1.63-.84L22 12l-4.37-6.16zM16 17H5V7h11l3.55 5L16 17z'></path>`
+			});
+		});
+		setFetchArray(tempArray);
+	};
 	const sectionArray = [
 		{
 			text: 'Notes',
@@ -27,8 +30,8 @@ const Sidebar = () => {
 		},
 		...fetchArray,
 		{
-			text: 'Edit lables',
-			link: '/edit',
+			text: 'Edit labels',
+			link: '/label',
 			path: `<path d='M20.41 4.94l-1.35-1.35c-.78-.78-2.05-.78-2.83 0L13.4 6.41 3 16.82V21h4.18l10.46-10.46 2.77-2.77c.79-.78.79-2.05 0-2.83zm-14 14.12L5 19v-1.36l9.82-9.82 1.41 1.41-9.82 9.83z'></path>`
 		},
 		{
@@ -43,13 +46,22 @@ const Sidebar = () => {
 			<path d='M9 8h2v9H9zm4 0h2v9h-2z'></path>`
 		}
 	];
+	useEffect(() => {
+		if (lable.length !== 0) {
+			setLabel(lable[0].lable);
+		}
+	}, [lable]);
+	useEffect(() => {
+		setFetchArrayFunc();
+		// eslint-disable-next-line
+	}, [label]);
 	return (
 		<aside id='sidebarContainer' className={`d-flex ${styles.sidebarContainer}`}>
 			<nav id='section' className={`${styles.section}`}>
 				<ul>
 					{sectionArray.map((section, index) => {
 						return (
-							<li key={'sectionlist'+index}>
+							<li key={'sectionlist' + index}>
 								<SidebarSection
 									id={'sectionid' + index}
 									link={section.link}

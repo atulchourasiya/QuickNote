@@ -1,6 +1,6 @@
 import styles from '../Styles/NoteItem.module.css';
 import CheckBox from './CheckBox';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import NoteSvg from './NoteSvg';
 import { addANote, updateNote } from '../Redux/Slice/notesSlice';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,7 +13,13 @@ const NoteItem = (props) => {
 	const noteItemOptions = useRef();
 	let { isUpdate } = useSelector((state) => state.sharedEmail);
 	let { sharedEmail } = useSelector((state) => state.sharedEmail);
+	let { lable } = useSelector((state) => state.lable);
+	const [label, setLabel] = useState([]);
+	const [isChecked, setIsChecked] = useState([]);
+	let currentIsChecked = useRef(isChecked);
+	let lableContainer = useRef();
 	const UpdateNote = (updateObj) => {
+		console.log(updateObj);
 		const updatedNoteObj = {
 			id: props.note._id,
 			obj: {
@@ -32,11 +38,59 @@ const NoteItem = (props) => {
 		});
 		noteItemOptions.current.classList.toggle('d-none');
 	};
+	const closeOtherLableContainer = ()=>{
+		let lableContainerArray = document.getElementsByClassName(styles.lableContainer);
+		Array.from(lableContainerArray).forEach((item)=>{
+			item.classList.add('d-none');
+		});
+		lableContainer.current.classList.remove('d-none');
+	}
 	const deleteDate = () => {
 		let date = new Date();
 		let newDate = new Date(date.getTime() + 60 * 60 * 1000);
 		console.log(newDate.toLocaleTimeString());
 		return newDate;
+	};
+	const setIsCheckedArray = () => {
+		let tempArray = [];
+		label.map((item, index) => {
+			if (props.note.tag.includes(item)) {
+				tempArray[index] = true;
+			} else {
+				tempArray[index] = false;
+			}
+		});
+		setIsChecked(tempArray);
+	};
+	const setIsCheckedState = (index, value) => {
+		let tempArray = [];
+		currentIsChecked.current.map((item, isCheckedindex) => {
+			if (isCheckedindex === index) {
+				tempArray.push(value);
+			} else {
+				tempArray.push(item);
+			}
+		});
+		setIsChecked(tempArray);
+	};
+	const refreshIsCheckedArray = () => {
+		let tagField = document.getElementsByClassName('tagField');
+		let tempArray = [];
+		currentIsChecked.current.map((_, index) => {
+			if (props.note.includes(tagField[index].innerText)) tempArray[index] = true;
+			else tempArray[index] = false;
+		});
+		setIsChecked(tempArray);
+	};
+	const getTagList = () => {
+		let tagTextArray = [];
+		let tagField = document.getElementsByClassName('tagField');
+		currentIsChecked.current.forEach((item, index) => {
+			if (item === true) {
+				tagTextArray.push(tagField[index].innerText);
+			}
+		});
+		return tagTextArray;
 	};
 	useEffect(() => {
 		if (isUpdate === props.note._id && sharedEmail !== null) {
@@ -55,102 +109,154 @@ const NoteItem = (props) => {
 		}
 		// eslint-disable-next-line
 	}, [sharedEmail]);
+	useEffect(() => {
+		currentIsChecked.current = [...isChecked];
+	}, [isChecked]);
+	useEffect(() => {
+		if (lable.length !== 0) {
+			setLabel(lable[0].lable);
+		}
+	}, [lable]);
+	useEffect(() => {
+		setIsCheckedArray();
+	}, [label]);
 	return (
-		<div className={`d-flex ${styles.container} noteItemContentContainer`}>
-			<div className={`${styles.noteItemContainer}`}>
-				<div onClick={(_) => UpdateNote({ pin: !props.note.pin })} className={`pinSvgContainer`}>
-					<div className='svg-container small-icon-hover'>
-						{props.note.pin ? (
-							<svg
-								xmlns='http://www.w3.org/2000/svg'
-								className={`icon-size`}
-								viewBox='0 0 24 24'
-								fill='var(--icon-clr)'>
-								<path fill='none' d='M0 0h24v24H0z' />
-								<path
-									fill='var(--icon-clr)'
-									d='M17 4a2 2 0 0 0-2-2H9c-1.1 0-2 .9-2 2v7l-2 3v2h6v5l1 1 1-1v-5h6v-2l-2-3V4z'
-								/>
-							</svg>
+		<>
+			<div className={`d-flex ${styles.container} noteItemContentContainer`}>
+				<div className={`${styles.noteItemContainer}`}>
+					<div onClick={(_) => UpdateNote({ pin: !props.note.pin })} className={`pinSvgContainer`}>
+						<div className='svg-container small-icon-hover'>
+							{props.note.pin ? (
+								<svg
+									xmlns='http://www.w3.org/2000/svg'
+									className={`icon-size`}
+									viewBox='0 0 24 24'
+									fill='var(--icon-clr)'>
+									<path fill='none' d='M0 0h24v24H0z' />
+									<path
+										fill='var(--icon-clr)'
+										d='M17 4a2 2 0 0 0-2-2H9c-1.1 0-2 .9-2 2v7l-2 3v2h6v5l1 1 1-1v-5h6v-2l-2-3V4z'
+									/>
+								</svg>
+							) : (
+								<svg
+									xmlns='http://www.w3.org/2000/svg'
+									className={`icon-size`}
+									viewBox='0 0 24 24'
+									fill='var(--icon-clr)'>
+									<path fill='none' d='M0 0h24v24H0z' />
+									<path
+										fill='var(--icon-clr)'
+										d='M17 4v7l2 3v2h-6v5l-1 1-1-1v-5H5v-2l2-3V4c0-1.1.9-2 2-2h6c1.11 0 2 .89 2 2zM9 4v7.75L7.5 14h9L15 11.75V4H9z'
+									/>
+								</svg>
+							)}
+						</div>
+					</div>
+					<div className='noteContent'>
+						<p className={`ff ${styles.noteItemTitle}`}>{props.note.title}</p>
+						{props.note.check ? (
+							Array.from(props.note.note).map((note, index) => {
+								return (
+									<div
+										key={'noteList' + index}
+										className={`d-flex ff fs-400 ${styles.noteItemNote}`}>
+										<CheckBox
+											isChecked={props.note.isChecked}
+											id={props.note._id}
+											UpdateNote={UpdateNote}
+											index={index}
+										/>
+										<div className={`${styles.spanContainer}`}>
+											<span
+												className={
+													props.note.isChecked[index].isChecked
+														? `${styles.noteItemNoteStrikeThrough}`
+														: ''
+												}>
+												{note}
+											</span>
+										</div>
+									</div>
+								);
+							})
 						) : (
-							<svg
-								xmlns='http://www.w3.org/2000/svg'
-								className={`icon-size`}
-								viewBox='0 0 24 24'
-								fill='var(--icon-clr)'>
-								<path fill='none' d='M0 0h24v24H0z' />
-								<path
-									fill='var(--icon-clr)'
-									d='M17 4v7l2 3v2h-6v5l-1 1-1-1v-5H5v-2l2-3V4c0-1.1.9-2 2-2h6c1.11 0 2 .89 2 2zM9 4v7.75L7.5 14h9L15 11.75V4H9z'
-								/>
-							</svg>
+							<p className={`ff fs-400 ${styles.noteItemNote}`}>{props.note.note}</p>
 						)}
 					</div>
+					<NoteSvg
+						id={props.note._id}
+						UpdateNote={UpdateNote}
+						archive={props.note.archive}
+						showOptions={showOptions}
+					/>
 				</div>
-				<div className='noteContent'>
-					<p className={`ff ${styles.noteItemTitle}`}>{props.note.title}</p>
-					{props.note.check ? (
-						Array.from(props.note.note).map((note, index) => {
-							return (
-								<div
-									key={'noteList' + index}
-									className={`d-flex ff fs-400 ${styles.noteItemNote}`}>
-									<CheckBox
-										isChecked={props.note.isChecked}
-										id={props.note._id}
-										UpdateNote={UpdateNote}
-										index={index}
-									/>
-									<div className={`${styles.spanContainer}`}
-									>
-										<span
-											className={
-												props.note.isChecked[index].isChecked
-													? `${styles.noteItemNoteStrikeThrough}`
-													: ''
-											}>
-											{note}
-										</span>
-									</div>
-								</div>
-							);
-						})
-					) : (
-						<p className={`ff fs-400 ${styles.noteItemNote}`}>{props.note.note}</p>
-					)}
+				<ul
+					ref={noteItemOptions}
+					onClick={showOptions}
+					className={`${styles.noteItemOptions} ff fs-400 pointer w-max d-none`}>
+					<li
+						onClick={() => {
+							UpdateNote({ bin: !props.note.bin, deleteDate: props.note.bin ? '' : deleteDate() });
+							if (!props.note.bin) {
+								dispatch(setAlert('Notes Will Be Deleted In One Hour!❌'));
+							} else {
+								dispatch(setAlert('Notes Deletion Is Cancelled !✅'));
+							}
+						}}>
+						{props.note.bin ? 'Undo Delete' : 'Delete Note'}
+					</li>
+					<li
+						onClick={() => {
+							closeOtherLableContainer();
+						}}>
+						Add lables
+					</li>
+					<li
+						onClick={() => {
+							const { _id, __v, ...obj } = { ...props.note };
+							dispatch(addANote(obj));
+						}}>
+						Make a copy
+					</li>
+				</ul>
+				<div ref={lableContainer} className={`${styles.lableContainer} d-none`}>
+					<h2 className={`ff fs-400 fw-semibold`}>Labels</h2>
+					{label.map((item, index) => {
+						return (
+							<div
+								key={'labelInputFieldId' + index}
+								className={`${styles.lableItem} d-flex align-center ff fs-400`}>
+								<CheckBox
+									isChecked={isChecked}
+									setIsCheckedState={setIsCheckedState}
+									index={index}
+								/>
+								<span className={`tagField`}>{item}</span>
+							</div>
+						);
+					})}
+					<div className={`d-flex ${styles.lableButton}`}>
+						<button
+							onClick={() => {
+								lableContainer.current.classList.add('d-none');
+								refreshIsCheckedArray();
+							}}>
+							Cancle
+						</button>
+						<button
+							className={` text-primary`}
+							onClick={() => {
+								UpdateNote({ tag: getTagList() });
+								lableContainer.current.classList.add('d-none');
+								refreshIsCheckedArray();
+							}}>
+							Save
+						</button>
+					</div>
 				</div>
-				<NoteSvg
-					id={props.note._id}
-					UpdateNote={UpdateNote}
-					archive={props.note.archive}
-					showOptions={showOptions}
-				/>
 			</div>
-			<ul
-				ref={noteItemOptions}
-				onClick={showOptions}
-				className={`${styles.noteItemOptions} ff fs-400 pointer w-max d-none`}>
-				<li
-					onClick={() => {
-						UpdateNote({ bin: !props.note.bin, deleteDate: props.note.bin ? '' : deleteDate() });
-						if (!props.note.bin) {
-							dispatch(setAlert('Notes Will Be Deleted In One Hour!❌'));
-						} else {
-							dispatch(setAlert('Notes Deletion Is Cancelled !✅'));
-						}
-					}}>
-					{props.note.bin ? 'Undo Delete' : 'Delete Note'}
-				</li>
-				<li>Add lables</li>
-				<li
-					onClick={() => {
-						const { _id, __v, ...obj } = { ...props.note };
-						dispatch(addANote(obj));
-					}}>
-					Make a copy
-				</li>
-			</ul>
-		</div>
+		</>
 	);
 };
 

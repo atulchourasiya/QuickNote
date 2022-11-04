@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { fetchLable } from './lableSlice';
 import { setLoading } from './loadingSlice';
 import { fetchAllNotes } from './notesSlice';
 
@@ -21,6 +22,7 @@ export const getUser = createAsyncThunk('user/getUser', async (_, { dispatch }) 
 		if (response.status === 200) {
 			const json = await response.json();
 			dispatch(fetchAllNotes(json.user.email));
+			dispatch(fetchLable(json.user.email));
 			dispatch(setLoading(false));
 			return json.user;
 		} else throw new Error('Authentication has been failed!');

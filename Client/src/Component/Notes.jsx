@@ -6,6 +6,8 @@ import { deleteNote } from '../Redux/Slice/notesSlice';
 import NoteItem from './NoteItem';
 import { Route, Routes } from 'react-router-dom';
 const Notes = () => {
+	let { lable } = useSelector((state) => state.lable);
+	const [label, setLabel] = useState([]);
 	const dispatch = useDispatch();
 	let { listView } = useSelector((state) => state.view);
 	let { notes } = useSelector((state) => state.notes);
@@ -23,7 +25,7 @@ const Notes = () => {
 	}, [listView]);
 	const DeleteNote = async () => {
 		const Notes = await store.getState().notes.notes;
-		if (Notes === null && Notes === []) return;
+		if (Notes === null || Notes === []) return;
 		Notes.forEach((note) => {
 			if (note.deleteDate !== undefined && note.deleteDate !== '') {
 				if (new Date(note.deleteDate) <= new Date()) {
@@ -71,7 +73,7 @@ const Notes = () => {
 					...rest
 				});
 			});
-			Note = [...newNote]
+			Note = [...newNote];
 		}
 	};
 	const setPinNoteFirst = () => {
@@ -94,7 +96,11 @@ const Notes = () => {
 			DeleteNote();
 		}, 5000);
 	}, []);
-
+	useEffect(() => {
+		if (lable.length !== 0) {
+			setLabel(lable[0].lable);
+		}
+	}, [lable]);
 	setPinNoteFirst();
 	return (
 		<div ref={noteContainer} className={`d-flex justify-center ${styles.noteContainer}`}>
@@ -107,6 +113,15 @@ const Notes = () => {
 							element={note.archive && !note.bin ? <NoteItem note={note} /> : ''}
 						/>
 						<Route path='/bin' element={note.bin ? <NoteItem note={note} /> : ''} />
+						{label.map((item,index) => {
+							return (
+								<Route
+									key={'lableindex'+ index}
+									path={'/' + item.toLowerCase()}
+									element={note.tag.includes(item) && !note.archive && !note.bin ? <NoteItem note={note} /> : ''}
+								/>
+							);
+						})}
 					</Routes>
 				);
 			})}

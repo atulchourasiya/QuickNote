@@ -8,6 +8,7 @@ import { ReactSortable } from 'react-sortablejs';
 import { addANote } from '../Redux/Slice/notesSlice';
 import { setBeforeState } from '../Redux/Slice/beforeState';
 import { setSharedEmail } from '../Redux/Slice/sharedEmail';
+import CheckBox from './CheckBox';
 
 const InputField = () => {
 	const [pin, setPin] = useState(false);
@@ -16,6 +17,9 @@ const InputField = () => {
 	const [archive, setArchive] = useState(false);
 	const { sharedEmail } = useSelector((state) => state.sharedEmail);
 	const { isUpdate } = useSelector((state) => state.sharedEmail);
+	const [isChecked, setIsChecked] = useState([]);
+	let { lable } = useSelector((state) => state.lable);
+	const [label, setLabel] = useState([]);
 	const dispatch = useDispatch();
 	let { emailFieldOpen } = useSelector((state) => state.view);
 	let beforeState = useSelector((state) => {
@@ -27,6 +31,7 @@ const InputField = () => {
 	});
 	let currentPin = useRef(pin);
 	let currentArchive = useRef(archive);
+	let currentIsChecked = useRef(isChecked);
 	let currentCheckListIndexArray = useRef(checkListIndexArray);
 	let currentshowCheckList = useRef(showCheckList);
 	let openClose = useRef(false);
@@ -38,6 +43,7 @@ const InputField = () => {
 	const inputFieldSvg = useRef();
 	const inputSvg = useRef();
 	const pinSvgContainer = useRef();
+	const lableContainer = useRef();
 
 	const checkIfEmpty = (event) => {
 		if (event.target.innerHTML === '<br>') {
@@ -66,6 +72,8 @@ const InputField = () => {
 			openClose.current = true;
 		}
 		isOpen.current = false;
+		lableContainer.current?.classList.add('d-none');
+		refreshIsCheckedArray();
 		setArchive(false);
 		setPin(false);
 	};
@@ -96,7 +104,8 @@ const InputField = () => {
 			event.target.closest('#inputContainer') ||
 			event.target.hasAttribute('data-removechecklist') ||
 			event.target.hasAttribute('data-emailfieldbutton') ||
-			event.target.hasAttribute('data-checkbox')
+			event.target.hasAttribute('data-checkbox') ||
+			event.target.closest('[data-lable]')
 		)
 			return;
 		if (isOpen.current) {
@@ -121,16 +130,16 @@ const InputField = () => {
 			title: titleField.current.innerText,
 			note: noteField.current ? [noteField.current.innerText] : getCheckListInnertextArray(),
 			email: email,
-			tag: [],
+			tag: getTagList(),
 			bin: false,
 			isChecked: isChecked,
 			pin: currentPin.current,
 			check: currentshowCheckList.current,
 			archive: currentArchive.current,
-			deleteDate: '',
+			deleteDate: ''
 		};
 		dispatch(addANote(note));
-		dispatch(setSharedEmail(null))
+		dispatch(setSharedEmail(null));
 	};
 	const beforeNoteState = useRef({});
 	const collectState = () => {
@@ -155,14 +164,52 @@ const InputField = () => {
 		arrayIndex.current = beforeState.note.length;
 		setCheckListIndexArray(beforeState.checkListIndexArray);
 	};
-	const setCheckBoxState = (isChecked , value) => {
-		const newState = checkListIndexArray.map((obj)=>{
-			if(obj.value === value){
-				return {...obj,isChecked}
+	const setCheckBoxState = (isChecked, value) => {
+		const newState = checkListIndexArray.map((obj) => {
+			if (obj.value === value) {
+				return { ...obj, isChecked };
 			}
-			return obj
+			return obj;
 		});
 		setCheckListIndexArray(newState);
+	};
+	const setIsCheckedArray = () => {
+		let tempArray = [];
+		label.map((_, index) => {
+			tempArray[index] = false;
+		});
+		setIsChecked(tempArray);
+	};
+	const refreshIsCheckedArray = () => {
+		let tempArray = [];
+		currentIsChecked.current.map((_, index) => {
+			tempArray[index] = false;
+		});
+		setIsChecked(tempArray);
+	};
+	const setIsCheckedState = (index, value) => {
+		let tempArray = [];
+		currentIsChecked.current.map((item, isCheckedindex) => {
+			if (isCheckedindex === index) {
+				tempArray.push(value);
+			} else {
+				tempArray.push(item);
+			}
+		});
+		setIsChecked(tempArray);
+	};
+	const getTagList = () => {
+		let tagTextArray = [];
+		let tagField = document.getElementsByClassName('tagField');
+		currentIsChecked.current.forEach((item, index) => {
+			if (item === true) {
+				tagTextArray.push(tagField[index].innerText);
+			}
+		});
+		return tagTextArray;
+	};
+	const toggleLableContainer = () => {
+		lableContainer.current?.classList.toggle('d-none');
 	};
 	useEffect(() => {
 		const checkListItem = document.getElementsByClassName('checkListItem');
@@ -195,7 +242,8 @@ const InputField = () => {
 		currentshowCheckList.current = showCheckList;
 		currentArchive.current = archive;
 		currentCheckListIndexArray.current = [...checkListIndexArray];
-	}, [pin, showCheckList, archive, checkListIndexArray]);
+		currentIsChecked.current = [...isChecked];
+	}, [pin, showCheckList, archive, checkListIndexArray, isChecked]);
 
 	useEffect(() => {
 		if (openClose.current) {
@@ -212,7 +260,14 @@ const InputField = () => {
 		};
 		// eslint-disable-next-line
 	}, []);
-
+	useEffect(() => {
+		if (lable.length !== 0) {
+			setLabel(lable[0].lable);
+		}
+	}, [lable]);
+	useEffect(() => {
+		setIsCheckedArray();
+	}, [label]);
 	return (
 		<div className={`d-flex align-center justify-center ${styles.inputFieldContainer}`}>
 			<div id='inputContainer' className={`${styles.inputContainer}`}>
@@ -363,6 +418,7 @@ const InputField = () => {
 						addNote={addNote}
 						hideInputField={hideInputField}
 						collectState={collectState}
+						toggleLableContainer={toggleLableContainer}
 					/>
 					<button
 						onClick={(event) => {
@@ -372,6 +428,23 @@ const InputField = () => {
 						className='ff fs-400 fw-semibold'>
 						Close
 					</button>
+				</div>
+				<div data-lable ref={lableContainer} className={`${styles.lableContainer} d-none`}>
+					<h2 className={`ff fs-400 fw-semibold`}>Labels</h2>
+					{label.map((item, index) => {
+						return (
+							<div
+								key={'labelInputFieldId' + index}
+								className={`${styles.lableItem} d-flex align-center ff fs-400`}>
+								<CheckBox
+									isChecked={isChecked}
+									setIsCheckedState={setIsCheckedState}
+									index={index}
+								/>
+								<span className={`tagField`}>{item}</span>
+							</div>
+						);
+					})}
 				</div>
 			</div>
 		</div>
