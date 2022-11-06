@@ -9,6 +9,7 @@ const Reminder = (props) => {
 	const reminderContainer = useRef();
 	const dispatch = useDispatch();
 	const { morning, afternoon, evening } = useSelector((state) => state.setting);
+
 	const currentDate = () => {
 		var todayDate = new Date();
 		var month = todayDate.getMonth() + 1;
@@ -24,6 +25,7 @@ const Reminder = (props) => {
 		dateRef.current?.setAttribute('value', current);
 		dateRef.current?.setAttribute('min', current);
 	};
+
 	const currentTime = () => {
 		var todayTime = new Date();
 		var hours = todayTime.getHours();
@@ -40,13 +42,6 @@ const Reminder = (props) => {
 		timeRef.current?.setAttribute('min', time);
 	};
 
-	useEffect(() => {
-		currentTime();
-		setInterval(() => {
-			currentTime();
-		}, 1000);
-		currentDate();
-	}, []);
 	const setReminder = (event) => {
 		const Current = new Date();
 		let reminder;
@@ -71,6 +66,15 @@ const Reminder = (props) => {
 			props.setReminderValue(reminder);
 		}
 	};
+
+	useEffect(() => {
+		currentTime();
+		setInterval(() => {
+			currentTime();
+		}, 1000);
+		currentDate();
+	}, []);
+
 	useEffect(() => {
 		const container = document.getElementsByClassName('reminderContainer');
 		Array.from(container).forEach((item) => {
@@ -80,6 +84,7 @@ const Reminder = (props) => {
 			reminderContainer.current.classList.remove('d-none');
 		}
 	}, [props.showReminder]);
+	
 	return (
 		<div data-remindercontainer ref={reminderContainer} className={`${styles.reminderContainer} reminderContainer`}>
 			<h2 className={`ff fs-400 fw-semibold`}>Reminder</h2>

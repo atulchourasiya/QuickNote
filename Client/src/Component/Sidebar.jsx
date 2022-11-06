@@ -6,6 +6,7 @@ const Sidebar = () => {
 	const { lable } = useSelector((state) => state.lable);
 	const [label, setLabel] = useState([]);
 	const [fetchArray, setFetchArray] = useState([]);
+	
 	const setFetchArrayFunc = () => {
 		const tempArray = [];
 		label.forEach((item) => {
@@ -17,6 +18,7 @@ const Sidebar = () => {
 		});
 		setFetchArray(tempArray);
 	};
+
 	const sectionArray = [
 		{
 			text: 'Notes',
@@ -46,15 +48,18 @@ const Sidebar = () => {
 			<path d='M9 8h2v9H9zm4 0h2v9h-2z'></path>`
 		}
 	];
+
 	useEffect(() => {
 		if (lable.length !== 0) {
 			setLabel(lable[0].lable);
 		}
 	}, [lable]);
+
 	useEffect(() => {
 		setFetchArrayFunc();
 		// eslint-disable-next-line
 	}, [label]);
+
 	return (
 		<aside id='sidebarContainer' className={`d-flex ${styles.sidebarContainer}`}>
 			<nav id='section' className={`${styles.section}`}>

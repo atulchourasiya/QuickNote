@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import styles from '../Styles/Sidebar.module.css';
 import { NavLink } from 'react-router-dom';
 const SidebarSection = (props) => {
+
 	const parsePath = () => {
 		const svg = document.getElementById(`${props.id}`);
 		svg.innerHTML = props.path;
@@ -9,6 +10,7 @@ const SidebarSection = (props) => {
 	useEffect(() => {
 		parsePath();
 	});
+	
 	return (
 		<>
 			{props.link !== '/label' ? (

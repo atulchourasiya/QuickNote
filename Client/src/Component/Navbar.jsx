@@ -82,6 +82,7 @@ const Navbar = () => {
 			localStorage.setItem('currentTheme', 'dark');
 		}
 	};
+
 	const handleToggleView = () => {
 		if (listView === true || listView === 'true') {
 			dispatch(setView(false));
@@ -91,6 +92,7 @@ const Navbar = () => {
 			localStorage.setItem('currentView', true);
 		}
 	};
+
 	const handleSpinnerSize = () => {
 		setSize(getComputedStyle(document.body).fontSize);
 	};
@@ -124,6 +126,7 @@ const Navbar = () => {
 			setFullScreen(false);
 		}
 	};
+
 	const handleDriveIcon = async () => {
 		driveLogo.current?.classList.remove('d-none');
 		arrowIcon.current?.classList.add('d-none');
@@ -249,6 +252,7 @@ const Navbar = () => {
 		}
 		return currentTheme;
 	};
+
 	const currentView = () => {
 		let currentView = localStorage.getItem('currentView');
 		if (!currentView) {
@@ -257,7 +261,6 @@ const Navbar = () => {
 		}
 		return currentView;
 	};
-
 	const handleSearchFunc = () => {
 		let input = inputFiled.current.value.toLowerCase();
 		let NoteArray = document.getElementsByClassName('noteItemContentContainer');
@@ -272,7 +275,7 @@ const Navbar = () => {
 			}
 		});
 	};
-	
+
 	useEffect(() => {
 		handleMediaWidth();
 		dispatch(setTheme(currentTheme()));
@@ -432,7 +435,7 @@ const Navbar = () => {
 							</svg>
 						</li>
 						<li id={styles.viewIcon} className='svg-container' onClick={handleToggleView}>
-							{listView ? (
+							{listView === true || listView === 'true' ? (
 								<svg
 									xmlns='http://www.w3.org/2000/svg'
 									fill='var(--list-icon-clr)'

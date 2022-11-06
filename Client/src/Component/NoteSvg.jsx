@@ -2,7 +2,6 @@ import styles from '../Styles/NoteSvg.module.css';
 import { useDispatch } from 'react-redux';
 import { setEmailFieldOpen } from '../Redux/Slice/viewSlice';
 import { setIsUpdate } from '../Redux/Slice/sharedEmail';
-import { setAlert } from '../Redux/Slice/alertSlice';
 const NoteSvg = (props) => {
 	const dispatch = useDispatch();
 

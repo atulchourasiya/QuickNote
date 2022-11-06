@@ -17,15 +17,7 @@ const Notes = () => {
 	let { newnotebottom } = useSelector((state) => state.setting);
 	let { tickednotebottom } = useSelector((state) => state.setting);
 	const noteContainer = useRef();
-	useEffect(() => {
-		if (listView === true) {
-			noteContainer.current.style.flexDirection = 'column';
-			noteContainer.current.style.alignItems = 'center';
-		} else {
-			noteContainer.current.style.flexDirection = 'row';
-			noteContainer.current.style.alignItems = 'flex-start';
-		}
-	}, [listView]);
+
 	const DeleteNote = async () => {
 		const Notes = await store.getState().notes.notes;
 		if (Notes === null || Notes === []) return;
@@ -44,6 +36,7 @@ const Notes = () => {
 			}
 		});
 	};
+
 	const ReminderNote = async () => {
 		const Notes = await store.getState().notes.notes;
 		if (Notes === null || Notes === []) return;
@@ -81,6 +74,7 @@ const Notes = () => {
 			Note = [...newNote];
 		}
 	};
+
 	const tickedNoteBottom = () => {
 		if (tickednotebottom === true) {
 			const newNote = [];
@@ -108,6 +102,7 @@ const Notes = () => {
 			Note = [...newNote];
 		}
 	};
+
 	const setPinNoteFirst = () => {
 		setNewNoteBottom();
 		const pinnedNote = [];
@@ -124,21 +119,35 @@ const Notes = () => {
 	};
 
 	useEffect(() => {
+		if (listView === true || listView === 'true') {
+			noteContainer.current.style.flexDirection = 'column';
+			noteContainer.current.style.alignItems = 'center';
+		} else {
+			noteContainer.current.style.flexDirection = 'row';
+			noteContainer.current.style.alignItems = 'flex-start';
+		}
+	}, [listView]);
+
+	useEffect(() => {
 		setInterval(() => {
 			DeleteNote();
 		}, 5000);
 	}, []);
+
 	useEffect(() => {
 		if (lable.length !== 0) {
 			setLabel(lable[0].lable);
 		}
 	}, [lable]);
+
 	useEffect(() => {
 		setInterval(() => {
 			ReminderNote();
 		}, 1000);
 	}, []);
+
 	setPinNoteFirst();
+
 	return (
 		<div ref={noteContainer} className={`d-flex justify-center ${styles.noteContainer}`}>
 			{Note.map((note, index) => {
