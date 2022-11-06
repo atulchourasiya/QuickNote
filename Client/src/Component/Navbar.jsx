@@ -257,6 +257,7 @@ const Navbar = () => {
 		}
 		return currentView;
 	};
+
 	const handleSearchFunc = () => {
 		let input = inputFiled.current.value.toLowerCase();
 		let NoteArray = document.getElementsByClassName('noteItemContentContainer');
@@ -271,6 +272,7 @@ const Navbar = () => {
 			}
 		});
 	};
+	
 	useEffect(() => {
 		handleMediaWidth();
 		dispatch(setTheme(currentTheme()));

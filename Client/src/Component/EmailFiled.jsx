@@ -61,7 +61,7 @@ const EmailFiled = () => {
 				<p ref={emailFieldNotValid} className={`${styles.emailFiledNotValid} fs-400 ff d-none`}>
 					This Email Is Not Valid
 				</p>
-				<div className={`d-flex ${styles.emailFieldButton}`}>
+				<div className={`d-flex btn`}>
 					<button
 						onClick={() => {
 							dispatch(setEmailFieldOpen(false));

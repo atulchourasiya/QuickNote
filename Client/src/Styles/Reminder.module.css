@@ -1,0 +1,36 @@
+.reminderContainer {
+	position: absolute;
+	top: 100%;
+	left: 0;
+	width: max-content;
+	flex-direction: column;
+	right: 0;
+	padding: var(--size-200) var(--size-400);
+	background-color: var(--bg-overlap-clr);
+	border-radius: var(--size-200);
+	box-shadow: var(--box-shadow);
+	z-index: var(--index-high);
+}
+.reminderContainer h2 {
+	padding: var(--size-100) 0;
+}
+.reminderContainerField {
+	padding: var(--size-200) var(--size-200);
+	justify-content: space-between;
+}
+.reminderContainer input {
+	display: block;
+	background-color: var(--bg-overlap-clr);
+	color: var(--text-clr);
+	margin-left: var(--size-400);
+	cursor: pointer;
+}
+
+@media (hover: hover) {
+	.reminderContainerField:has(input[disabled]):hover {
+		background-color: var(--bg-button-clr);
+	}
+	.reminderContainerField:hover input[disabled] {
+		background-color: var(--bg-button-clr);
+	}
+}

@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import store from '../Redux/store';
 import { setIsUpdate, setSharedEmail } from '../Redux/Slice/sharedEmail';
 import { setAlert } from '../Redux/Slice/alertSlice';
+import Reminder from './Reminder';
 
 const NoteItem = (props) => {
 	const dispatch = useDispatch();
@@ -16,10 +17,11 @@ const NoteItem = (props) => {
 	let { lable } = useSelector((state) => state.lable);
 	const [label, setLabel] = useState([]);
 	const [isChecked, setIsChecked] = useState([]);
+	const [showReminder, setShowReminder] = useState(false);
+	const [reminderValue, setReminderValue] = useState(null);
 	let currentIsChecked = useRef(isChecked);
 	let lableContainer = useRef();
 	const UpdateNote = (updateObj) => {
-		console.log(updateObj);
 		const updatedNoteObj = {
 			id: props.note._id,
 			obj: {
@@ -38,17 +40,16 @@ const NoteItem = (props) => {
 		});
 		noteItemOptions.current.classList.toggle('d-none');
 	};
-	const closeOtherLableContainer = ()=>{
+	const closeOtherLableContainer = () => {
 		let lableContainerArray = document.getElementsByClassName(styles.lableContainer);
-		Array.from(lableContainerArray).forEach((item)=>{
+		Array.from(lableContainerArray).forEach((item) => {
 			item.classList.add('d-none');
 		});
 		lableContainer.current.classList.remove('d-none');
-	}
+	};
 	const deleteDate = () => {
 		let date = new Date();
 		let newDate = new Date(date.getTime() + 60 * 60 * 1000);
-		console.log(newDate.toLocaleTimeString());
 		return newDate;
 	};
 	const setIsCheckedArray = () => {
@@ -120,6 +121,28 @@ const NoteItem = (props) => {
 	useEffect(() => {
 		setIsCheckedArray();
 	}, [label]);
+	useEffect(() => {
+		if (reminderValue !== null) {
+			if (Notification.permission !== 'granted') {
+				Notification.requestPermission()
+					.then((perm) => {
+						if (perm === 'granted') {
+							UpdateNote({ reminder: reminderValue });
+							dispatch(setAlert('Reminder added successfully!✅'));
+						} else {
+							dispatch(setAlert('Notification Permission is denied!❌'));
+						}
+					})
+					.catch(() => {
+						dispatch(setAlert('Something went wrong!❌'));
+					});
+			} else {
+				UpdateNote({ reminder: reminderValue });
+				dispatch(setAlert('Reminder added successfully!✅'));
+			}
+		}
+		setReminderValue(null);
+	}, [reminderValue]);
 	return (
 		<>
 			<div className={`d-flex ${styles.container} noteItemContentContainer`}>
@@ -189,6 +212,8 @@ const NoteItem = (props) => {
 						UpdateNote={UpdateNote}
 						archive={props.note.archive}
 						showOptions={showOptions}
+						showReminder={showReminder}
+						setShowReminder={setShowReminder}
 					/>
 				</div>
 				<ul
@@ -236,7 +261,7 @@ const NoteItem = (props) => {
 							</div>
 						);
 					})}
-					<div className={`d-flex ${styles.lableButton}`}>
+					<div className={`d-flex btn`}>
 						<button
 							onClick={() => {
 								lableContainer.current.classList.add('d-none');
@@ -255,6 +280,11 @@ const NoteItem = (props) => {
 						</button>
 					</div>
 				</div>
+				<Reminder
+					showReminder={showReminder}
+					setShowReminder={setShowReminder}
+					setReminderValue={setReminderValue}
+				/>
 			</div>
 		</>
 	);

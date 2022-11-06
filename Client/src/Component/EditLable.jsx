@@ -80,7 +80,7 @@ const EditLable = () => {
 					</div>
 				);
 			})}
-			<div className={`d-flex ${styles.lableButton}`}>
+			<div className={`d-flex btn`}>
 				<button onClick={closeSetting}>Cancle</button>
 				<button className={`text-primary`} onClick={addALable}>
 					Save

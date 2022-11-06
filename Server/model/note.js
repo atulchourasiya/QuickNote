@@ -37,6 +37,9 @@ const NotesSchema = mongoose.Schema({
 	},
 	deleteDate: {
 		type: String,
+	},
+	reminder: {
+		type: String,
 	}
 });
 

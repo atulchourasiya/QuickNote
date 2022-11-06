@@ -20,6 +20,11 @@
 	background-position: 0% bottom;
 	animation: alertBottomStrike 3s linear 1 forwards;
 }
+ .cancleAlert{
+	 width: var(--size-500);
+	 height: var(--size-500);
+	 z-index: var(--index-higher);
+ }
 @keyframes alertBottomStrike {
 	0% {
 		background-size: 100% 4px;

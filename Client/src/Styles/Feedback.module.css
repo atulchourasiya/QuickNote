@@ -34,24 +34,3 @@
 	width: 18rem;
 	height: 15rem;
 }
-.feedbackButton {
-	width: 100%;
-	justify-content: right;
-}
-
-.feedbackButton button {
-	background-color: var(--bg-light);
-	margin: var(--size-100);
-	border-radius: var(--size-100);
-	padding: var(--size-200) var(--size-500);
-}
-
-.feedbackButton button:active {
-	background-color: var(--bg-button-clr);
-}
-
-@media (hover: hover) {
-	.feedbackButton button:hover {
-		background-color: var(--bg-button-clr);
-	}
-}

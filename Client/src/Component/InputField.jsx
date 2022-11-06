@@ -9,15 +9,18 @@ import { addANote } from '../Redux/Slice/notesSlice';
 import { setBeforeState } from '../Redux/Slice/beforeState';
 import { setSharedEmail } from '../Redux/Slice/sharedEmail';
 import CheckBox from './CheckBox';
+import Reminder from './Reminder';
 
 const InputField = () => {
 	const [pin, setPin] = useState(false);
 	const [showCheckList, toggleCheckList] = useState(false);
 	const [checkListIndexArray, setCheckListIndexArray] = useState([{ isChecked: false, value: 0 }]);
 	const [archive, setArchive] = useState(false);
+	const [isChecked, setIsChecked] = useState([]);
+	const [showReminder, setShowReminder] = useState(false);
+	const [reminderValue, setReminderValue] = useState('');
 	const { sharedEmail } = useSelector((state) => state.sharedEmail);
 	const { isUpdate } = useSelector((state) => state.sharedEmail);
-	const [isChecked, setIsChecked] = useState([]);
 	let { lable } = useSelector((state) => state.lable);
 	const [label, setLabel] = useState([]);
 	const dispatch = useDispatch();
@@ -34,6 +37,7 @@ const InputField = () => {
 	let currentIsChecked = useRef(isChecked);
 	let currentCheckListIndexArray = useRef(checkListIndexArray);
 	let currentshowCheckList = useRef(showCheckList);
+	let currentReminderValue = useRef(reminderValue);
 	let openClose = useRef(false);
 	let isOpen = useRef(false);
 	const arrayIndex = useRef(0);
@@ -136,7 +140,8 @@ const InputField = () => {
 			pin: currentPin.current,
 			check: currentshowCheckList.current,
 			archive: currentArchive.current,
-			deleteDate: ''
+			deleteDate: '',
+			reminder: currentReminderValue.current,
 		};
 		dispatch(addANote(note));
 		dispatch(setSharedEmail(null));
@@ -243,7 +248,8 @@ const InputField = () => {
 		currentArchive.current = archive;
 		currentCheckListIndexArray.current = [...checkListIndexArray];
 		currentIsChecked.current = [...isChecked];
-	}, [pin, showCheckList, archive, checkListIndexArray, isChecked]);
+		currentReminderValue.current = reminderValue;
+	}, [pin, showCheckList, archive, checkListIndexArray, isChecked,reminderValue]);
 
 	useEffect(() => {
 		if (openClose.current) {
@@ -368,44 +374,6 @@ const InputField = () => {
 										</svg>
 									</div>
 								</li>
-								{/* <li
-									onClick={() => {
-										document
-											.getElementById('underConstructionContainer')
-											.classList.remove('d-none');
-									}}>
-									<div className='svg-container'>
-										<svg
-											xmlns='http://www.w3.org/2000/svg'
-											className='icon-size'
-											viewBox='0 0 24 24'
-											fill='var(--list-icon-clr)'>
-											<path
-												xmlns='http://www.w3.org/2000/svg'
-												d='M18.64 4.75L20 6.11l-7.79 7.79-1.36-1.36 7.79-7.79m0-2c-.51 0-1.02.2-1.41.59l-7.79 7.79c-.78.78-.78 2.05 0 2.83l1.36 1.36c.39.39.9.59 1.41.59.51 0 1.02-.2 1.41-.59l7.79-7.79c.78-.78.78-2.05 0-2.83l-1.35-1.35c-.39-.4-.9-.6-1.42-.6zM7 14.25c-1.66 0-3 1.34-3 3 0 1.31-1.16 2-2 2 .92 1.22 2.49 2 4 2 2.21 0 4-1.79 4-4 0-1.66-1.34-3-3-3z'
-											/>
-										</svg>
-									</div>
-								</li> */}
-								{/* <li
-									onClick={() => {
-										document
-											.getElementById('underConstructionContainer')
-											.classList.remove('d-none');
-									}}>
-									<div className='svg-container'>
-										<svg
-											xmlns='http://www.w3.org/2000/svg'
-											className='icon-size'
-											viewBox='0 0 24 24'
-											fill='var(--list-icon-clr)'>
-											<path
-												xmlns='http://www.w3.org/2000/svg'
-												d='M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-5-7l-3 3.72L9 13l-3 4h12l-4-5z'
-											/>
-										</svg>
-									</div>
-								</li> */}
 							</ul>
 						</div>
 					)}
@@ -419,6 +387,8 @@ const InputField = () => {
 						hideInputField={hideInputField}
 						collectState={collectState}
 						toggleLableContainer={toggleLableContainer}
+						showReminder={showReminder}
+						setShowReminder={setShowReminder}
 					/>
 					<button
 						onClick={(event) => {
@@ -446,6 +416,11 @@ const InputField = () => {
 						);
 					})}
 				</div>
+				<Reminder
+					showReminder={showReminder}
+					setShowReminder={setShowReminder}
+					setReminderValue={setReminderValue}
+				/>
 			</div>
 		</div>
 	);

@@ -14,7 +14,7 @@ router.post('/fetchAllNotes', async (req, res) => {
 
 router.post('/addNote', async (req, res) => {
 	try {
-		const { title, note, tag, email, check, bin, isChecked, pin, archive, deleteDate } = req.body;
+		const { title, note, tag, email, check, bin, isChecked, pin, archive, deleteDate,reminder } = req.body;
 		const newNote = new Note({
 			title,
 			note,
@@ -25,7 +25,8 @@ router.post('/addNote', async (req, res) => {
 			bin,
 			pin,
 			archive,
-			deleteDate
+			deleteDate,
+			reminder,
 		});
 		const savedNote = await newNote.save();
 		res.status(200).json(savedNote);
@@ -37,7 +38,8 @@ router.post('/addNote', async (req, res) => {
 
 router.put('/updateNote/:id', async (req, res) => {
 	try {
-		const { title, note, email, tag, check, isChecked, bin, pin, archive, deleteDate } = req.body;
+		const { title, note, email, tag, check, isChecked, bin, pin, archive, deleteDate, reminder } =
+			req.body;
 		let isVerified = false;
 		const newNote = {};
 		if (title !== undefined) {
@@ -69,6 +71,9 @@ router.put('/updateNote/:id', async (req, res) => {
 		}
 		if (deleteDate !== undefined) {
 			newNote.deleteDate = deleteDate;
+		}
+		if (reminder !== undefined) {
+			newNote.reminder = reminder;
 		}
 		const existingNote = await Note.findById(req.params.id);
 

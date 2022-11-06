@@ -1,13 +1,22 @@
 import styles from '../Styles/Setting.module.css';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setTheme } from '../Redux/Slice/themeSlice';
-import { setNewNoteBottom, setTickedNoteBottom } from '../Redux/Slice/settingSlice';
+import {
+	setAfternoonTime,
+	setEveningTime,
+	setMorningTime,
+	setNewNoteBottom,
+	setTickedNoteBottom
+} from '../Redux/Slice/settingSlice';
 
 const Setting = () => {
 	let { theme } = useSelector((state) => state.theme);
 	let { newnotebottom } = useSelector((state) => state.setting);
 	let { tickednotebottom } = useSelector((state) => state.setting);
+	const morning = useRef();
+	const afternoon = useRef();
+	const evening = useRef();
 	const dispatch = useDispatch();
 	const checkIfClickedOutside = (event) => {
 		if (event.target.closest('#settingContainer') || event.target.closest('[data-setting]')) return;
@@ -15,6 +24,17 @@ const Setting = () => {
 	};
 	const closeSetting = () => {
 		document.getElementById('settingContainer').classList.add('d-none');
+	};
+	const settingOnChange = (event) => {
+		if (morning.current === event.target) {
+			dispatch(setMorningTime(event.target.value));
+		}
+		if (afternoon.current === event.target) {
+			dispatch(setAfternoonTime(event.target.value));
+		}
+		if (evening.current === event.target) {
+			dispatch(setEveningTime(event.target.value));
+		}
 	};
 	useEffect(() => {
 		document.addEventListener('click', checkIfClickedOutside);
@@ -67,19 +87,31 @@ const Setting = () => {
 					<p className='text-primary fs-400 ff'>Reminder defaults</p>
 					<div className={`d-flex align-center ${styles.settingList}`}>
 						<p className={`ff`}>Morning</p>
-						<input type='time'></input>
+						<input
+							ref={morning}
+							type='time'
+							onChange={settingOnChange}
+							defaultValue={'06:00'}></input>
 					</div>
 					<div className={`d-flex align-center ${styles.settingList}`}>
 						<p className={`ff`}>Afternoon </p>
-						<input type='time'></input>
+						<input
+							ref={afternoon}
+							type='time'
+							onChange={settingOnChange}
+							defaultValue={'12:00'}></input>
 					</div>
 					<div className={`d-flex align-center ${styles.settingList}`}>
 						<p className={`ff`}>Evening</p>
-						<input type='time'></input>
+						<input
+							ref={evening}
+							type='time'
+							onChange={settingOnChange}
+							defaultValue={'17:00'}></input>
 					</div>
 				</div>
 			</div>
-			<div className={`d-flex ${styles.settingButton}`}>
+			<div className={`d-flex btn`}>
 				<button onClick={closeSetting}>Cancle</button>
 				{/* <button className={` text-primary`}>Save</button> */}
 			</div>

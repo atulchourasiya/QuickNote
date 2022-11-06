@@ -86,8 +86,8 @@
 	box-shadow: var(--box-shadow);
 	z-index: var(--index-high);
 }
-.lableContainer h2{
-	padding:var(--size-100) var(--size-300);
+.lableContainer h2 {
+	padding: var(--size-100) var(--size-300);
 }
 .lableItem {
 	padding: var(--size-200) var(--size-400);
@@ -98,6 +98,9 @@
 @media (hover: hover) {
 	.inputContainer:has(li[data-addlablebtn]:hover) .lableContainer {
 		display: block;
+	}
+	.inputContainer:has(li[data-addreminderbtn]:hover) div[data-remindercontainer] {
+		display: block !important;
 	}
 }
 @media (max-width: 767.98px) {

@@ -9,10 +9,11 @@ const NoteSvg = (props) => {
 		<>
 			<ul className='d-flex'>
 				<li
-					className={`svg-container noteSvg-icon-hover`}
-					onClick={() => {
-						document.getElementById('underConstructionContainer').classList.remove('d-none');
-					}}>
+					data-addreminderbtn
+					onClick={()=>{
+						props.setShowReminder(!props.showReminder)
+					}}
+					className={`svg-container noteSvg-icon-hover`}>
 					<svg
 						xmlns='http://www.w3.org/2000/svg'
 						className={`${styles.noteSvgIconHover} ${styles.noteSvgIconSize}`}

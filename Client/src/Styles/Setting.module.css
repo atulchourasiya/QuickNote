@@ -9,6 +9,10 @@
 	box-shadow: var(--box-shadow);
 	z-index: var(--index-high);
 }
+.settingContainer input{
+	background-color: var(--bg-overlap-clr);
+	color: var(--text-clr);
+}
 .settingContainer h2 {
 	margin-bottom: var(--size-200);
 	line-height: 1.5;
@@ -29,23 +33,4 @@
 }
 .settingList input{
 	cursor: pointer;
-}
-.settingButton {
-	width: 100%;
-	justify-content: right;
-}
-.settingButton button {
-   margin: var(--size-100);
-   color: var(--text-clr);
-	background-color: var(--bg-overlap-clr);
-	border-radius: var(--size-100);
-	padding: var(--size-200) var(--size-500);
-}
-.settingButton button:active{
-   background-color: var(--bg-button-clr);
-}
-@media (hover:hover) {
-   .settingButton button:hover{
-   background-color: var(--bg-button-clr);
-}
 }

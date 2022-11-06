@@ -2,9 +2,12 @@ import styles from '../Styles/Note.module.css';
 import { useSelector, useDispatch } from 'react-redux';
 import store from '../Redux/store';
 import { useRef, useEffect, useState } from 'react';
-import { deleteNote } from '../Redux/Slice/notesSlice';
+import { deleteNote, updateNote } from '../Redux/Slice/notesSlice';
 import NoteItem from './NoteItem';
 import { Route, Routes } from 'react-router-dom';
+import { setAlert } from '../Redux/Slice/alertSlice';
+import logo from '../Assets/Image/logo.png';
+
 const Notes = () => {
 	let { lable } = useSelector((state) => state.lable);
 	const [label, setLabel] = useState([]);
@@ -15,7 +18,7 @@ const Notes = () => {
 	let { tickednotebottom } = useSelector((state) => state.setting);
 	const noteContainer = useRef();
 	useEffect(() => {
-		if (listView === true || listView === 'true') {
+		if (listView === true) {
 			noteContainer.current.style.flexDirection = 'column';
 			noteContainer.current.style.alignItems = 'center';
 		} else {
@@ -37,6 +40,35 @@ const Notes = () => {
 						email: store.getState().user.user?.email
 					};
 					dispatch(deleteNote(deleteNoteObj));
+				}
+			}
+		});
+	};
+	const ReminderNote = async () => {
+		const Notes = await store.getState().notes.notes;
+		if (Notes === null || Notes === []) return;
+		Notes.forEach((note) => {
+			if (note.reminder !== undefined && note.reminder !== '') {
+				if (new Date(note.reminder) <= new Date()) {
+					if (Notification.permission !== 'granted') {
+						dispatch(setAlert('Notification Permission is denied!❌'));
+					} else {
+						new Notification(`QuickNote Reminder`, {
+							tag: note._id,
+							title: note.title,
+							body: `${note.note[0]}`,
+							icon: logo
+						});
+					}
+					const updatedNoteObj = {
+						id: note._id,
+						obj: {
+							reminder: '',
+							email: note.email
+						},
+						email: store.getState().user.user?.email
+					};
+					dispatch(updateNote(updatedNoteObj));
 				}
 			}
 		});
@@ -101,6 +133,11 @@ const Notes = () => {
 			setLabel(lable[0].lable);
 		}
 	}, [lable]);
+	useEffect(() => {
+		setInterval(() => {
+			ReminderNote();
+		}, 1000);
+	}, []);
 	setPinNoteFirst();
 	return (
 		<div ref={noteContainer} className={`d-flex justify-center ${styles.noteContainer}`}>
@@ -109,16 +146,26 @@ const Notes = () => {
 					<Routes key={'noteid' + index}>
 						<Route path='/' element={note.archive || note.bin ? '' : <NoteItem note={note} />} />
 						<Route
+							path='/reminder'
+							element={note.reminder === '' ? '' : <NoteItem note={note} />}
+						/>
+						<Route
 							path='/archive'
 							element={note.archive && !note.bin ? <NoteItem note={note} /> : ''}
 						/>
 						<Route path='/bin' element={note.bin ? <NoteItem note={note} /> : ''} />
-						{label.map((item,index) => {
+						{label.map((item, index) => {
 							return (
 								<Route
-									key={'lableindex'+ index}
+									key={'lableindex' + index}
 									path={'/' + item.toLowerCase()}
-									element={note.tag.includes(item) && !note.archive && !note.bin ? <NoteItem note={note} /> : ''}
+									element={
+										note.tag.includes(item) && !note.archive && !note.bin ? (
+											<NoteItem note={note} />
+										) : (
+											''
+										)
+									}
 								/>
 							);
 						})}
