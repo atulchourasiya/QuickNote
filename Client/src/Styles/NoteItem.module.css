@@ -41,8 +41,8 @@
 	.noteItemContainer:has(li[data-noteoption]:hover) + .noteItemOptions {
 		display: block;
 	}
-	.container:has(li[data-addreminderbtn]:hover) div[data-remindercontainer] {
-		display: block !important;
+	.container:has(li[data-addreminderbtn]:hover) [data-remindercontainer] {
+		display: flex !important;
 	}
 }
 .spanContainer {

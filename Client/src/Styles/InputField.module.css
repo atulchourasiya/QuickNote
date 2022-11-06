@@ -99,8 +99,8 @@
 	.inputContainer:has(li[data-addlablebtn]:hover) .lableContainer {
 		display: block;
 	}
-	.inputContainer:has(li[data-addreminderbtn]:hover) div[data-remindercontainer] {
-		display: block !important;
+	.inputFieldContainer:has(li[data-addreminderbtn]:hover) [data-remindercontainer] {
+		display: flex !important;
 	}
 }
 @media (max-width: 767.98px) {

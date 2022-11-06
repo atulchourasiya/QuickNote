@@ -2,6 +2,7 @@ import styles from '../Styles/NoteSvg.module.css';
 import { useDispatch } from 'react-redux';
 import { setEmailFieldOpen } from '../Redux/Slice/viewSlice';
 import { setIsUpdate } from '../Redux/Slice/sharedEmail';
+import { setAlert } from '../Redux/Slice/alertSlice';
 const NoteSvg = (props) => {
 	const dispatch = useDispatch();
 
@@ -10,8 +11,8 @@ const NoteSvg = (props) => {
 			<ul className='d-flex'>
 				<li
 					data-addreminderbtn
-					onClick={()=>{
-						props.setShowReminder(!props.showReminder)
+					onClick={() => {
+						props.setShowReminder(!props.showReminder);
 					}}
 					className={`svg-container noteSvg-icon-hover`}>
 					<svg
@@ -42,33 +43,6 @@ const NoteSvg = (props) => {
 						</svg>
 					</li>
 				</a>
-				{/* <li
-					className={`svg-container noteSvg-icon-hover`}
-					onClick={() => {
-						document.getElementById('underConstructionContainer').classList.remove('d-none');
-					}}>
-					<svg
-						xmlns='http://www.w3.org/2000/svg'
-						className={`${styles.noteSvgIconHover} ${styles.noteSvgIconSize}`}
-						viewBox='0 0 24 24'>
-						<path d='M12 22C6.49 22 2 17.51 2 12S6.49 2 12 2s10 4.04 10 9c0 3.31-2.69 6-6 6h-1.77c-.28 0-.5.22-.5.5 0 .12.05.23.13.33.41.47.64 1.06.64 1.67A2.5 2.5 0 0 1 12 22zm0-18c-4.41 0-8 3.59-8 8s3.59 8 8 8c.28 0 .5-.22.5-.5a.54.54 0 0 0-.14-.35c-.41-.46-.63-1.05-.63-1.65a2.5 2.5 0 0 1 2.5-2.5H16c2.21 0 4-1.79 4-4 0-3.86-3.59-7-8-7z' />
-						<circle cx='9.5' cy='7.5' r='1.5' />
-						<circle cx='14.5' cy='7.5' r='1.5' />
-						<circle cx='17.5' cy='11.5' r='1.5' />
-					</svg>
-				</li> */}
-				{/* <li
-					className={`svg-container noteSvg-icon-hover`}
-					onClick={() => {
-						document.getElementById('underConstructionContainer').classList.remove('d-none');
-					}}>
-					<svg
-						xmlns='http://www.w3.org/2000/svg'
-						className={`${styles.noteSvgIconHover} ${styles.noteSvgIconSize}`}
-						viewBox='0 0 24 24'>
-						<path d='M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-5-7l-3 3.72L9 13l-3 4h12l-4-5z' />
-					</svg>
-				</li> */}
 				<li
 					className={`svg-container noteSvg-icon-hover`}
 					onClick={async (event) => {
@@ -115,31 +89,6 @@ const NoteSvg = (props) => {
 						<path d='M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z'></path>
 					</svg>
 				</li>
-				{/* <li
-					className={`svg-container noteSvg-icon-hover`}
-					onClick={() => {
-						document.getElementById('underConstructionContainer').classList.remove('d-none');
-					}}>
-					<svg
-						xmlns='http://www.w3.org/2000/svg'
-						className={`${styles.noteSvgIconHover} ${styles.noteSvgIconSize}`}
-						viewBox='0 0 24 24'>
-						<path d='M14.1 8H7.83l2.59-2.59L9 4 4 9l5 5 1.41-1.41L7.83 10h6.27c2.15 0 3.9 1.57 3.9 3.5S16.25 17 14.1 17H7v2h7.1c3.25 0 5.9-2.47 5.9-5.5S17.35 8 14.1 8z' />
-					</svg>
-				</li>
-				<li
-					className={`svg-container noteSvg-icon-hover`}
-					onClick={() => {
-						document.getElementById('underConstructionContainer').classList.remove('d-none');
-					}}>
-					<svg
-						xmlns='http://www.w3.org/2000/svg'
-						className={`${styles.noteSvgIconHover} ${styles.noteSvgIconSize}`}
-						style={{ transform: 'scaleX(-1)' }}
-						viewBox='0 0 24 24'>
-						<path d='M14.1 8H7.83l2.59-2.59L9 4 4 9l5 5 1.41-1.41L7.83 10h6.27c2.15 0 3.9 1.57 3.9 3.5S16.25 17 14.1 17H7v2h7.1c3.25 0 5.9-2.47 5.9-5.5S17.35 8 14.1 8z' />
-					</svg>
-				</li> */}
 			</ul>
 		</>
 	);
