@@ -5,7 +5,6 @@ import { BrowserRouter } from 'react-router-dom';
 import '../Styles/App.css';
 import Setting from './Setting';
 import Feedback from './Feedback';
-import UnderConstruction from './UnderConstruction';
 import Alert from './Alert';
 import EditLables from './EditLable';
 
@@ -18,7 +17,6 @@ function App() {
 					<Sidebar />
 					<Main />
 				</div>
-				<UnderConstruction/>
 				<Setting />
 				<Feedback/>
 				<EditLables/>

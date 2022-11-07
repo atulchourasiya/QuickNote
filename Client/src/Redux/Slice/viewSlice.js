@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
 	listView: true,
-	emailFieldOpen: null
+	emailFieldOpen: null,
+	title: 'Quick Note'
 };
 const viewSlide = createSlice({
 	name: 'view',
@@ -12,9 +13,12 @@ const viewSlide = createSlice({
 		},
 		setEmailFieldOpen(state, action) {
 			state.emailFieldOpen = action.payload;
+		},
+		setTitle(state, action) {
+			state.title = action.payload;
 		}
 	}
 });
 
-export const { setView, setEmailFieldOpen } = viewSlide.actions;
+export const { setView, setEmailFieldOpen, setTitle } = viewSlide.actions;
 export default viewSlide.reducer;

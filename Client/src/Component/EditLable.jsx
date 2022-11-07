@@ -10,10 +10,10 @@ const EditLable = () => {
 	const [label, setLabel] = useState([]);
 	const inputField = useRef();
 	const addALable = () => {
-		const regex = /^[a-zA-Z0-9]{0,16}$/;
+		const regex = /^[a-zA-Z0-9]{3,10}$/;
 		const labelText = inputField.current.value;
 		if(!regex.test(labelText)){
-			dispatch(setAlert('Lable Must Be A Single Word Less Than 15 Character! ❌'));
+			dispatch(setAlert('Lable Must Be A Single Word Between 3-10 Character! ❌'));
 			return;
 		}
 		let isAlreadyExit = false;

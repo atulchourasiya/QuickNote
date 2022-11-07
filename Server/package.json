@@ -2,7 +2,7 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "This is the backend of Quick note",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "start": "npx nodemon server.js"
   },

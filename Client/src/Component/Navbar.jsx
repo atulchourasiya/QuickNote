@@ -29,9 +29,11 @@ const Navbar = () => {
 
 	const dispatch = useDispatch();
 	let { listView } = useSelector((state) => state.view);
+	let { title } = useSelector((state) => state.view);
 	let { loading } = useSelector((state) => state.loading);
 	let { user } = useSelector((state) => state.user);
 	let { theme } = useSelector((state) => state.theme);
+
 
 	const handleSearch = () => {
 		logoContainer.current.style.display = 'none';
@@ -300,7 +302,6 @@ const Navbar = () => {
 			arrowIcon.current?.classList.add('d-none');
 		}
 	}, [loading]);
-
 	return (
 		<header>
 			<div className={`d-flex ${styles.headerContainer} `}>
@@ -318,7 +319,7 @@ const Navbar = () => {
 						</svg>
 					</div>
 					<img src={logo} alt='logo' className={styles.logoImg} />
-					<h1 className='ff fs-500 w-max pointer spacing fw-regular'>Quick Note</h1>
+					<h1 className='ff fs-500 w-max pointer spacing fw-regular'>{title}</h1>
 				</div>
 				<div ref={searchSection} className={`${styles.searchContainer} d-flex`}>
 					<div ref={searchBoxContainer} className={`${styles.searchBox}`}>
