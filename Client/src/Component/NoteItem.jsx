@@ -267,7 +267,7 @@ const NoteItem = (props) => {
 								lableContainer.current.classList.add('d-none');
 								refreshIsCheckedArray();
 							}}>
-							Cancle
+							Cancel
 						</button>
 						<button
 							className={` text-primary`}

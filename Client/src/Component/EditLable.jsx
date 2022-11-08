@@ -81,7 +81,7 @@ const EditLable = () => {
 				);
 			})}
 			<div className={`d-flex btn`}>
-				<button onClick={closeSetting}>Cancle</button>
+				<button onClick={closeSetting}>Cancel</button>
 				<button className={`text-primary`} onClick={addALable}>
 					Save
 				</button>

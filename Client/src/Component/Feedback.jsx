@@ -75,7 +75,7 @@ const Feedback = () => {
 					placeholder='Message'
 				/>
 				<div className={`d-flex btn`}>
-					<button onClick={closeFeedback}>Cancle</button>
+					<button onClick={closeFeedback}>Cancel</button>
 					<button onClick={sendEmail} className={`text-primary`}>
 						Send
 					</button>

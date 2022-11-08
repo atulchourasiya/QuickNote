@@ -123,7 +123,7 @@ const Reminder = (props) => {
 					onClick={() => {
 						props.setShowReminder(false);
 					}}>
-					Cancle
+					Cancel
 				</button>
 				<button id='Button' onClick={setReminder} className={`text-primary`}>
 					Save

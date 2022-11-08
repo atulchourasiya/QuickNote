@@ -112,7 +112,7 @@ const Setting = () => {
 				</div>
 			</div>
 			<div className={`d-flex btn`}>
-				<button onClick={closeSetting}>Cancle</button>
+				<button onClick={closeSetting}>Cancel</button>
 				{/* <button className={` text-primary`}>Save</button> */}
 			</div>
 		</section>

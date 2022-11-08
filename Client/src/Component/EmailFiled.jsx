@@ -68,7 +68,7 @@ const EmailFiled = () => {
 							dispatch(setIsUpdate(false));
 						}}
 						data-emailfieldbutton>
-						Cancle
+						Cancel
 					</button>
 					<button data-emailfieldbutton onClick={getSharedEmail}>
 						Save

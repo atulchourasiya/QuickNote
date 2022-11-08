@@ -1,7 +1,7 @@
 import Navbar from './Navbar';
 import Sidebar from './Sidebar';
 import Main from './Main';
-import { BrowserRouter } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
 import '../Styles/App.css';
 import Setting from './Setting';
 import Feedback from './Feedback';
@@ -10,7 +10,7 @@ import EditLables from './EditLable';
 
 function App() {
 	return (
-		<BrowserRouter>
+		<HashRouter>
 				<Alert/>
 				<Navbar />
 				<div className='d-flex'>
@@ -20,7 +20,7 @@ function App() {
 				<Setting />
 				<Feedback/>
 				<EditLables/>
-		</BrowserRouter>
+		</HashRouter>
 	);
 }
 
