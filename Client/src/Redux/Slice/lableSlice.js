@@ -27,7 +27,7 @@ export const fetchLable = createAsyncThunk('notes/fetchLable', async (user, { di
 	} catch (err) {
 		console.error(err);
 		dispatch(setLoading(false));
-		return null;
+		return [];
 	}
 });
 export const addLable = createAsyncThunk('notes/addLable', async (lable, { dispatch }) => {
@@ -63,7 +63,7 @@ const lableSlice = createSlice({
 			state.lable = action.payload;
 		},
 		[fetchLable.rejected]: (state) => {
-			state.lable = null;
+			state.lable = [];
 		}
 	}
 });
