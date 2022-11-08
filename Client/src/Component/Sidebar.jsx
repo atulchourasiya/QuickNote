@@ -10,7 +10,7 @@ const Sidebar = () => {
 	const { lable } = useSelector((state) => state.lable);
 	const [label, setLabel] = useState([]);
 	const [fetchArray, setFetchArray] = useState([]);
-	
+
 	const setFetchArrayFunc = () => {
 		const tempArray = [];
 		label.forEach((item) => {
@@ -72,9 +72,17 @@ const Sidebar = () => {
 						return (
 							<li
 								key={'sectionlist' + index}
-								onClick={_=>dispatch(
-									setTitle(section.text.charAt(0).toUpperCase() + section.text.slice(1).toLowerCase())
-								)}>
+								onClick={(_) => {
+									if (section.text !== 'Edit labels' && section.text !== 'Notes') {
+										dispatch(
+											setTitle(
+												section.text.charAt(0).toUpperCase() + section.text.slice(1).toLowerCase()
+											)
+										);
+									} else if (section.text === 'Notes') {
+										dispatch(setTitle('Quick Note'));
+									}
+								}}>
 								<SidebarSection
 									id={'sectionid' + index}
 									link={section.link}
