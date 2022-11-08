@@ -2,7 +2,11 @@ import styles from '../Styles/Sidebar.module.css';
 import SidebarSection from './SidebarSection';
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { setTitle } from '../Redux/Slice/viewSlice';
+
 const Sidebar = () => {
+	const dispatch = useDispatch();
 	const { lable } = useSelector((state) => state.lable);
 	const [label, setLabel] = useState([]);
 	const [fetchArray, setFetchArray] = useState([]);
@@ -66,7 +70,11 @@ const Sidebar = () => {
 				<ul>
 					{sectionArray.map((section, index) => {
 						return (
-							<li key={'sectionlist' + index}>
+							<li
+								key={'sectionlist' + index}
+								onClick={_=>dispatch(
+									setTitle(section.text.charAt(0).toUpperCase() + section.text.slice(1).toLowerCase())
+								)}>
 								<SidebarSection
 									id={'sectionid' + index}
 									link={section.link}

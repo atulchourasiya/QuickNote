@@ -4,10 +4,9 @@ import store from '../Redux/store';
 import { useRef, useEffect, useState } from 'react';
 import { deleteNote, updateNote } from '../Redux/Slice/notesSlice';
 import NoteItem from './NoteItem';
-import { Route, Routes, useLocation } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { setAlert } from '../Redux/Slice/alertSlice';
 import logo from '../Assets/Image/logo.png';
-import { setTitle } from '../Redux/Slice/viewSlice';
 
 const Notes = () => {
 	let { lable } = useSelector((state) => state.lable);
@@ -18,7 +17,6 @@ const Notes = () => {
 	let { newnotebottom } = useSelector((state) => state.setting);
 	let { tickednotebottom } = useSelector((state) => state.setting);
 	const noteContainer = useRef();
-	const history = useLocation();
 
 	const DeleteNote = async () => {
 		const Notes = await store.getState().notes.notes;
@@ -147,19 +145,6 @@ const Notes = () => {
 		}, 1000);
 	}, []);
 
-	useEffect(()=>{
-		let title = window.location.pathname;
-		if(title==='/')
-		{
-			title='Quick Note';
-		}
-		else
-		{
-			title = title.slice(0);
-			title = title.charAt(1).toUpperCase() + title.slice(2).toLowerCase()
-		}
-		dispatch(setTitle(title));
-	},[history])
 	
 	setPinNoteFirst();
 
