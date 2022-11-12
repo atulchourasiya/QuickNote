@@ -14,10 +14,10 @@ passport.deserializeUser(function (user, done) {
 passport.use(
 	new GoogleStrategy(
 		{
-			clientID: process.env.CLIENT,
-			clientSecret: process.env.CLIENT_SECRET,
-			callbackURL: process.env.CALLBACK_URL,
-			passReqToCallback: true
+			clientID:process.env.CLIENT,
+			clientSecret:process.env.CLIENT_SECRET,
+			callbackURL:process.env.CALLBACK_URL,
+			passReqToCallback:true
 		},
 		async function (request, accessToken, refreshToken, profile, done) {
 			try {
