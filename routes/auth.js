@@ -39,15 +39,14 @@ router.get(
 	function (req, res) {
 		try {
 			const token = signToken(req);
-			// res
-			// 	.cookie('jwt_auth', token, {
-			// 		maxAge: 11 * 60 * 60 * 1000,
-			// 		httpOnly: true,
-			// 		sameSite: true,
-			// 		secure: true
-			// 	})
-			// 	.redirect(process.env.CLIENT_URL);
-			res.redirect(process.env.CLIENT_URL);
+			res
+				.cookie('jwt_auth', token, {
+					maxAge: 11 * 60 * 60 * 1000,
+					httpOnly: true,
+					sameSite: true,
+					secure: true
+				})
+				.redirect(process.env.CLIENT_URL);
 		} catch (err) {
 			throw err;
 		}
