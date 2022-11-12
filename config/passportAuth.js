@@ -14,9 +14,9 @@ passport.deserializeUser(function (user, done) {
 passport.use(
 	new GoogleStrategy(
 		{
-			clientID: '818937086636-bppn04oi0e31o8rv5cbhl98nbn8hu03c.apps.googleusercontent.com',
-			clientSecret: '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',
-			callbackURL: 'https://quicknote.cyclic.app/auth/google/callback',
+			clientID: process.env.CLIENT,
+			clientSecret: process.env.CLIENT_SECRET,
+			callbackURL: process.env.CALLBACK_URL,
 			passReqToCallback: true
 		},
 		async function (request, accessToken, refreshToken, profile, done) {
