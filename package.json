@@ -4,7 +4,7 @@
   "description": "This is the backend of Quick note",
   "main": "server.js",
   "scripts": {
-    "start": "npx nodemon server.js"
+    "start": "node server.js"
   },
   "author": "Atul chourasiya",
   "license": "ISC",
