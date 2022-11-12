@@ -25,7 +25,6 @@ router.get(
 	passport.authenticate('google', {
 		scope: ['email', 'profile'],
 		session: false,
-		prompt: "consent"
 	})
 );
 
@@ -34,7 +33,6 @@ router.get(
 	passport.authenticate('google', {
 		session: false,
 		failureRedirect: '/failed',
-		prompt: 'consent'
 	}),
 	function (req, res) {
 		try {
