@@ -23,6 +23,8 @@ router.post('/success', auth, (req, res) => {
 router.get(
 	'/google',
 	passport.authenticate('google', {
+		prompt:'consent',
+		response_type:'code',
 		scope: ['email', 'profile'],
 		session: false
 	})
@@ -36,9 +38,7 @@ router.get(
 	}),
 	function (req, res) {
 		try {
-			console.log(req);
-			req.query.code = decodeURI(req.query.code);
-			const token = signToken(req);
+			const token = signToken(decodeURI(req));
 			console.log(process.env.CLIENT_URL);
 			res
 				.cookie('jwt_auth', token, {
