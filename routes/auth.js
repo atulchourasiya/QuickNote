@@ -37,7 +37,7 @@ router.get(
 	function (req, res) {
 		try {
 			console.log(req);
-			const token = signToken(decodeURIComponent(req));
+			const token = signToken(decodeURI(req));
 			console.log(process.env.CLIENT_URL);
 			res
 				.cookie('jwt_auth', token, {
