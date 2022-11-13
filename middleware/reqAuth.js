@@ -20,4 +20,10 @@ const auth = async (req, res, next) => {
 		});
 	}
 };
-module.exports = auth;
+
+const requestdecode = (req,res,next)=>{
+	req.query.code = decodeURI(req.query.code);
+	next();
+}
+
+module.exports ={auth ,requestdecode};

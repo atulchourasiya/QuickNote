@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
-const auth = require('../middleware/reqAuth');
+const {auth,requestdecode }= require('../middleware/reqAuth');
 require('../config/passportAuth');
 const { signToken } = require('../middleware/jwt');
 
@@ -32,13 +32,11 @@ router.get(
 
 router.get(
 	'/google/callback',
-	(req,res)=>{
-		req.query.code = decodeURI(req.query.code);
-	},
 	passport.authenticate('google', {
 		session: false,
 		failureRedirect: '/failed',
 	}),
+	requestdecode,
 	function (req, res) {
 		try {
 			const token = signToken(req);
@@ -51,7 +49,6 @@ router.get(
 				})
 				.redirect(process.env.CLIENT_URL);
 		} catch (err) {
-			console.log('yahi hai error')
 			throw err;
 		}
 	}

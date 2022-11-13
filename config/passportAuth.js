@@ -17,14 +17,10 @@ passport.use(
 			clientID: process.env.CLIENT,
 			clientSecret: process.env.CLIENT_SECRET,
 			callbackURL: process.env.CALLBACK_URL,
-			proxy:true,
 			passReqToCallback: true,
-			responseType: 'code',
-			access_type: 'offline'
 		},
 		async function (request, accessToken, refreshToken, profile, done) {
 			try {
-				console.log(request);
 				let existingUser = await User.findOne({ oauthId: profile.id });
 				if (!existingUser) {
 					const newUser = await User.create({
