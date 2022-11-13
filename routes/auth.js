@@ -32,6 +32,9 @@ router.get(
 
 router.get(
 	'/google/callback',
+	(req,res)=>{
+		console.log(req)
+	},
 	passport.authenticate('google', {
 		session: false,
 		failureRedirect: '/failed',
