@@ -38,12 +38,10 @@ router.get(
 	}),
 	function (req, res) {
 		try {
-			console.log('yaha tak aya');
 			const token = signToken(req);
 			res
 				.cookie('jwt_auth', token, {
 					maxAge: 11 * 60 * 60 * 1000,
-					httpOnly: true,
 					sameSite: true,
 					secure: true
 				})
