@@ -36,6 +36,7 @@ router.get(
 	}),
 	function (req, res) {
 		try {
+			console.log('yaha tak aya');
 			const token = signToken(req);
 			res
 				.cookie('jwt_auth', token, {
@@ -46,6 +47,7 @@ router.get(
 				})
 				.redirect(process.env.CLIENT_URL);
 		} catch (err) {
+			console.log('yahi hai error')
 			throw err;
 		}
 	}
