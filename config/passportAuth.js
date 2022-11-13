@@ -17,9 +17,12 @@ passport.use(
 			clientID: process.env.CLIENT,
 			clientSecret: process.env.CLIENT_SECRET,
 			callbackURL: process.env.CALLBACK_URL,
-			passReqToCallback: true,
+			passReqToCallback: true
 		},
 		async function (request, accessToken, refreshToken, profile, done) {
+			console.log('in passport use');
+
+			console.log(request);
 			try {
 				let existingUser = await User.findOne({ oauthId: profile.id });
 				if (!existingUser) {

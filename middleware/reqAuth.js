@@ -22,7 +22,7 @@ const auth = async (req, res, next) => {
 };
 
 const requestdecode = (req,res,next)=>{
-	console.log(req.query.code);
+	console.log(req);
 	req.query.code = decodeURI(req.query.code);
 	next();
 }
