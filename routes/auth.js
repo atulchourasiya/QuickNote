@@ -44,7 +44,7 @@ router.get(
 				.cookie('jwt_auth', token, {
 					maxAge: 11 * 60 * 60 * 1000,
 					httpOnly: false,
-					sameSite: none,
+					sameSite: true,
 				})
 				.redirect(process.env.CLIENT_URL);
 		} catch (err) {
