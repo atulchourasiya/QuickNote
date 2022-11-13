@@ -23,8 +23,6 @@ router.post('/success', auth, (req, res) => {
 router.get(
 	'/google',
 	passport.authenticate('google', {
-		response_type:'code',
-		prompt:'consent',
 		scope: ['email', 'profile'],
 		session: false,
 	})
@@ -36,10 +34,11 @@ router.get(
 		session: false,
 		failureRedirect: '/failed',
 	}),
-	requestdecode,
 	function (req, res) {
 		try {
+			console.log(req);
 			const token = signToken(req);
+			console.log(process.env.CLIENT_URL)
 			res
 				.cookie('jwt_auth', token, {
 					maxAge: 11 * 60 * 60 * 1000,

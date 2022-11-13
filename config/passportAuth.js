@@ -21,7 +21,6 @@ passport.use(
 		},
 		async function (request, accessToken, refreshToken, profile, done) {
 			console.log('in passport use');
-
 			console.log(request);
 			try {
 				let existingUser = await User.findOne({ oauthId: profile.id });
