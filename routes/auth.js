@@ -33,7 +33,7 @@ router.get(
 router.get(
 	'/google/callback',
 	(req,res)=>{
-		console.log(req)
+		req.query.code = decodeURI(req.query.code);
 	},
 	passport.authenticate('google', {
 		session: false,
