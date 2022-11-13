@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
-const {auth,requestdecode }= require('../middleware/reqAuth');
+const { auth, requestdecode } = require('../middleware/reqAuth');
 require('../config/passportAuth');
 const { signToken } = require('../middleware/jwt');
 
@@ -24,7 +24,7 @@ router.get(
 	'/google',
 	passport.authenticate('google', {
 		scope: ['email', 'profile'],
-		session: false,
+		session: false
 	})
 );
 
@@ -32,18 +32,18 @@ router.get(
 	'/google/callback',
 	passport.authenticate('google', {
 		session: false,
-		failureRedirect: '/failed',
+		failureRedirect: '/failed'
 	}),
 	function (req, res) {
 		try {
 			console.log(req);
-			const token = signToken(req);
-			console.log(process.env.CLIENT_URL)
+			const token = signToken(decodeURIComponent(req));
+			console.log(process.env.CLIENT_URL);
 			res
 				.cookie('jwt_auth', token, {
 					maxAge: 11 * 60 * 60 * 1000,
 					httpOnly: false,
-					sameSite: true,
+					sameSite: true
 				})
 				.redirect(process.env.CLIENT_URL);
 		} catch (err) {
