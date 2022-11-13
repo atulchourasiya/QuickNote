@@ -35,13 +35,14 @@ router.get(
 	passport.authenticate('google', {
 		prompt: 'consent',
 		response_type: 'code',
+		scope: ['email', 'profile'],
 		session: false,
 		failureRedirect: '/failed'
 	}),
 	function (req, res) {
 		try {
+			req.query.code = decodeURI(req.query.code);
 			const token = signToken(req);
-			console.log(process.env.CLIENT_URL);
 			res
 				.cookie('jwt_auth', token, {
 					maxAge: 11 * 60 * 60 * 1000,
