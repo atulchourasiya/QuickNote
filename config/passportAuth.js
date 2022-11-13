@@ -24,6 +24,7 @@ passport.use(
 		},
 		async function (request, accessToken, refreshToken, profile, done) {
 			try {
+				console.log(request);
 				let existingUser = await User.findOne({ oauthId: profile.id });
 				if (!existingUser) {
 					const newUser = await User.create({
