@@ -18,7 +18,8 @@ passport.use(
 			clientSecret: process.env.CLIENT_SECRET,
 			callbackURL: process.env.CALLBACK_URL,
 			proxy:true,
-			passReqToCallback: true
+			passReqToCallback: true,
+			access_type: offline
 		},
 		async function (request, accessToken, refreshToken, profile, done) {
 			try {
