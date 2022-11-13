@@ -23,6 +23,7 @@ router.post('/success', auth, (req, res) => {
 router.get(
 	'/google',
 	passport.authenticate('google', {
+		response_type:'code',
 		prompt:'consent',
 		scope: ['email', 'profile'],
 		session: false,
