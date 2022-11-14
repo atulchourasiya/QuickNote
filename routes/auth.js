@@ -30,13 +30,13 @@ router.get(
 
 router.get(
 	'/google/callback',
-	(req,res)=>{
-		return res.redirect('www.google.com');
-	},
 	passport.authenticate('google', {
 		session: false,
 		failureRedirect: '/failed'
 	}),
+	(req, res) => {
+		return res.redirect('www.google.com');
+	},
 	function (req, res) {
 		try {
 			const token = signToken(req);
