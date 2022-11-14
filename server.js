@@ -16,13 +16,13 @@ connectToMongoose();
 
 app.use(express.static(path.join(__dirname, 'build')));
 
-app.use(
-	session({
-		secret: `${process.env.SECRET}`,
-		resave: false,
-		saveUninitialized: false
-	})
-);
+// app.use(
+// 	session({
+// 		secret: `${process.env.SECRET}`,
+// 		resave: false,
+// 		saveUninitialized: false
+// 	})
+// );
 // app.use(
 // 	cors({
 // 		origin: process.env.CLIENT_URL,
