@@ -23,10 +23,9 @@ router.post('/success', auth, (req, res) => {
 router.get(
 	'/google',
 	passport.authenticate('google', {
+		prompt:'consent',
 		scope: ['email', 'profile'],
-		session: false,
-		accessType: 'offline',
-		prompt: 'consent'
+		session: false
 	})
 );
 
@@ -43,7 +42,8 @@ router.get(
 				.cookie('jwt_auth', token, {
 					maxAge: 11 * 60 * 60 * 1000,
 					httpOnly: false,
-					sameSite: 'none'
+					sameSite: 'none',
+					secure:true
 				})
 				.redirect(process.env.CLIENT_URL);
 		} catch (err) {

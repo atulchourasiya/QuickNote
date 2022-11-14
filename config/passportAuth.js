@@ -14,15 +14,12 @@ passport.deserializeUser(function (user, done) {
 passport.use(
 	new GoogleStrategy(
 		{
-			clientID: process.env.CLIENT,
-			clientSecret: process.env.CLIENT_SECRET,
-			callbackURL: '/auth/google/callback',
-			accessType: 'offline',
-			proxy: true,
+			clientID: `${process.env.CLIENT}`,
+			clientSecret: `${process.env.CLIENT_SECRET}`,
+			callbackURL: `${process.env.CALLBACK_URL}`,
 			passReqToCallback: true
 		},
 		async function (request, accessToken, refreshToken, profile, done) {
-			console.log(request);
 			try {
 				let existingUser = await User.findOne({ oauthId: profile.id });
 				if (!existingUser) {
