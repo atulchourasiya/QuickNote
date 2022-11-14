@@ -24,7 +24,9 @@ router.get(
 	'/google',
 	passport.authenticate('google', {
 		scope: ['email', 'profile'],
-		session: false
+		session: false,
+		accessType: 'offline',
+		prompt: 'consent'
 	})
 );
 
@@ -34,9 +36,6 @@ router.get(
 		session: false,
 		failureRedirect: '/failed'
 	}),
-	(req, res) => {
-		return res.redirect('www.google.com');
-	},
 	function (req, res) {
 		try {
 			const token = signToken(req);
