@@ -33,6 +33,8 @@ router.get(
 router.get(
 	'/google/callback',
 	passport.authenticate('google', {
+		accessType: 'offline',
+		prompt: 'consent',
 		session: false,
 		failureRedirect: '/failed'
 	}),
