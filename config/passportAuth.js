@@ -19,6 +19,7 @@ passport.use(
 			callbackURL: process.env.CALLBACK_URL,
 			userProfileURL: 'https://www.googleapis.com/oauth2/v3/userinfo',
 			accessType: 'offline',
+			proxy:true,
 			passReqToCallback: true
 		},
 		async function (request, accessToken, refreshToken, profile, done) {
