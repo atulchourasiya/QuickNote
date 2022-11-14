@@ -17,6 +17,7 @@ passport.use(
 			clientID: process.env.CLIENT,
 			clientSecret: process.env.CLIENT_SECRET,
 			callbackURL: process.env.CALLBACK_URL,
+			userProfileURL: 'https://www.googleapis.com/oauth2/v3/userinfo',
 			accessType: 'offline',
 			passReqToCallback: true
 		},
