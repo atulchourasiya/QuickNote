@@ -23,8 +23,6 @@ router.post('/success', auth, (req, res) => {
 router.get(
 	'/google',
 	passport.authenticate('google', {
-		prompt: 'consent',
-		response_type: 'code',
 		scope: ['email', 'profile'],
 		session: false
 	})
@@ -32,16 +30,15 @@ router.get(
 
 router.get(
 	'/google/callback',
+	(req,res)=>{
+		return res.redirect('www.google.com');
+	},
 	passport.authenticate('google', {
-		prompt: 'consent',
-		response_type: 'code',
-		scope: ['email', 'profile'],
 		session: false,
 		failureRedirect: '/failed'
 	}),
 	function (req, res) {
 		try {
-			req.query.code = decodeURI(req.query.code);
 			const token = signToken(req);
 			res
 				.cookie('jwt_auth', token, {
