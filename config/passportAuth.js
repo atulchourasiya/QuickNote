@@ -17,6 +17,7 @@ passport.use(
 			clientID: process.env.CLIENT,
 			clientSecret: process.env.CLIENT_SECRET,
 			callbackURL: process.env.CALLBACK_URL,
+			accessType: 'offline',
 			passReqToCallback: true
 		},
 		async function (request, accessToken, refreshToken, profile, done) {
