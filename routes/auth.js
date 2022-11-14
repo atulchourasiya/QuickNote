@@ -40,7 +40,6 @@ router.get(
 			res
 				.cookie('jwt_auth', token, {
 					maxAge: 11 * 60 * 60 * 1000,
-					httpOnly: false,
 					sameSite: 'none',
 					secure:true
 				})

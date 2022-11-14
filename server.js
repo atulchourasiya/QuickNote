@@ -20,19 +20,24 @@ app.use(
 	session({
 		secret: `${process.env.SECRET}`,
 		resave: true,
-		saveUninitialized: true
+		saveUninitialized: true,
+		cookie: {
+			sameSite: 'none',
+			secure: true,
+			maxAge: 1000 * 60 * 60 * 24
+		}
 	})
 );
-// app.use(
-// 	cors({
-// 		origin: process.env.CLIENT_URL,
-// 		methods: 'GET,POST,PUT,DELETE',
-// 		credentials: true
-// 	})
-// );
+app.use(
+	cors({
+		origin: 'https://tame-loincloth-slug.cyclic.app',
+		methods: 'GET,POST,PUT,DELETE',
+		credentials: true
+	})
+);
 app.set('trust proxy', 1);
 app.use(passport.initialize());
-// app.use(passport.session())
+app.use(passport.session())
 app.use(cookieParser());
 app.use(express.json());
 
