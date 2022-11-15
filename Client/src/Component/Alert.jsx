@@ -7,14 +7,14 @@ const Alert = () => {
 	const alertContainer = useRef();
 	const { alert } = useSelector((state) => state.alert);
 	const cancleAlert = () => {
-		alertContainer.current.classList.add('d-none');
+		alertContainer.current?.classList.add('d-none');
 		dispatch(setAlert(null));
 	};
 	useEffect(() => {
 		if (alert !== null) {
-			alertContainer.current.classList.remove('d-none');
+			alertContainer.current?.classList.remove('d-none');
 			setTimeout(() => {
-				alertContainer.current.classList.add('d-none');
+				alertContainer.current?.classList.add('d-none');
 				dispatch(setAlert(null));
 			}, 3000);
 		}
