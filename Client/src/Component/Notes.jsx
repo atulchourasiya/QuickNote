@@ -46,10 +46,13 @@ const Notes = () => {
 					if (Notification.permission !== 'granted') {
 						dispatch(setAlert('Notification Permission is denied!❌'));
 					} else {
-						new Notification(note.title === '' ? `QuickNote Reminder` : note.title, {
-							tag: note._id,
-							body: `${note.note[0]}`,
-							icon: logo
+						navigator.serviceWorker.register('sw.js');
+						navigator.serviceWorker.ready.then(function (registration) {
+							registration.showNotification(note.title === '' ? `QuickNote Reminder` : note.title, {
+								tag: note._id,
+								body: `${note.note[0]}`,
+								icon: logo
+							});
 						});
 					}
 					const updatedNoteObj = {
@@ -145,31 +148,23 @@ const Notes = () => {
 		}, 1000);
 	}, []);
 
-	
 	setPinNoteFirst();
 
 	return (
 		<div ref={noteContainer} className={`d-flex justify-center ${styles.noteContainer}`}>
 			{Note.map((note, index) => {
 				return (
-					<Routes
-						key={'noteid' + index}
-						>
-						<Route
-							path='/'
-							element={note.archive || note.bin ? '' : <NoteItem note={note}  />}
-						/>
+					<Routes key={'noteid' + index}>
+						<Route path='/' element={note.archive || note.bin ? '' : <NoteItem note={note} />} />
 						<Route
 							path='/reminder'
-							element={
-								note.reminder !== '' && !note.bin ? <NoteItem note={note} /> : ''
-							}
+							element={note.reminder !== '' && !note.bin ? <NoteItem note={note} /> : ''}
 						/>
 						<Route
 							path='/archive'
 							element={note.archive && !note.bin ? <NoteItem note={note} /> : ''}
 						/>
-						<Route path='/bin' element={note.bin ? <NoteItem note={note}  /> : ''} />
+						<Route path='/bin' element={note.bin ? <NoteItem note={note} /> : ''} />
 						{label.map((item, index) => {
 							return (
 								<Route
@@ -177,9 +172,7 @@ const Notes = () => {
 									path={'/' + item.toLowerCase()}
 									element={
 										note.tag.includes(item) && !note.archive && !note.bin ? (
-											<NoteItem
-												note={note}
-											/>
+											<NoteItem note={note} />
 										) : (
 											''
 										)
