@@ -10,7 +10,6 @@ import { setBeforeState } from '../Redux/Slice/beforeState';
 import { setSharedEmail } from '../Redux/Slice/sharedEmail';
 import CheckBox from './CheckBox';
 import Reminder from './Reminder';
-import { setAlert } from '../Redux/Slice/alertSlice';
 
 const InputField = () => {
 	const [pin, setPin] = useState(false);
@@ -122,7 +121,7 @@ const InputField = () => {
 		const email = [store.getState().user.user?.email];
 		const isChecked = [];
 		if (!email[0]) {
-			dispatch(setAlert('Something Went wrong!❌'));
+			alert('Something Went wrong');
 			return;
 		}
 		if (sharedEmail !== null && isUpdate === false) {
@@ -142,11 +141,9 @@ const InputField = () => {
 			check: currentshowCheckList.current,
 			archive: currentArchive.current,
 			deleteDate: '',
-			reminder: currentReminderValue.current
+			reminder: currentReminderValue.current,
 		};
-		if (note.title === '' && note.note.length === 0)
-			dispatch(setAlert('Cannot Save Empty Note!❌'));
-		else dispatch(addANote(note));
+		dispatch(addANote(note));
 		dispatch(setSharedEmail(null));
 	};
 	const beforeNoteState = useRef({});
@@ -252,7 +249,7 @@ const InputField = () => {
 		currentCheckListIndexArray.current = [...checkListIndexArray];
 		currentIsChecked.current = [...isChecked];
 		currentReminderValue.current = reminderValue;
-	}, [pin, showCheckList, archive, checkListIndexArray, isChecked, reminderValue]);
+	}, [pin, showCheckList, archive, checkListIndexArray, isChecked,reminderValue]);
 
 	useEffect(() => {
 		if (openClose.current) {
