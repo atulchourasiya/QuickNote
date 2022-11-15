@@ -9,21 +9,16 @@ const initialState = {
 export const fetchAllNotes = createAsyncThunk('notes/fetchAllNotes', async (user, { dispatch }) => {
 	dispatch(setLoading(true));
 	try {
-		const response = await fetch(
-			process.env.NODE_ENV === 'production'
-				? `${process.env.REACT_APP_HOST}/note/fetchAllNotes`
-				: 'http://localhost:5000/note/fetchAllNotes',
-			{
-				method: 'POST',
-				credentials: 'include',
-				headers: {
-					Accept: 'application/json',
-					'Content-Type': 'application/json',
-					'Access-Control-Allow-Credentials': true
-				},
-				body: JSON.stringify({ email: user })
-			}
-		);
+		const response = await fetch(`${process.env.REACT_APP_API_HOST}/note/fetchAllNotes`, {
+			method: 'POST',
+			credentials: 'include',
+			headers: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json',
+				'Access-Control-Allow-Credentials': true
+			},
+			body: JSON.stringify({ email: user })
+		});
 		if (response.status === 200) {
 			const json = await response.json();
 			dispatch(setLoading(false));
@@ -38,18 +33,13 @@ export const fetchAllNotes = createAsyncThunk('notes/fetchAllNotes', async (user
 export const addANote = createAsyncThunk('notes/addNote', async (note, { dispatch }) => {
 	dispatch(setLoading(true));
 	try {
-		const response = await fetch(
-			process.env.NODE_ENV === 'production'
-				? `${process.env.REACT_APP_HOST}/note/addNote`
-				: 'http://localhost:5000/note/addNote',
-			{
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify(note)
-			}
-		);
+		const response = await fetch(`${process.env.REACT_APP_API_HOST}/note/addNote`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(note)
+		});
 		if (response.status === 200) {
 			const res = await response.json();
 			dispatch(setAlert('Note Is Added Successfully!✅'));
@@ -70,9 +60,7 @@ export const updateNote = createAsyncThunk(
 		dispatch(setLoading(true));
 		try {
 			const response = await fetch(
-				process.env.NODE_ENV === 'production'
-					? `${process.env.REACT_APP_HOST}/note/updateNote/${updatedNoteObj.id}`
-					: `http://localhost:5000/note/updateNote/${updatedNoteObj.id}`,
+				`${process.env.REACT_APP_API_HOST}/note/updateNote/${updatedNoteObj.id}`,
 				{
 					method: 'PUT',
 					headers: {
@@ -98,9 +86,7 @@ export const deleteNote = createAsyncThunk('notes/deleteNote', async (deleteNote
 	dispatch(setLoading(true));
 	try {
 		const response = await fetch(
-			process.env.NODE_ENV === 'production'
-				? `${process.env.REACT_APP_HOST}/note/deleteNote/${deleteNoteObj.id}`
-				: `http://localhost:5000/note/deleteNote/${deleteNoteObj.id}`,
+			`${process.env.REACT_APP_API_HOST}/note/deleteNote/${deleteNoteObj.id}`,
 			{
 				method: 'DELETE',
 				headers: {

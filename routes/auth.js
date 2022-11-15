@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
-const { auth } = require('../middleware/reqAuth');
+const { auth, requestdecode } = require('../middleware/reqAuth');
 require('../config/passportAuth');
 const { signToken } = require('../middleware/jwt');
 
@@ -43,7 +43,7 @@ router.get(
 					sameSite: 'none',
 					secure:true
 				})
-				.redirect(process.env.NODE_ENV==='production'?process.env.CLIENT_URL:'http://localhost:3000');
+				.redirect(process.env.CLIENT_URL);
 		} catch (err) {
 			throw err;
 		}

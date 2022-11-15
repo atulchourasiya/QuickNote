@@ -490,7 +490,7 @@ const Navbar = () => {
 								<a href='https://github.com/atulchourasiya'>
 									<li>About Developer</li>
 								</a>
-								<a href={(process.env.NODE_ENV==='production')?`${process.env.REACT_APP_HOST}/auth/logout`:'http://localhost:5000/auth/logout'}>
+								<a href={`${process.env.REACT_APP_API_HOST}/auth/logout`}>
 									<li>Logout</li>
 								</a>
 							</ul>

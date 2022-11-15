@@ -30,7 +30,7 @@ app.use(
 );
 app.use(
 	cors({
-		origin: process.env.NODE_ENV==='production'?'https://quicknote.onrender.com':'http://localhost:3000',
+		origin: 'https://quicknote.onrender.com',
 		methods: 'GET,POST,PUT,DELETE',
 		credentials: true
 	})
@@ -44,11 +44,9 @@ app.use(express.json());
 app.use('/auth', auth);
 app.use('/note', note);
 app.use('/note', asset);
-if (process.env.NODE_ENV==='production'){
-	app.get('/*', function (req, res) {
-		res.sendFile(path.join(__dirname, 'build', 'index.html'));
-	});
-}
+app.get('/*', function (req, res) {
+	res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
 
 app.listen(PORT, () => {
 	console.log(`Congrats! your server is listening on port ${PORT}`);

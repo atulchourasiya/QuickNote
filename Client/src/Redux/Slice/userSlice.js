@@ -10,20 +10,15 @@ const initialState = {
 export const getUser = createAsyncThunk('user/getUser', async (_, { dispatch }) => {
 	dispatch(setLoading(true));
 	try {
-		const response = await fetch(
-			process.env.NODE_ENV === 'production'
-				? `${process.env.REACT_APP_HOST}/auth/success`
-				: 'http://localhost:5000/auth/success',
-			{
-				method: 'POST',
-				credentials: 'include',
-				headers: {
-					Accept: 'application/json',
-					'Content-Type': 'application/json',
-					'Access-Control-Allow-Credentials': true
-				}
+		const response = await fetch(`${process.env.REACT_APP_API_HOST}/auth/success`, {
+			method: 'POST',
+			credentials: 'include',
+			headers: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json',
+				'Access-Control-Allow-Credentials': true
 			}
-		);
+		});
 		if (response.status === 200) {
 			const json = await response.json();
 			dispatch(fetchAllNotes(json.user.email));
@@ -34,12 +29,7 @@ export const getUser = createAsyncThunk('user/getUser', async (_, { dispatch }) 
 	} catch (err) {
 		console.error(err);
 		dispatch(setLoading(false));
-		window.open(
-			process.env.NODE_ENV === 'production'
-				? `${process.env.REACT_APP_HOST}/auth/google`
-				: 'http://localhost:5000/auth/google',
-			'_self'
-		);
+		window.open(`${process.env.REACT_APP_API_HOST}/auth/google`, '_self');
 		return null;
 	}
 });
