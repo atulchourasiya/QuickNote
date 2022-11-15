@@ -16,7 +16,7 @@
 
 .feedbackForm {
 	flex-direction: column;
-	background-color: var(--bg-light);
+	background-color: var(--bg-clr);
 	padding: var(--size-200) var(--size-400);
 }
 
@@ -29,6 +29,8 @@
 
 .feedbackMessage {
 	padding-left: var(--size-400);
+	background-color: var(--bg-clr);
+	color: var(--text-clr);
 	margin: var(--size-200) 0;
 	resize: none;
 	width: 18rem;
