@@ -21,16 +21,16 @@ app.use(
 		secret: `${process.env.SECRET}`,
 		resave: true,
 		saveUninitialized: true,
-		cookie: {
-			sameSite: 'none',
-			secure: true,
-			maxAge: 1000 * 60 * 60 * 24
-		}
+		// cookie: {
+		// 	sameSite: 'none',
+		// 	secure: true,
+		// 	maxAge: 1000 * 60 * 60 * 24
+		// }
 	})
 );
 app.use(
 	cors({
-		origin: 'https://tame-loincloth-slug.cyclic.app',
+		origin: 'https://quicknote.onrender.com',
 		methods: 'GET,POST,PUT,DELETE',
 		credentials: true
 	})
