@@ -19,13 +19,8 @@ app.use(express.static(path.join(__dirname, 'build')));
 app.use(
 	session({
 		secret: `${process.env.SECRET}`,
-		resave: true,
-		saveUninitialized: true,
-		// cookie: {
-		// 	sameSite: 'none',
-		// 	secure: true,
-		// 	maxAge: 1000 * 60 * 60 * 24
-		// }
+		resave: false,
+		saveUninitialized: false
 	})
 );
 app.use(
@@ -37,7 +32,7 @@ app.use(
 );
 app.set('trust proxy', 1);
 app.use(passport.initialize());
-app.use(passport.session())
+app.use(passport.session());
 app.use(cookieParser());
 app.use(express.json());
 
