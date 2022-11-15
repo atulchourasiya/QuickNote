@@ -46,6 +46,7 @@ const Notes = () => {
 					if (Notification.permission !== 'granted') {
 						dispatch(setAlert('Notification Permission is denied!❌'));
 					} else {
+						alert("notification popping up");
 						new Notification(note.title === '' ? `QuickNote Reminder` : note.title, {
 							tag: note._id,
 							body: `${note.note[0]}`,
