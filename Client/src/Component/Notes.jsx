@@ -15,7 +15,6 @@ const Notes = () => {
 	let { listView } = useSelector((state) => state.view);
 	let { notes } = useSelector((state) => state.notes);
 	let { newnotebottom } = useSelector((state) => state.setting);
-	let { tickednotebottom } = useSelector((state) => state.setting);
 	const noteContainer = useRef();
 
 	const DeleteNote = async () => {
@@ -77,34 +76,6 @@ const Notes = () => {
 		}
 	};
 
-	const tickedNoteBottom = () => {
-		if (tickednotebottom === true) {
-			const newNote = [];
-			Note.forEach((item) => {
-				let NoteCheckListTrue = [];
-				let NoteCheckListFalse = [];
-				let IsCheckedTrue = [];
-				let IsCheckedFalse = [];
-				item.note.forEach((list, index) => {
-					if (item.isChecked[index].isChecked) {
-						IsCheckedTrue.push(item.isChecked[index]);
-						NoteCheckListTrue.push(list);
-					} else {
-						IsCheckedFalse.push(item.isChecked[index]);
-						NoteCheckListFalse.push(list);
-					}
-				});
-				const { note, isChecked, ...rest } = { ...item };
-				newNote.push({
-					note: [...NoteCheckListFalse, ...NoteCheckListTrue],
-					isChecked: [...IsCheckedFalse, ...IsCheckedTrue],
-					...rest
-				});
-			});
-			Note = [...newNote];
-		}
-	};
-
 	const setPinNoteFirst = () => {
 		setNewNoteBottom();
 		const pinnedNote = [];
@@ -117,7 +88,6 @@ const Notes = () => {
 			}
 		});
 		Note = [...pinnedNote, ...restNote];
-		tickedNoteBottom();
 	};
 
 	useEffect(() => {

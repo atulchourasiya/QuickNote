@@ -125,7 +125,7 @@ const InputField = () => {
 			dispatch(setAlert('Something Went Wrong!❌'));
 			return;
 		}
-		if (sharedEmail !== null && isUpdate === false) {
+		if (email[0] !== sharedEmail && sharedEmail !== null && isUpdate === false) {
 			email.push(sharedEmail);
 		}
 		currentCheckListIndexArray.current.forEach((item) => {
@@ -159,6 +159,7 @@ const InputField = () => {
 		} else {
 			dispatch(addANote(note));
 		}
+		setReminderValue('');
 		dispatch(setSharedEmail(null));
 	};
 	const beforeNoteState = useRef({});

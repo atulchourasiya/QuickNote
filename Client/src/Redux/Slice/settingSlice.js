@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
 	newnotebottom: true,
-	tickednotebottom: true,
 	morning: '06:00',
 	afternoon: '12:00',
 	evening: '17:00'
@@ -12,9 +11,6 @@ const settingSlice = createSlice({
 	reducers: {
 		setNewNoteBottom(state, action) {
 			state.newnotebottom = action.payload;
-		},
-		setTickedNoteBottom(state, action) {
-			state.tickednotebottom = action.payload;
 		},
 		setMorningTime(state, action) {
 			state.morning = action.payload;
@@ -30,7 +26,6 @@ const settingSlice = createSlice({
 
 export const {
 	setNewNoteBottom,
-	setTickedNoteBottom,
 	setMorningTime,
 	setAfternoonTime,
 	setEveningTime,

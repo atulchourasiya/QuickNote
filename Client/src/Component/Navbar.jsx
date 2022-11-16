@@ -508,8 +508,8 @@ const Navbar = () => {
 					<div
 						ref={accountMenu}
 						className={`${styles.dropdownMenu} ${styles.account} d-flex fs-400 w-max`}>
-						<p>{user?.name ?? 'Atul Chourasiya'}</p>
-						<p>{user?.email ?? 'Example@gmail.com'}</p>
+						<p>{user?.name ?? 'Your Name'}</p>
+						<p>{user?.email ?? 'yourEmail@gmail.com'}</p>
 					</div>
 				</div>
 			</div>

@@ -7,13 +7,11 @@ import {
 	setEveningTime,
 	setMorningTime,
 	setNewNoteBottom,
-	setTickedNoteBottom
 } from '../Redux/Slice/settingSlice';
 
 const Setting = () => {
 	let { theme } = useSelector((state) => state.theme);
 	let { newnotebottom } = useSelector((state) => state.setting);
-	let { tickednotebottom } = useSelector((state) => state.setting);
 	const morning = useRef();
 	const afternoon = useRef();
 	const evening = useRef();
@@ -61,17 +59,6 @@ const Setting = () => {
 									: dispatch(setNewNoteBottom(true));
 							}}
 							defaultChecked={newnotebottom ? true : false}></input>
-					</div>
-					<div className={`d-flex align-center ${styles.settingList}`}>
-						<p className={`ff`}>Move ticked items to bottom</p>
-						<input
-							type='checkbox'
-							onClick={() => {
-								tickednotebottom === true
-									? dispatch(setTickedNoteBottom(false))
-									: dispatch(setTickedNoteBottom(true));
-							}}
-							defaultChecked={tickednotebottom ? true : false}></input>
 					</div>
 					<div className={`d-flex align-center ${styles.settingList}`}>
 						<p className={`ff`}>Enable dark theme</p>

@@ -1,6 +1,6 @@
 import styles from '../Styles/Reminder.module.css';
 import { useRef, useEffect } from 'react';
-import { useSelector,useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { setAlert } from '../Redux/Slice/alertSlice';
 
 const Reminder = (props) => {
@@ -42,28 +42,38 @@ const Reminder = (props) => {
 		timeRef.current?.setAttribute('min', time);
 	};
 
-	const setReminder = (event) => {
-		const Current = new Date();
-		let reminder;
-		if (event.target.closest('#Morning')) {
-			reminder = new Date(`${dateRef.current.value} ${morning}:00`);
-		}
-		if (event.target.closest('#AfterNoon')) {
-			reminder = new Date(`${dateRef.current.value} ${afternoon}:00`);
-		}
-		if (event.target.closest('#Evening')) {
-			reminder = new Date(`${dateRef.current.value} ${evening}:00`);
-		}
-		if (event.target.closest('#Button')) {
-			reminder = new Date(`${dateRef.current.value} ${timeRef.current.value}:00`);
-		}
-		if (Current >= reminder) {
-			dispatch(setAlert('Time is Expired!❌'));
+	const setReminder = async (event) => {
+		try {
+			if (Notification.permission !== 'granted') await Notification.requestPermission();
+			if (Notification.permission === 'granted') {
+				const Current = new Date();
+				let reminder;
+				if (event.target.closest('#Morning')) {
+					reminder = new Date(`${dateRef.current.value} ${morning}:00`);
+				}
+				if (event.target.closest('#AfterNoon')) {
+					reminder = new Date(`${dateRef.current.value} ${afternoon}:00`);
+				}
+				if (event.target.closest('#Evening')) {
+					reminder = new Date(`${dateRef.current.value} ${evening}:00`);
+				}
+				if (event.target.closest('#Button')) {
+					reminder = new Date(`${dateRef.current.value} ${timeRef.current.value}:00`);
+				}
+				if (Current >= reminder) {
+					dispatch(setAlert('Time is Expired!❌'));
+					return;
+				} else {
+					props.setShowReminder(false);
+					props.setReminderValue(reminder);
+					dispatch(setAlert('Remainder Added Successfully!✅'));
+				}
+			} else {
+				dispatch(setAlert('Notification Permission is denied!❌'));
+			}
+		} catch (error) {
+			dispatch(setAlert('Something went wrong!❌'));
 			return;
-		}
-		else{
-			props.setShowReminder(false);
-			props.setReminderValue(reminder);
 		}
 	};
 
@@ -84,11 +94,14 @@ const Reminder = (props) => {
 			reminderContainer.current.classList.remove('d-none');
 		}
 	}, [props.showReminder]);
-	
-	return (
-		<div data-remindercontainer ref={reminderContainer} className={`${styles.reminderContainer} reminderContainer`}>
-			<h2 className={`ff fs-400 fw-semibold`}>Reminder</h2>
 
+	return (
+		<div
+			data-remindercontainer
+			ref={reminderContainer}
+			className={`${styles.reminderContainer} reminderContainer`}>
+			<h2 className={`ff fs-400 fw-semibold`}>Reminder</h2>
+			
 			<div
 				id='Morning'
 				onClick={setReminder}

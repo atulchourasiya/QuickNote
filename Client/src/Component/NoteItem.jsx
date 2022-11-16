@@ -40,6 +40,7 @@ const NoteItem = (props) => {
 		});
 		noteItemOptions.current.classList.toggle('d-none');
 	};
+
 	const closeOtherLableContainer = () => {
 		let lableContainerArray = document.getElementsByClassName(styles.lableContainer);
 		Array.from(lableContainerArray).forEach((item) => {
@@ -124,18 +125,7 @@ const NoteItem = (props) => {
 	useEffect(() => {
 		if (reminderValue !== null) {
 			if (Notification.permission !== 'granted') {
-				Notification.requestPermission()
-					.then((perm) => {
-						if (perm === 'granted') {
-							UpdateNote({ reminder: reminderValue });
-							dispatch(setAlert('Reminder added successfully!✅'));
-						} else {
-							dispatch(setAlert('Notification Permission is denied!❌'));
-						}
-					})
-					.catch(() => {
-						dispatch(setAlert('Something went wrong!❌'));
-					});
+				dispatch(setAlert('Notification permission is denied!❌'));
 			} else {
 				UpdateNote({ reminder: reminderValue });
 				dispatch(setAlert('Reminder added successfully!✅'));
