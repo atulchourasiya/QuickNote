@@ -6,15 +6,14 @@ import {
 	setAfternoonTime,
 	setEveningTime,
 	setMorningTime,
-	setNewNoteBottom,
+	setNewNoteBottom
 } from '../Redux/Slice/settingSlice';
-
 const Setting = () => {
 	let { theme } = useSelector((state) => state.theme);
-	let { newnotebottom } = useSelector((state) => state.setting);
-	const morning = useRef();
-	const afternoon = useRef();
-	const evening = useRef();
+	let { newnotebottom ,morning , afternoon , evening} = useSelector((state) => state.setting);
+	const morningref = useRef();
+	const afternoonref = useRef();
+	const eveningref = useRef();
 	const dispatch = useDispatch();
 	const checkIfClickedOutside = (event) => {
 		if (event.target.closest('#settingContainer') || event.target.closest('[data-setting]')) return;
@@ -24,14 +23,17 @@ const Setting = () => {
 		document.getElementById('settingContainer').classList.add('d-none');
 	};
 	const settingOnChange = (event) => {
-		if (morning.current === event.target) {
+		if (morningref.current === event.target) {
 			dispatch(setMorningTime(event.target.value));
+			localStorage.setItem('morning', event.target.value);
 		}
-		if (afternoon.current === event.target) {
+		if (afternoonref.current === event.target) {
 			dispatch(setAfternoonTime(event.target.value));
+			localStorage.setItem('afternoon', event.target.value);
 		}
-		if (evening.current === event.target) {
+		if (eveningref.current === event.target) {
 			dispatch(setEveningTime(event.target.value));
+			localStorage.setItem('evening', event.target.value);
 		}
 	};
 	useEffect(() => {
@@ -40,6 +42,9 @@ const Setting = () => {
 			document.removeEventListener('click', checkIfClickedOutside);
 		};
 		// eslint-disable-next-line
+	}, []);
+	useEffect(() => {
+		closeSetting();
 	}, []);
 	return (
 		<section
@@ -53,21 +58,33 @@ const Setting = () => {
 						<p className={`ff`}>Add new items to the bottom</p>
 						<input
 							type='checkbox'
+							readOnly={true}
 							onClick={() => {
-								newnotebottom === true
-									? dispatch(setNewNoteBottom(false))
-									: dispatch(setNewNoteBottom(true));
+								if (localStorage.getItem('newnotebottom') === 'true') {
+									dispatch(setNewNoteBottom('false'));
+									localStorage.setItem('newnotebottom', 'false');
+								} else {
+									dispatch(setNewNoteBottom('true'));
+									localStorage.setItem('newnotebottom', 'true');
+								}
 							}}
-							defaultChecked={newnotebottom ? true : false}></input>
+							checked={newnotebottom === 'true' ? true : false}></input>
 					</div>
 					<div className={`d-flex align-center ${styles.settingList}`}>
 						<p className={`ff`}>Enable dark theme</p>
 						<input
 							type='checkbox'
+							readOnly={true}
 							onClick={() => {
-								theme === 'dark' ? dispatch(setTheme('light')) : dispatch(setTheme('dark'));
+								if (theme === 'dark') {
+									dispatch(setTheme('light'));
+									localStorage.setItem('currentTheme', 'light');
+								} else {
+									dispatch(setTheme('dark'));
+									localStorage.setItem('currentTheme', 'dark');
+								}
 							}}
-							defaultChecked={theme === 'dark' ? true : false}></input>
+							checked={theme === 'dark' ? true : false}></input>
 					</div>
 				</div>
 				<div className={`${styles.setting} d-flex`}>
@@ -75,26 +92,26 @@ const Setting = () => {
 					<div className={`d-flex align-center ${styles.settingList}`}>
 						<p className={`ff`}>Morning</p>
 						<input
-							ref={morning}
+							ref={morningref}
 							type='time'
 							onChange={settingOnChange}
-							defaultValue={'06:00'}></input>
+							defaultValue={morning}></input>
 					</div>
 					<div className={`d-flex align-center ${styles.settingList}`}>
 						<p className={`ff`}>Afternoon </p>
 						<input
-							ref={afternoon}
+							ref={afternoonref}
 							type='time'
 							onChange={settingOnChange}
-							defaultValue={'12:00'}></input>
+							defaultValue={afternoon}></input>
 					</div>
 					<div className={`d-flex align-center ${styles.settingList}`}>
 						<p className={`ff`}>Evening</p>
 						<input
-							ref={evening}
+							ref={eveningref}
 							type='time'
 							onChange={settingOnChange}
-							defaultValue={'17:00'}></input>
+							defaultValue={evening}></input>
 					</div>
 				</div>
 			</div>

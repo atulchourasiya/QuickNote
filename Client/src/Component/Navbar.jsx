@@ -246,15 +246,6 @@ const Navbar = () => {
 		handleHover(event.target.closest('.svg-container'));
 	};
 
-	const currentTheme = () => {
-		let currentTheme = localStorage.getItem('currentTheme');
-		if (!currentTheme) {
-			currentTheme = theme;
-			localStorage.setItem('currentTheme', currentTheme);
-		}
-		return currentTheme;
-	};
-
 	const currentView = () => {
 		let currentView = localStorage.getItem('currentView');
 		if (!currentView) {
@@ -280,7 +271,7 @@ const Navbar = () => {
 
 	useEffect(() => {
 		handleMediaWidth();
-		dispatch(setTheme(currentTheme()));
+		dispatch(setTheme(theme));
 		dispatch(setView(currentView()));
 		dispatch(getUser());
 		window.addEventListener('resize', handleSpinnerSize);

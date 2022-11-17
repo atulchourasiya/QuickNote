@@ -2,3 +2,7 @@
    flex-wrap: wrap;
    gap: var(--size-400);
 }
+.emptyText{
+   flex-direction: column;
+   color: var(--list-icon-clr);
+}

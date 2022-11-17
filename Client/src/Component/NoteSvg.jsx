@@ -49,9 +49,9 @@ const NoteSvg = (props) => {
 						if (props.id !== undefined) {
 							props.UpdateNote({ archive: !props.archive });
 							if (props.archive) {
-								dispatch(setAlert('Note is Unarchived!✅'));
+								dispatch(setAlert('Note Unarchived!✅'));
 							} else {
-								dispatch(setAlert('Note is Archived!✅'));
+								dispatch(setAlert('Note Archived!✅'));
 							}
 						} else {
 							await props.archive(true);
