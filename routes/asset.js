@@ -12,7 +12,6 @@ router.post('/addLable', async (req, res) => {
 		const existingLable = await Lable.find({ user });
 		if (existingLable.length === 0) {
 			const saved = await newLable.save();
-			console.log(saved);
 			res.status(200).json(saved);
 		} else {
 			if (existingLable[0].user === user) {
