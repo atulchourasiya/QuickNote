@@ -4,6 +4,7 @@ import userDemo from '../Assets/Image/user.png';
 import { setEmailFieldOpen } from '../Redux/Slice/viewSlice';
 import { setIsUpdate, setSharedEmail } from '../Redux/Slice/sharedEmail';
 import { useDispatch, useSelector } from 'react-redux';
+import { setAlert } from '../Redux/Slice/alertSlice';
 const EmailFiled = () => {
 	let { user } = useSelector((state) => state.user);
 	const dispatch = useDispatch();
@@ -21,6 +22,7 @@ const EmailFiled = () => {
 		} else {
 			emailFieldNotValid.current.classList.add('d-none');
 		}
+		dispatch(setAlert('Email Added SuccessFully!✅'));
 		dispatch(setSharedEmail(sharedEmail));
 		dispatch(setEmailFieldOpen(false));
 	};

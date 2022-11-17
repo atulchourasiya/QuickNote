@@ -79,7 +79,7 @@ const NoteItem = (props) => {
 		let tagField = document.getElementsByClassName('tagField');
 		let tempArray = [];
 		currentIsChecked.current.map((_, index) => {
-			if (props.note.includes(tagField[index].innerText)) tempArray[index] = true;
+			if (props.note.tag.includes(tagField[index].innerText)) tempArray[index] = true;
 			else tempArray[index] = false;
 		});
 		setIsChecked(tempArray);
@@ -118,7 +118,7 @@ const NoteItem = (props) => {
 		if (lable.length !== 0) {
 			setLabel(lable[0].lable);
 		}
-	}, [lable]);
+	});
 	useEffect(() => {
 		setIsCheckedArray();
 	}, [label]);
@@ -133,6 +133,9 @@ const NoteItem = (props) => {
 		}
 		setReminderValue(null);
 	}, [reminderValue]);
+	useEffect(() => {
+		refreshIsCheckedArray();
+	}, [window.location.hash]);
 	return (
 		<>
 			<div className={`d-flex ${styles.container} noteItemContentContainer`}>
@@ -265,6 +268,7 @@ const NoteItem = (props) => {
 								UpdateNote({ tag: getTagList() });
 								lableContainer.current.classList.add('d-none');
 								refreshIsCheckedArray();
+								dispatch(setAlert('Modification Saved Successfully!✅'));
 							}}>
 							Save
 						</button>
