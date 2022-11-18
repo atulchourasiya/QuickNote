@@ -16,6 +16,7 @@
     "express-session": "^1.17.3",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.5.1",
+    "nocache": "^3.0.4",
     "passport": "^0.5.3",
     "passport-google-oauth20": "^2.0.0"
   },

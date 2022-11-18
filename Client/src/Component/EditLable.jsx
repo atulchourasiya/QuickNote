@@ -1,18 +1,20 @@
 import styles from '../Styles/EditLable.module.css';
 import { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { addLable } from '../Redux/Slice/lableSlice';
+import { addLable, deleteLable } from '../Redux/Slice/lableSlice';
 import { setAlert } from '../Redux/Slice/alertSlice';
+
 const EditLable = () => {
 	const dispatch = useDispatch();
 	let { user } = useSelector((state) => state.user);
+	let { notes } = useSelector((state) => state.notes);
 	let { lable } = useSelector((state) => state.lable);
 	const [label, setLabel] = useState([]);
 	const inputField = useRef();
 	const addALable = () => {
 		const regex = /^[a-zA-Z0-9]{3,10}$/;
 		const labelText = inputField.current.value;
-		if(!regex.test(labelText)){
+		if (!regex.test(labelText)) {
 			dispatch(setAlert('Lable Must Be A Single Word Between 3-10 Character! ❌'));
 			return;
 		}
@@ -43,6 +45,26 @@ const EditLable = () => {
 		};
 		dispatch(addLable(newLable));
 		inputField.current.value = '';
+	};
+	const deleteALable = (event) => {
+		if (window.confirm('Confirm Delete?!') !== true) return;
+		const path = window.location.hash;
+		let lableDelete = event.target.closest('.label')?.innerText;
+		let lables;
+		lables = lable[0].lable.filter((item) => {
+			return item !== lableDelete;
+		});
+		dispatch(
+			deleteLable({
+				user: user.email,
+				lable: lables,
+				notes: notes,
+				lableDelete
+			})
+		);
+		if (lableDelete.toLowerCase() === path.slice(2)) {
+			window.location.href = '/';
+		}
 	};
 	const checkIfClickedOutside = (event) => {
 		if (event.target.closest('#editlableContainer') || event.target.closest('[data-lable=true]'))
@@ -75,8 +97,21 @@ const EditLable = () => {
 			/>
 			{label.map((item, index) => {
 				return (
-					<div key={'lableid' + index} className={`${styles.lables} d-flex ff fs-400 `}>
+					<div key={'lableid' + index} className={`${styles.lables} d-flex ff fs-400 label`}>
 						{item}
+						<div onClick={deleteALable}>
+							<svg
+								xmlns='http://www.w3.org/2000/svg'
+								className='icon-size'
+								fill='var(--icon-clr)'
+								viewBox='0 0 16 16'>
+								<path d='M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z' />
+								<path
+									fillRule='evenodd'
+									d='M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z'
+								/>
+							</svg>
+						</div>
 					</div>
 				);
 			})}

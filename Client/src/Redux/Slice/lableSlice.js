@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { setLoading } from './loadingSlice';
 import { setAlert } from './alertSlice';
+import { updateNote } from './notesSlice';
 
 const initialState = {
 	lable: []
@@ -42,7 +43,6 @@ export const addLable = createAsyncThunk('notes/addLable', async (lable, { dispa
 		});
 		if (response.status === 200) {
 			const res = await response.json();
-			console.log(res)
 			dispatch(setAlert('Lable Is Added Successfully!✅'));
 			dispatch(fetchLable(lable.user));
 			dispatch(setLoading(false));
@@ -54,7 +54,47 @@ export const addLable = createAsyncThunk('notes/addLable', async (lable, { dispa
 		dispatch(setLoading(false));
 	}
 });
-
+export const deleteLable = createAsyncThunk('notes/deleteLable', async (lable, { dispatch }) => {
+	dispatch(setLoading(true));
+	try {
+		const response = await fetch(`${process.env.REACT_APP_API_HOST}/note/addLable`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				user : lable.user,
+				lable :lable.lable
+			})
+		});
+		if (response.status === 200) {
+			const res = await response.json();
+			dispatch(setAlert('Lable Is Deleted Successfully!✅'));
+			dispatch(fetchLable(lable.user));
+			 lable.notes.forEach((note) => {
+					let tag = note.tag.filter((item) => {
+						return item !== lable.lableDelete;
+					});
+					dispatch(
+						updateNote({
+							id: note._id,
+							obj: {
+								tag,
+								email: note.email
+							},
+							email: lable.user
+						})
+					);
+				});
+			dispatch(setLoading(false));
+			return res;
+		}
+	} catch (error) {
+		console.error(error);
+		dispatch(setAlert('Something Went Wrong!❌'));
+		dispatch(setLoading(false));
+	}
+});
 const lableSlice = createSlice({
 	name: 'lable',
 	initialState,

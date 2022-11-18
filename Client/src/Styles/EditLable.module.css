@@ -18,6 +18,10 @@
 .lables{
 	line-height: 1.5;
 	padding: var(--size-100);
+	justify-content: space-between;
+}
+.lables svg{
+	padding: 3px;
 }
 .lables:hover{
 	background-color: var(--bg-button-clr);

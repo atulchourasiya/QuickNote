@@ -8,14 +8,19 @@ const auth = require('./routes/auth');
 const note = require('./routes/note');
 const asset = require('./routes/asset');
 const path = require('path');
+const nocache = require('nocache');
 const connectToMongoose = require('./config/mongo');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 connectToMongoose();
 
-app.use(express.static(path.join(__dirname, 'build')));
-
+app.use(
+	express.static(path.join(__dirname, 'build'), {
+		etag: false,
+		maxAge: '1000'
+	})
+);
 app.use(
 	session({
 		secret: `${process.env.SECRET}`,
@@ -30,6 +35,8 @@ app.use(
 		credentials: true
 	})
 );
+app.use(nocache());
+app.set('etag', false);
 app.set('trust proxy', 1);
 app.use(passport.initialize());
 app.use(passport.session());
