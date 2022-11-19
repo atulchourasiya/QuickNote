@@ -14,7 +14,8 @@ router.post('/fetchAllNotes', async (req, res) => {
 
 router.post('/addNote', async (req, res) => {
 	try {
-		const { title, note, tag, email, check, bin, isChecked, pin, archive, deleteDate,reminder } = req.body;
+		const { title, note, tag, email, check, bin, isChecked, pin, archive, deleteDate, reminder } =
+			req.body;
 		const newNote = new Note({
 			title,
 			note,
@@ -26,7 +27,7 @@ router.post('/addNote', async (req, res) => {
 			pin,
 			archive,
 			deleteDate,
-			reminder,
+			reminder
 		});
 		const savedNote = await newNote.save();
 		res.status(200).json(savedNote);
@@ -127,5 +128,20 @@ router.delete('/deleteNote/:id', async (req, res) => {
 		res.status(500).send('Internal Server Error');
 	}
 });
-
+router.put('/updateManyNote', async (req, res) => {
+	try {
+		let response = await Note.bulkWrite(
+			req.body.notes.map((item) => ({
+				updateOne: {
+					filter: { _id: item._id },
+					update: { $set: item }
+				}
+			}))
+		);
+		res.send(response);
+	} catch (error) {
+		console.error(error.message);
+		res.status(500).send('Internal Server Error');
+	}
+});
 module.exports = router;

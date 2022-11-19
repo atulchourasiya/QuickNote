@@ -3,12 +3,16 @@ import { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { addLable, deleteLable } from '../Redux/Slice/lableSlice';
 import { setAlert } from '../Redux/Slice/alertSlice';
+import { setUpdated } from '../Redux/Slice/notesSlice';
+import { setTitle } from '../Redux/Slice/viewSlice';
 
 const EditLable = () => {
 	const dispatch = useDispatch();
 	let { user } = useSelector((state) => state.user);
 	let { notes } = useSelector((state) => state.notes);
+	let { updated } = useSelector((state) => state.notes);
 	let { lable } = useSelector((state) => state.lable);
+	let deleteTag = useRef('');
 	const [label, setLabel] = useState([]);
 	const inputField = useRef();
 	const addALable = () => {
@@ -48,8 +52,8 @@ const EditLable = () => {
 	};
 	const deleteALable = (event) => {
 		if (window.confirm('Confirm Delete?!') !== true) return;
-		const path = window.location.hash;
 		let lableDelete = event.target.closest('.label')?.innerText;
+		deleteTag.current = lableDelete.toLowerCase();
 		let lables;
 		lables = lable[0].lable.filter((item) => {
 			return item !== lableDelete;
@@ -62,9 +66,6 @@ const EditLable = () => {
 				lableDelete
 			})
 		);
-		if (lableDelete.toLowerCase() === path.slice(2)) {
-			window.location.href = '/';
-		}
 	};
 	const checkIfClickedOutside = (event) => {
 		if (event.target.closest('#editlableContainer') || event.target.closest('[data-lable=true]'))
@@ -86,6 +87,17 @@ const EditLable = () => {
 			setLabel(lable[0].lable);
 		}
 	}, [lable]);
+	useEffect(()=>{
+		if(updated){
+		const path = window.location.hash;
+		if(deleteTag.current === path.slice(2)){
+			window.location.href = '#/'
+			dispatch(setTitle('Quick Note'));
+		}
+		deleteTag.current = ''
+		dispatch(setUpdated(false));
+		}
+	},[updated])
 	return (
 		<div id='editlableContainer' className={`${styles.editLableContainer} d-none`}>
 			<h2 className='ff fs-400 fw-semiBold'>Edit Labels</h2>

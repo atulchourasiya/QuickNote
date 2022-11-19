@@ -1,0 +1,67 @@
+.editContainer {
+	position: absolute;
+	justify-content: center;
+	align-items: flex-start;
+	padding-top: 5rem;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	backdrop-filter: blur(.7px);
+	z-index: var(--index-high);
+}
+.inputFieldContainer {
+	width: 100%;
+	max-width: 40rem;
+	background-color: var(--bg-clr);
+	border-radius: var(--size-200);
+	flex-direction: column;
+	box-shadow: var(--box-shadow);
+}
+.inputContainer {
+	border: 0.1px solid var(--borderline-clr);
+	border-radius: var(--size-200);
+	max-width: 40rem;
+	width: 100%;
+	position: relative;
+}
+.inputChildContainer {
+	overflow-y: visible;
+	overflow-x: hidden;
+	height: max-content;
+	max-height: 20rem;
+}
+.inputChildContainer > div:nth-child(1) {
+	font-size: calc(var(--fs-400) + 1px);
+}
+.input {
+	position: relative;
+}
+.input > div {
+	white-space: pre-line;
+	padding: var(--size-300);
+	width: 100%;
+	min-height: var(--size-800);
+	line-height: 1.5;
+	border-radius: var(--size-200);
+}
+.input > p {
+	position: absolute;
+	padding: var(--size-300);
+	color: var(--icon-clr);
+	top: 5%;
+	pointer-events: none;
+}
+.input > div:not(:empty) {
+	height: max-content;
+}
+.input > div:not(:empty) + p {
+	display: none;
+}
+@media (max-width: 767.98px) {
+	.inputContainer {
+		width: 100%;
+	}
+	.inputFieldContainer {
+		width: 90%;
+	}
+}

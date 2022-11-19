@@ -120,6 +120,8 @@ const InputField = () => {
 	};
 	const addNote = () => {
 		const email = [store.getState().user.user?.email];
+		const tempNoteArray = getCheckListInnertextArray();
+		const noteArray = [];
 		const isChecked = [];
 		if (!email[0]) {
 			dispatch(setAlert('Something Went Wrong!❌'));
@@ -128,12 +130,16 @@ const InputField = () => {
 		if (email[0] !== sharedEmail && sharedEmail !== null && isUpdate === false) {
 			email.push(sharedEmail);
 		}
-		currentCheckListIndexArray.current.forEach((item) => {
-			isChecked.push({ isChecked: item.isChecked });
+		currentCheckListIndexArray.current.forEach((item, index) => {
+			if (tempNoteArray[index] !== '') {
+				isChecked.push({ isChecked: item.isChecked });
+				noteArray.push(tempNoteArray[index]);
+			}
 		});
+		isChecked.push({ isChecked: false });
 		const note = {
 			title: titleField.current.innerText,
-			note: noteField.current ? [noteField.current.innerText] : getCheckListInnertextArray(),
+			note: noteField.current ? [noteField.current.innerText] : noteArray,
 			email: email,
 			tag: getTagList(),
 			bin: false,
@@ -177,7 +183,7 @@ const InputField = () => {
 		const checkListItem = document.getElementsByClassName('checkListItem');
 		const checkListInnertextArray = [];
 		Array.from(checkListItem).forEach((item) => {
-			if (item.innerText !== '') checkListInnertextArray.push(item.innerText);
+			checkListInnertextArray.push(item.innerText);
 		});
 		return checkListInnertextArray;
 	};
@@ -298,6 +304,11 @@ const InputField = () => {
 						ref={pinSvgContainer}
 						onClick={() => {
 							setPin(!pin);
+							if (pin) {
+								dispatch(setAlert('Note Unpinned!✅'));
+							} else {
+								dispatch(setAlert('Note Pinned!✅'));
+							}
 						}}
 						className={`pinSvgContainer d-none`}>
 						<div className='svg-container small-icon-hover'>

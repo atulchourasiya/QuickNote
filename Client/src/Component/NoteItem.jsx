@@ -8,6 +8,7 @@ import store from '../Redux/store';
 import { setIsUpdate, setSharedEmail } from '../Redux/Slice/sharedEmail';
 import { setAlert } from '../Redux/Slice/alertSlice';
 import Reminder from './Reminder';
+import { setEditState } from '../Redux/Slice/editSlice';
 
 const NoteItem = (props) => {
 	const dispatch = useDispatch();
@@ -140,7 +141,16 @@ const NoteItem = (props) => {
 		<>
 			<div className={`d-flex ${styles.container} noteItemContentContainer`}>
 				<div className={`${styles.noteItemContainer}`}>
-					<div onClick={(_) => UpdateNote({ pin: !props.note.pin })} className={`pinSvgContainer`}>
+					<div
+						onClick={(_) => {
+							if (props.note.pin) {
+								dispatch(setAlert('Note Unpinned!✅'));
+							} else {
+								dispatch(setAlert('Note Pinned!✅'));
+							}
+							UpdateNote({ pin: !props.note.pin });
+						}}
+						className={`pinSvgContainer`}>
 						<div className='svg-container small-icon-hover'>
 							{props.note.pin ? (
 								<svg
@@ -170,9 +180,15 @@ const NoteItem = (props) => {
 						</div>
 					</div>
 					<div className='noteContent'>
-						<p className={`ff ${styles.noteItemTitle}`}>{props.note.title}</p>
+						<p
+							onClick={(_) => dispatch(setEditState(props.note))}
+							data-editnote
+							className={`ff pointer ${styles.noteItemTitle}`}>
+							{props.note.title}
+						</p>
 						{props.note.check ? (
 							Array.from(props.note.note).map((note, index) => {
+								if (note === '') return;
 								return (
 									<div
 										key={'noteList' + index}
@@ -185,19 +201,40 @@ const NoteItem = (props) => {
 										/>
 										<div className={`${styles.spanContainer}`}>
 											<span
+												onClick={(_) => dispatch(setEditState(props.note))}
+												data-editnote
 												className={
 													props.note.isChecked[index].isChecked
-														? `${styles.noteItemNoteStrikeThrough}`
-														: ''
+														? `${styles.noteItemNoteStrikeThrough} pointer`
+														: 'pointer'
 												}>
-												{note}
+												{note.split('\n').map((item) => {
+													return (
+														<span>
+															{item}
+															<br />
+														</span>
+													);
+												})}
 											</span>
 										</div>
 									</div>
 								);
 							})
 						) : (
-							<p className={`ff fs-400 ${styles.noteItemNote}`}>{props.note.note}</p>
+							<p
+								onClick={(_) => dispatch(setEditState(props.note))}
+								data-editnote
+								className={`ff fs-400 pointer ${styles.noteItemNote}`}>
+								{props.note.note[0].split('\n').map((item) => {
+									return (
+										<span>
+											{item}
+											<br />
+										</span>
+									);
+								})}
+							</p>
 						)}
 					</div>
 					<NoteSvg
@@ -267,7 +304,6 @@ const NoteItem = (props) => {
 							onClick={() => {
 								UpdateNote({ tag: getTagList() });
 								lableContainer.current.classList.add('d-none');
-								refreshIsCheckedArray();
 								dispatch(setAlert('Modification Saved Successfully!✅'));
 							}}>
 							Save

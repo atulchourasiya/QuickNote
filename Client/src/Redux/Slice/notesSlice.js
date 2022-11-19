@@ -3,7 +3,8 @@ import { setLoading } from './loadingSlice';
 import { setAlert } from './alertSlice';
 
 const initialState = {
-	notes: null
+	notes: null,
+	updated:false
 };
 
 export const fetchAllNotes = createAsyncThunk('notes/fetchAllNotes', async (user, { dispatch }) => {
@@ -107,7 +108,31 @@ export const deleteNote = createAsyncThunk('notes/deleteNote', async (deleteNote
 		dispatch(setLoading(false));
 	}
 });
-
+export const updateManyNote = createAsyncThunk(
+	'notes/updateManyNote',
+	async (Noteobj, { dispatch }) => {
+		dispatch(setLoading(true));
+		try {
+			const response = await fetch(`${process.env.REACT_APP_API_HOST}/note/updateManyNote`, {
+				method: 'PUT',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(Noteobj.obj)
+			});
+			if (response.status === 200) {
+				const res = await response.json();
+				dispatch(fetchAllNotes(Noteobj.email));
+				dispatch(setLoading(false));
+				return res;
+			}
+		} catch (error) {
+			console.error(error);
+			dispatch(setAlert('Something Went Wrong!❌'));
+			dispatch(setLoading(false));
+		}
+	}
+);
 const notesSlice = createSlice({
 	name: 'notes',
 	initialState,
@@ -117,7 +142,19 @@ const notesSlice = createSlice({
 		},
 		[fetchAllNotes.rejected]: (state) => {
 			state.notes = null;
+		},
+		[updateManyNote.fulfilled]: (state, action) => {
+			state.updated = true;
+		},
+		[updateManyNote.rejected]: (state) => {
+			state.updated = false;
+		}
+	},
+	reducers:{
+		setUpdated(state,action){
+			state.updated = action.payload;
 		}
 	}
 });
+export const { setUpdated } = notesSlice.actions;
 export default notesSlice.reducer;

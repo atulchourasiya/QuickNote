@@ -54,6 +54,13 @@ const CheckBox = (props) => {
 				CheckBoxContainer.current.innerHTML = '';
 			}
 		}
+		else if (props.isChecked !== undefined && props.isChecked.value !== undefined) {
+			if (props.isChecked.isChecked === true) {
+				CheckBoxContainer.current.innerHTML = tick;
+			} else if (props.isChecked.isChecked === false) {
+				CheckBoxContainer.current.innerHTML = '';
+			}
+		}
 		else{
 			if (props.isChecked[props.index] === true) {
 				CheckBoxContainer.current.innerHTML = tick;

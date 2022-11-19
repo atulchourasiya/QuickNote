@@ -7,19 +7,20 @@ import Setting from './Setting';
 import Feedback from './Feedback';
 import Alert from './Alert';
 import EditLables from './EditLable';
-
+import Edit from './Edit';
 function App() {
 	return (
 		<HashRouter>
-				<Alert/>
-				<Navbar />
-				<div className='d-flex'>
-					<Sidebar />
-					<Main />
-				</div>
-				<Setting />
-				<Feedback/>
-				<EditLables/>
+			<Alert />
+			<Navbar />
+			<div className='d-flex'>
+				<Sidebar />
+				<Main />
+			</div>
+			<Edit />
+			<Setting />
+			<Feedback />
+			<EditLables />
 		</HashRouter>
 	);
 }

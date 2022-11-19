@@ -16,8 +16,8 @@
 	padding: var(--size-300);
 	padding-left: 4.1rem;
 	color: var(--icon-clr);
-	z-index: var(--index-negative);
 	top: 5%;
+	pointer-events: none;
 }
 .CheckListContainer div:focus {
 	border: 1px var(--bg-hr);
