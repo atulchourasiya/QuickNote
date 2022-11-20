@@ -67,7 +67,7 @@ const Edit = () => {
 		const checkListItem = document.getElementsByClassName('checkListItem');
 		const checkListInnertextArray = [];
 		Array.from(checkListItem).forEach((item) => {
-				checkListInnertextArray.push(item.innerText);
+			checkListInnertextArray.push(item.innerText);
 		});
 		return checkListInnertextArray;
 	};
@@ -85,7 +85,7 @@ const Edit = () => {
 				return;
 			}
 			if (Note.current.check) {
-				currentCheckListIndexArray.current.forEach((item,index) => {
+				currentCheckListIndexArray.current.forEach((item, index) => {
 					if (tempNoteArray[index] !== '') {
 						isChecked.push({ isChecked: item.isChecked });
 						noteArray.push(tempNoteArray[index]);
@@ -137,14 +137,20 @@ const Edit = () => {
 	useEffect(() => {
 		currentCheckListIndexArray.current = checkListIndexArray;
 		const checkListItem = document.querySelectorAll('.checkListItem');
-		if (Note.current !== null && isEmpty.current && checkListItem[0] !== undefined) {
-			Array.from(Note.current.note).forEach((item, index) => {
-				checkListItem[index].innerText = item;
-				checkListItem[index].classList.add('replicationDone');
+		if (Note.current !== null && isEmpty.current) {
+			Array.from(Note.current.note).every((item, index) => {
+				if (checkListItem[index] !== undefined) {
+					checkListItem[index].innerText = item;
+					checkListItem[index].classList.add('replicationDone');
+					isEmpty.current = false;
+					return true;
+				}else{
+					isEmpty.current = true;
+					return false;
+				}
 			});
-			isEmpty.current = false;
 		}
-	}, [checkListIndexArray]);
+	});
 	useEffect(() => {
 		if (note !== null) {
 			isEmpty.current = true;
