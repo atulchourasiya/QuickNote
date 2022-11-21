@@ -184,9 +184,10 @@ const NoteItem = (props) => {
 							onClick={(_) => dispatch(setEditState(props.note))}
 							data-editnote
 							className={`ff pointer ${styles.noteItemTitle}`}>
-							{props.note.title.split('\n').map((item) => {
+							{props.note.title.split('\n').map((item,index) => {
 								return (
-									<span data-editnote>
+									<span key={`${item}${Math.floor(Math.random() * 1000000)}${index}`} 
+									data-editnote>
 										{item}
 										<br />
 									</span>
@@ -215,9 +216,11 @@ const NoteItem = (props) => {
 														? `${styles.noteItemNoteStrikeThrough} pointer`
 														: 'pointer'
 												}>
-												{note.split('\n').map((item) => {
+												{note.split('\n').map((item,index) => {
 													return (
-														<span data-editnote>
+														<span
+															key={`${item}${Math.floor(Math.random() * 1000000)}${index}`}
+															data-editnote>
 															{item}
 															<br />
 														</span>
@@ -233,9 +236,10 @@ const NoteItem = (props) => {
 								onClick={(_) => dispatch(setEditState(props.note))}
 								data-editnote
 								className={`ff fs-400 pointer ${styles.noteItemNote}`}>
-								{props.note.note[0].split('\n').map((item) => {
+								{props.note.note[0].split('\n').map((item,index) => {
 									return (
-										<span data-editnote>
+										<span key={`${item}${Math.floor(Math.random() * 1000000)}${index}`} 
+										data-editnote>
 											{item}
 											<br />
 										</span>
