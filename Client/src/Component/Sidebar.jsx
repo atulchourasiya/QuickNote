@@ -95,7 +95,7 @@ const Sidebar = () => {
 				</ul>
 			</nav>
 			<a
-				href='https://github.com/atulchourasiya'
+				href='https://github.com/atulchourasiya/QuickNote'
 				id='sign'
 				className={`d-flex align-center fs-400 ff ${styles.sign}`}>
 				<svg

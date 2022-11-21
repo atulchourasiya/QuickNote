@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { setLoading } from './loadingSlice';
 import { setAlert } from './alertSlice';
-import { updateManyNote, updateNote } from './notesSlice';
+import { updateManyNote } from './notesSlice';
 
 const initialState = {
 	lable: []
