@@ -30,7 +30,7 @@ app.use(
 );
 app.use(
 	cors({
-		origin: 'https://quicknote.onrender.com',
+		origin: `${process.env.CLIENT_URL}`,
 		methods: 'GET,POST,PUT,DELETE',
 		credentials: true
 	})
