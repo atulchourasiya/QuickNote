@@ -46,7 +46,6 @@ const Notes = () => {
 					if (Notification.permission !== 'granted') {
 						dispatch(setAlert('Notification Permission is denied!❌'));
 					} else {
-						navigator.serviceWorker.register('/service-worker.js');
 						navigator.serviceWorker.ready.then(function (registration) {
 							registration.showNotification(note.title === '' ? `QuickNote Reminder` : note.title, {
 								tag: note._id,
