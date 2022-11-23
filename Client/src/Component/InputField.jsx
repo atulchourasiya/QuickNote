@@ -159,7 +159,7 @@ const InputField = () => {
 		} else if (
 			noteField.current === null &&
 			titleField.current.innerText === '' &&
-			getCheckListInnertextArray().length === 0
+			getCheckListInnertextArray().length === 1
 		) {
 			dispatch(setAlert('Cannot Save Empty Note!❌'));
 		} else {
