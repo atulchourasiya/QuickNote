@@ -97,6 +97,12 @@ $npm start
 - Light/dark mode toggle
 - Feedback
 - Fullscreen mode
+- Add note
+- Archieve note
+- Custom lables
+- Pin note
+- Clone note
+- Create checklist 
 - Schedule delete note
 
 ## Live
