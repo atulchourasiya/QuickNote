@@ -7,7 +7,14 @@ import { registerRoute, NavigationRoute } from 'workbox-routing';
 
 clientsClaim();
 precacheAndRoute(self.__WB_MANIFEST);
-navigationPreload.enable()
+
+self.addEventListener('activate', (event) => {
+  event.waitUntil((async () => {
+    if (self.registration.navigationPreload) {
+      await self.registration.navigationPreload.enable();
+    }
+  })());
+});
 
 const navigationRoute = new NavigationRoute(
 	new NetworkOnly({
