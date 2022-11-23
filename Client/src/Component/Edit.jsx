@@ -109,7 +109,7 @@ const Edit = () => {
 			} else if (
 				noteField.current === null &&
 				titleField.current.innerText === '' &&
-				getCheckListInnertextArray().length === 1
+				noteArray.length === 0
 			) {
 				dispatch(setAlert('Cannot Save Empty Note!❌'));
 			} else {
