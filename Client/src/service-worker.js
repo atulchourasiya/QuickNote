@@ -1,7 +1,6 @@
 /* eslint-disable no-restricted-globals */
 import { clientsClaim } from 'workbox-core';
 import { precacheAndRoute } from 'workbox-precaching';
-import * as navigationPreload from 'workbox-navigation-preload';
 import { NetworkOnly } from 'workbox-strategies';
 import { registerRoute, NavigationRoute } from 'workbox-routing';
 
