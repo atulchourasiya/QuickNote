@@ -15,7 +15,7 @@ $git clone https://github.com/atulchourasiya/QuickNote.git .
 ```
 2. Delete pre-existing build in root directory
 ```
-CTRL+D
+Press the delete 
 ```
 ###  *Server Setup*
 
