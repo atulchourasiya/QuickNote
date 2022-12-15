@@ -51,6 +51,7 @@ router.get(
 );
 
 router.get('/logout', (req, res) => {
+	res.clearCookie('jwt_auth');
 	req.session = null;
 	req.logout();
 	res.redirect('/auth/google');
