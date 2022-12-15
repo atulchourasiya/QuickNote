@@ -1,10 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { setLoading } from './loadingSlice';
+import { setInitialLoading, setLoading } from './loadingSlice';
 import { setAlert } from './alertSlice';
 
 const initialState = {
 	notes: null,
-	updated:false
+	updated: false
 };
 
 export const fetchAllNotes = createAsyncThunk('notes/fetchAllNotes', async (user, { dispatch }) => {
@@ -27,6 +27,7 @@ export const fetchAllNotes = createAsyncThunk('notes/fetchAllNotes', async (user
 		} else throw new Error('Something went wrong!');
 	} catch (err) {
 		console.error(err);
+		dispatch(setInitialLoading(false));
 		dispatch(setLoading(false));
 		return null;
 	}
@@ -83,31 +84,34 @@ export const updateNote = createAsyncThunk(
 		}
 	}
 );
-export const deleteNote = createAsyncThunk('notes/deleteNote', async (deleteNoteObj, { dispatch }) => {
-	dispatch(setLoading(true));
-	try {
-		const response = await fetch(
-			`${process.env.REACT_APP_API_HOST}/note/deleteNote/${deleteNoteObj.id}`,
-			{
-				method: 'DELETE',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify(deleteNoteObj.obj)
+export const deleteNote = createAsyncThunk(
+	'notes/deleteNote',
+	async (deleteNoteObj, { dispatch }) => {
+		dispatch(setLoading(true));
+		try {
+			const response = await fetch(
+				`${process.env.REACT_APP_API_HOST}/note/deleteNote/${deleteNoteObj.id}`,
+				{
+					method: 'DELETE',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify(deleteNoteObj.obj)
+				}
+			);
+			if (response.status === 200) {
+				const res = await response.json();
+				dispatch(fetchAllNotes(deleteNoteObj.email));
+				dispatch(setLoading(false));
+				return res;
 			}
-		);
-		if (response.status === 200) {
-			const res = await response.json();
-			dispatch(fetchAllNotes(deleteNoteObj.email));
+		} catch (error) {
+			console.error(error);
+			dispatch(setAlert('Something Went Wrong!❌'));
 			dispatch(setLoading(false));
-			return res;
 		}
-	} catch (error) {
-		console.error(error);
-		dispatch(setAlert('Something Went Wrong!❌'));
-		dispatch(setLoading(false));
 	}
-});
+);
 export const updateManyNote = createAsyncThunk(
 	'notes/updateManyNote',
 	async (Noteobj, { dispatch }) => {
@@ -150,8 +154,8 @@ const notesSlice = createSlice({
 			state.updated = false;
 		}
 	},
-	reducers:{
-		setUpdated(state,action){
+	reducers: {
+		setUpdated(state, action) {
 			state.updated = action.payload;
 		}
 	}

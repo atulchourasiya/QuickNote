@@ -1,7 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { fetchLable } from './lableSlice';
-import { setLoading } from './loadingSlice';
+import { setInitialLoading, setLoading } from './loadingSlice';
 import { fetchAllNotes } from './notesSlice';
+import { setLogin } from './viewSlice';
 
 const initialState = {
 	user: null
@@ -9,6 +10,7 @@ const initialState = {
 
 export const getUser = createAsyncThunk('user/getUser', async (_, { dispatch }) => {
 	dispatch(setLoading(true));
+	dispatch(setInitialLoading(true));
 	try {
 		const response = await fetch(`${process.env.REACT_APP_API_HOST}/auth/success`, {
 			method: 'POST',
@@ -24,12 +26,14 @@ export const getUser = createAsyncThunk('user/getUser', async (_, { dispatch }) 
 			dispatch(fetchAllNotes(json.user.email));
 			dispatch(fetchLable(json.user.email));
 			dispatch(setLoading(false));
+			dispatch(setLogin(false));
 			return json.user;
 		} else throw new Error('Authentication has been failed!');
 	} catch (err) {
-		console.error(err);
+		dispatch(setInitialLoading(false));
 		dispatch(setLoading(false));
-		window.open(`${process.env.REACT_APP_API_HOST}/auth/google`, '_self');
+		dispatch(setLogin(true));
+		console.error(err);
 		return null;
 	}
 });

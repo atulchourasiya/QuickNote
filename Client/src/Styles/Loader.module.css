@@ -1,0 +1,16 @@
+.loaderContainer{
+   position: absolute;
+   top: 0;
+   left: 0;
+   flex-direction: column;
+	width: 100%;
+	height: 100%;
+	padding: var(--size-200);
+	background-color: var(--bg-overlap-clr);
+	border-radius: var(--size-200);
+	box-shadow: var(--box-shadow);
+	z-index: var(--index-highest);
+}
+.LoaderText{
+   margin: var(--size-400);
+}

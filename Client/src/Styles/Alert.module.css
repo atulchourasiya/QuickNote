@@ -1,7 +1,7 @@
 .alertContainer {
 	position: absolute;
 	top: 0;
-	right: 0;
+	left: 0;
 	margin: var(--size-400);
 	padding: var(--size-400) var(--size-100) var(--size-400) var(--size-300);
 	color: var(--text-clr);
@@ -10,7 +10,7 @@
 	box-shadow: var(--box-shadow);
 	z-index: var(--index-higher);
 }
-.alertContainer::before{
+.alertContainer::before {
 	content: '';
 	position: absolute;
 	width: 100%;
@@ -21,16 +21,16 @@
 	background-position: 0% bottom;
 	animation: alertBottomStrike 3s linear 1 forwards;
 }
- .cancleAlert{
-	 width: var(--size-500);
-	 height: var(--size-500);
-	 z-index: var(--index-higher);
- }
+.cancleAlert {
+	width: var(--size-500);
+	height: var(--size-500);
+	z-index: var(--index-higher);
+}
 @keyframes alertBottomStrike {
 	0% {
 		background-size: 100% 4px;
 	}
-   100%{
-      background-size: 0% 4px;
-   }
+	100% {
+		background-size: 0% 4px;
+	}
 }

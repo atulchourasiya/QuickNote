@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { setLoading } from './loadingSlice';
+import { setInitialLoading, setLoading } from './loadingSlice';
 import { setAlert } from './alertSlice';
 import { updateManyNote } from './notesSlice';
 
@@ -23,10 +23,12 @@ export const fetchLable = createAsyncThunk('notes/fetchLable', async (user, { di
 		if (response.status === 200) {
 			const json = await response.json();
 			dispatch(setLoading(false));
+			dispatch(setInitialLoading(false));
 			return json;
 		} else throw new Error('Something went wrong!');
 	} catch (err) {
 		console.error(err);
+		dispatch(setInitialLoading(false));
 		dispatch(setLoading(false));
 		return [];
 	}
@@ -71,22 +73,24 @@ export const deleteLable = createAsyncThunk('notes/deleteLable', async (lable, {
 			const res = await response.json();
 			dispatch(setAlert('Lable Is Deleted Successfully!✅'));
 			dispatch(fetchLable(lable.user));
-			let UpdateArray = []
+			let UpdateArray = [];
 			lable.notes.forEach((note) => {
 				let tag = note.tag.filter((item) => {
 					return item !== lable.lableDelete;
 				});
 				UpdateArray.push({
-					_id:note._id,
+					_id: note._id,
 					tag
-				})
+				});
 			});
-			dispatch(updateManyNote({
-				obj:{
-					notes:UpdateArray
-				},
-				email:lable.user
-			}))
+			dispatch(
+				updateManyNote({
+					obj: {
+						notes: UpdateArray
+					},
+					email: lable.user
+				})
+			);
 			dispatch(setLoading(false));
 			return res;
 		}
