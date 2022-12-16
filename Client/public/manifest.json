@@ -26,7 +26,7 @@
   ],
   "start_url": "https://quicknote.onrender.com",
   "scope":"https://quicknote.onrender.com",
-  "display": "standalone",
+  "display": "fullscreen",
   "theme_color": "#000000",
   "background_color": "#ffffff"
 }
