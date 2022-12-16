@@ -43,7 +43,7 @@ router.get(
 					sameSite: 'none',
 					secure:true
 				})
-				// .redirect(process.env.CLIENT_URL);
+				.redirect(process.env.CLIENT_URL);
 		} catch (err) {
 			throw err;
 		}
