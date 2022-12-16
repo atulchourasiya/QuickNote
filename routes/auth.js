@@ -43,7 +43,7 @@ router.get(
 					sameSite: 'none',
 					secure:true
 				})
-				.redirect(process.env.CLIENT_URL);
+				// .redirect(process.env.CLIENT_URL);
 		} catch (err) {
 			throw err;
 		}
@@ -54,7 +54,7 @@ router.get('/logout', (req, res) => {
 	res.clearCookie('jwt_auth');
 	req.session = null;
 	req.logout();
-	res.redirect(process.env.CLIENT_URL);
+	// res.redirect(process.env.CLIENT_URL);
 });
 
 module.exports = router;
