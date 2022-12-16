@@ -33,7 +33,7 @@
 }
 .welcomeIllustration li {
 	list-style: none;
-	padding: var(--size-400);
+	padding: var(--size-500);
 }
 @media (min-width: 575.98px) {
 	.welcomeIllustration li {
