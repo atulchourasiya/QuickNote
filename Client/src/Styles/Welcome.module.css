@@ -10,8 +10,8 @@
 	box-shadow: var(--box-shadow);
 	z-index: var(--index-highest);
 }
-.welcomeTyped{
-   margin-top: var(--size-200);
+.welcomeTyped {
+	margin-top: var(--size-200);
 }
 .welcomeHeading {
 	margin-top: var(--size-700);
@@ -19,21 +19,26 @@
 }
 .welcomeHeading mark {
 	background-color: var(--bg-cyan);
-   padding: var(--size-100);
+	padding: var(--size-100);
 	border-radius: var(--size-200);
 }
 .welcomeImage {
-   width: 20rem;
+	width: 20rem;
 }
-.welcomeIllustration{
+.welcomeIllustration {
 	flex-wrap: wrap;
 	position: relative;
 	left: 50%;
 	transform: translateX(-50%);
 }
-.welcomeIllustration li{
+.welcomeIllustration li {
 	list-style: none;
-	padding: 0 var(--size-400);
+	padding: var(--size-400);
+}
+@media (min-width: 575.98px) {
+	.welcomeIllustration li {
+		padding: 0 var(--size-400);
+	}
 }
 .logoImg {
 	width: calc(var(--size-700) - 0.2rem);
