@@ -11,7 +11,7 @@ const Welcome = () => {
 				<img src={logo} alt='logo' className={styles.logoImg} />
 				<h1 className='ff fs-500 w-max pointer spacing fw-regular'>QuickNote</h1>
 			</div>
-			<h2 className={`d-flex justify-center fw-bold ff fs-600 ${styles.welcomeHeading}`}>
+			<h2 className={`d-flex justify-center fw-bold ff  ${styles.welcomeHeading}`}>
 				Welcome to &nbsp;<mark>Quick Note</mark>
 			</h2>
 			<Typed

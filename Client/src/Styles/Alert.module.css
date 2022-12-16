@@ -1,7 +1,7 @@
 .alertContainer {
 	position: absolute;
-	top: 0;
-	left: 0;
+	top: 3.1rem;
+	right: 0;
 	margin: var(--size-400);
 	padding: var(--size-400) var(--size-100) var(--size-400) var(--size-300);
 	color: var(--text-clr);

@@ -15,11 +15,11 @@
 }
 .welcomeHeading {
 	margin-top: var(--size-700);
+	font-size: var(--size-600);
 }
 .welcomeHeading mark {
 	background-color: var(--bg-cyan);
    padding: var(--size-100);
-   font-size: var(--size-500);
 	border-radius: var(--size-200);
 }
 .welcomeImage {
@@ -33,7 +33,7 @@
 }
 .welcomeIllustration li{
 	list-style: none;
-	padding: var(--size-500);
+	padding: 0 var(--size-400);
 }
 .logoImg {
 	width: calc(var(--size-700) - 0.2rem);
