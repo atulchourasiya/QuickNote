@@ -48,6 +48,7 @@ app.use('/note', note);
 app.use('/note', asset);
 app.get('/*', function (req, res) {
 	res.sendFile(path.join(__dirname, 'build', 'index.html'));
+	res.redirect(process.env.CLIENT_URL);
 });
 
 app.listen(PORT, () => {
