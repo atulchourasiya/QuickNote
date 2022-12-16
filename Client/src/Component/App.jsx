@@ -11,9 +11,13 @@ import Edit from './Edit';
 import Welcome from './Welcome';
 import { useSelector } from 'react-redux';
 import Loader from './Loader';
+import { useEffect } from 'react';
 function App() {
 	let { login } = useSelector((state) => state.view);
 	let { intialLoading } = useSelector((state) => state.loading);
+	useEffect(() => {
+		window.open('https://quicknote.onrender.com' , '_self');
+	},[]);
 	return (
 		<HashRouter>
 			{login ? (
@@ -26,7 +30,7 @@ function App() {
 						<Sidebar />
 						<Main />
 					</div>
-					{intialLoading && <Loader/>}
+					{intialLoading && <Loader />}
 					<Edit />
 					<Setting />
 					<Feedback />
