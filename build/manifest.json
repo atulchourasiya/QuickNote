@@ -24,9 +24,9 @@
       "sizes": "512x512"
     }
   ],
-  "start_url": "https://quicknote.onrender.com",
-  "scope":"https://quicknote.onrender.com/#/",
-  "display": "browser",
+  "start_url": "/",
+  "scope":".",
+  "display": "standalone",
   "theme_color": "#000000",
   "background_color": "#ffffff"
 }
