@@ -295,6 +295,7 @@ const Navbar = () => {
 	}, [loading]);
 	return (
 		<header>
+			<a href='https://quicknote.onrender.com/pwa'>Open</a>
 			<div className={`d-flex ${styles.headerContainer} `}>
 				<div ref={logoContainer} className={`${styles.logoContainer} d-flex align-center`}>
 					<div data-menu ref={menuContainer} className='svg-container'>
