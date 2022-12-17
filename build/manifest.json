@@ -24,9 +24,9 @@
       "sizes": "512x512"
     }
   ],
-  "start_url":"/",
-  "scope":"https://quicknote.onrender.com/pwainstall",
-  "display": "standalone",
+  "start_url":"https://quicknote.onrender.com/",
+  "scope":"https://quicknote.onrender.com/",
+  "display": "browser",
   "theme_color": "#000000",
   "background_color": "#ffffff"
 }
