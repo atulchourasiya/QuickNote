@@ -163,8 +163,8 @@ const InputField = () => {
 		) {
 			dispatch(setAlert('Cannot Save Empty Note!❌'));
 		} else {
-			const email = email[0];
-			dispatch(addANote({note,email}));
+			const user = email[0];
+			dispatch(addANote({note,user}));
 		}
 		setReminderValue('');
 		dispatch(setSharedEmail(null));
