@@ -279,9 +279,10 @@ const NoteItem = (props) => {
 						Add lables
 					</li>
 					<li
-						onClick={() => {
+						onClick={async() => {
 							const { _id, __v, ...obj } = { ...props.note };
-							dispatch(addANote(obj));
+							const email =await store.getState().user.user?.email;
+							dispatch(addANote({obj,email}));
 						}}>
 						Make a copy
 					</li>

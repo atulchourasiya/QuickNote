@@ -113,7 +113,6 @@ const Edit = () => {
 			) {
 				dispatch(setAlert('Cannot Save Empty Note!❌'));
 			} else {
-				console.log(noteObj);
 				dispatch(
 					updateNote({
 						id: Note.current?._id,
@@ -125,7 +124,6 @@ const Edit = () => {
 					})
 				);
 				dispatch(setAlert('Note Updated Sucessfully!✅'));
-				dispatch(fetchAllNotes());
 				setCheckListIndexArray([]);
 				arrayIndex.current = 0;
 				Note.current = null;

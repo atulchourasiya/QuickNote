@@ -40,12 +40,12 @@ export const addANote = createAsyncThunk('notes/addNote', async (note, { dispatc
 			headers: {
 				'Content-Type': 'application/json'
 			},
-			body: JSON.stringify(note)
+			body: JSON.stringify(note.obj)
 		});
 		if (response.status === 200) {
 			const res = await response.json();
 			dispatch(setAlert('Note Is Added Successfully!✅'));
-			dispatch(fetchAllNotes(note.email[0]));
+			dispatch(fetchAllNotes(note.email));
 			dispatch(setLoading(false));
 			return res;
 		}
