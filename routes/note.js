@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const Note = require('../model/note');
+const { auth } = require('../middleware/reqAuth');
 
-router.post('/fetchAllNotes', async (req, res) => {
+
+router.post('/fetchAllNotes',auth, async (req, res) => {
 	try {
 		const notes = await Note.find({ email: req.body.email });
 		res.json(notes);
@@ -12,7 +14,7 @@ router.post('/fetchAllNotes', async (req, res) => {
 	}
 });
 
-router.post('/addNote', async (req, res) => {
+router.post('/addNote',auth, async (req, res) => {
 	try {
 		const { title, note, tag, email, check, bin, isChecked, pin, archive, deleteDate, reminder } =
 			req.body;
@@ -37,7 +39,7 @@ router.post('/addNote', async (req, res) => {
 	}
 });
 
-router.put('/updateNote/:id', async (req, res) => {
+router.put('/updateNote/:id',auth, async (req, res) => {
 	try {
 		const { title, note, email, tag, check, isChecked, bin, pin, archive, deleteDate, reminder } =
 			req.body;
@@ -102,7 +104,7 @@ router.put('/updateNote/:id', async (req, res) => {
 		res.status(500).send('Internal Server Error');
 	}
 });
-router.delete('/deleteNote/:id', async (req, res) => {
+router.delete('/deleteNote/:id',auth, async (req, res) => {
 	try {
 		let existingNote = await Note.findById(req.params.id);
 		let isVerified = false;
@@ -128,7 +130,7 @@ router.delete('/deleteNote/:id', async (req, res) => {
 		res.status(500).send('Internal Server Error');
 	}
 });
-router.put('/updateManyNote', async (req, res) => {
+router.put('/updateManyNote',auth, async (req, res) => {
 	try {
 		let response = await Note.bulkWrite(
 			req.body.notes.map((item) => ({
@@ -144,4 +146,5 @@ router.put('/updateManyNote', async (req, res) => {
 		res.status(500).send('Internal Server Error');
 	}
 });
+
 module.exports = router;

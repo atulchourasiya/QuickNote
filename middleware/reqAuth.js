@@ -4,21 +4,16 @@ const User = require('../model/user');
 const auth = async (req, res, next) => {
 	const token = req.cookies.jwt_auth;
 	try {
-		if(!token)
-		{
-			return res.status(401).send({
-				error: 'Please authenticate using a valid token'
-			});
+		if (!token) {
+			return res.status(401).end();
 		}
 		const signedUserId = verifyToken(token);
 		const { name, email, imageLink } = await User.findById({ _id: signedUserId });
-		req.user = {name , email ,imageLink};
+		req.user = { name, email, imageLink };
 		next();
 	} catch (err) {
-		res.status(401).send({
-			error: 'Please authenticate using a valid token'
-		});
+		res.status(401).end();
 	}
 };
 
-module.exports ={auth};
+module.exports = { auth };

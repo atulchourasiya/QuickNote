@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const Lable = require('../model/asset');
+const { auth } = require('../middleware/reqAuth');
 
-router.post('/addLable', async (req, res) => {
+router.post('/addLable',auth, async (req, res) => {
 	try {
 		const { lable, user } = req.body;
 		const newLable = new Lable({
@@ -26,7 +27,7 @@ router.post('/addLable', async (req, res) => {
 		res.status(500).send('Internal Server Error');
 	}
 });
-router.post('/fetchLable', async (req, res) => {
+router.post('/fetchLable',auth, async (req, res) => {
 	try {
 		const lable = await Lable.find({ user: req.body.user });
 		res.json(lable);
