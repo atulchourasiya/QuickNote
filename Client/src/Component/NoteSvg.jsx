@@ -12,7 +12,7 @@ const NoteSvg = (props) => {
 				<li
 					data-addreminderbtn
 					onClick={() => {
-						props.setShowReminder(!props.showReminder);
+						props.showReminderBox();
 					}}
 					className={`svg-container noteSvg-icon-hover`}>
 					<svg

@@ -37,6 +37,7 @@ export const addANote = createAsyncThunk('notes/addNote', async (note, { dispatc
 	try {
 		const response = await fetch(`${process.env.REACT_APP_API_HOST}/note/addNote`, {
 			method: 'POST',
+			credentials: 'include',
 			headers: {
 				'Content-Type': 'application/json'
 			},
@@ -65,6 +66,7 @@ export const updateNote = createAsyncThunk(
 				`${process.env.REACT_APP_API_HOST}/note/updateNote/${updatedNoteObj.id}`,
 				{
 					method: 'PUT',
+					credentials: 'include',
 					headers: {
 						'Content-Type': 'application/json'
 					},
@@ -93,6 +95,7 @@ export const deleteNote = createAsyncThunk(
 				`${process.env.REACT_APP_API_HOST}/note/deleteNote/${deleteNoteObj.id}`,
 				{
 					method: 'DELETE',
+					credentials: 'include',
 					headers: {
 						'Content-Type': 'application/json'
 					},
@@ -119,6 +122,7 @@ export const updateManyNote = createAsyncThunk(
 		try {
 			const response = await fetch(`${process.env.REACT_APP_API_HOST}/note/updateManyNote`, {
 				method: 'PUT',
+				credentials: 'include',
 				headers: {
 					'Content-Type': 'application/json'
 				},

@@ -13,12 +13,12 @@ import { setEditState } from '../Redux/Slice/editSlice';
 const NoteItem = (props) => {
 	const dispatch = useDispatch();
 	const noteItemOptions = useRef();
+	const showReminder = useRef();
 	let { isUpdate } = useSelector((state) => state.sharedEmail);
 	let { sharedEmail } = useSelector((state) => state.sharedEmail);
 	let { lable } = useSelector((state) => state.lable);
 	const [label, setLabel] = useState([]);
 	const [isChecked, setIsChecked] = useState([]);
-	const [showReminder, setShowReminder] = useState(false);
 	const [reminderValue, setReminderValue] = useState(null);
 	let currentIsChecked = useRef(isChecked);
 	let lableContainer = useRef();
@@ -41,7 +41,14 @@ const NoteItem = (props) => {
 		});
 		noteItemOptions.current.classList.toggle('d-none');
 	};
-
+	const showReminderBox = ()=>{
+       const container = document.getElementsByClassName('reminderContainer');
+		 	Array.from(container).forEach((item) => {
+				if (showReminder.current === item) return;
+				item.classList.add('d-none');
+			});
+			showReminder.current.classList.toggle('d-none');
+	}
 	const closeOtherLableContainer = () => {
 		let lableContainerArray = document.getElementsByClassName(styles.lableContainer);
 		Array.from(lableContainerArray).forEach((item) => {
@@ -184,10 +191,9 @@ const NoteItem = (props) => {
 							onClick={(_) => dispatch(setEditState(props.note))}
 							data-editnote
 							className={`ff pointer ${styles.noteItemTitle}`}>
-							{props.note.title.split('\n').map((item,index) => {
+							{props.note.title.split('\n').map((item, index) => {
 								return (
-									<span key={`${item}${Math.floor(Math.random() * 1000000)}${index}`} 
-									data-editnote>
+									<span key={`${item}${Math.floor(Math.random() * 1000000)}${index}`} data-editnote>
 										{item}
 										<br />
 									</span>
@@ -216,7 +222,7 @@ const NoteItem = (props) => {
 														? `${styles.noteItemNoteStrikeThrough} pointer`
 														: 'pointer'
 												}>
-												{note.split('\n').map((item,index) => {
+												{note.split('\n').map((item, index) => {
 													return (
 														<span
 															key={`${item}${Math.floor(Math.random() * 1000000)}${index}`}
@@ -236,10 +242,11 @@ const NoteItem = (props) => {
 								onClick={(_) => dispatch(setEditState(props.note))}
 								data-editnote
 								className={`ff fs-400 pointer ${styles.noteItemNote}`}>
-								{props.note.note[0].split('\n').map((item,index) => {
+								{props.note.note[0].split('\n').map((item, index) => {
 									return (
-										<span key={`${item}${Math.floor(Math.random() * 1000000)}${index}`} 
-										data-editnote>
+										<span
+											key={`${item}${Math.floor(Math.random() * 1000000)}${index}`}
+											data-editnote>
 											{item}
 											<br />
 										</span>
@@ -253,8 +260,7 @@ const NoteItem = (props) => {
 						UpdateNote={UpdateNote}
 						archive={props.note.archive}
 						showOptions={showOptions}
-						showReminder={showReminder}
-						setShowReminder={setShowReminder}
+						showReminderBox={showReminderBox}
 					/>
 				</div>
 				<ul
@@ -279,10 +285,10 @@ const NoteItem = (props) => {
 						Add lables
 					</li>
 					<li
-						onClick={async() => {
+						onClick={async () => {
 							const { _id, __v, ...obj } = { ...props.note };
-							const email =await store.getState().user.user?.email;
-							dispatch(addANote({obj,email}));
+							const email = await store.getState().user.user?.email;
+							dispatch(addANote({ obj, email }));
 						}}>
 						Make a copy
 					</li>
@@ -322,11 +328,7 @@ const NoteItem = (props) => {
 						</button>
 					</div>
 				</div>
-				<Reminder
-					showReminder={showReminder}
-					setShowReminder={setShowReminder}
-					setReminderValue={setReminderValue}
-				/>
+				<Reminder ref={showReminder} setReminderValue={setReminderValue} />
 			</div>
 		</>
 	);

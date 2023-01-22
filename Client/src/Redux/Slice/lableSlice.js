@@ -38,6 +38,7 @@ export const addLable = createAsyncThunk('notes/addLable', async (lable, { dispa
 	try {
 		const response = await fetch(`${process.env.REACT_APP_API_HOST}/note/addLable`, {
 			method: 'POST',
+			credentials: 'include',
 			headers: {
 				'Content-Type': 'application/json'
 			},
@@ -61,6 +62,7 @@ export const deleteLable = createAsyncThunk('notes/deleteLable', async (lable, {
 	try {
 		const response = await fetch(`${process.env.REACT_APP_API_HOST}/note/addLable`, {
 			method: 'POST',
+			credentials: 'include',
 			headers: {
 				'Content-Type': 'application/json'
 			},

@@ -1,12 +1,12 @@
 import styles from '../Styles/Reminder.module.css';
+import { forwardRef, React } from 'react';
 import { useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setAlert } from '../Redux/Slice/alertSlice';
 
-const Reminder = (props) => {
+const Reminder = forwardRef((props, ref) => {
 	const dateRef = useRef();
 	const timeRef = useRef();
-	const reminderContainer = useRef();
 	const dispatch = useDispatch();
 	const { morning, afternoon, evening } = useSelector((state) => state.setting);
 
@@ -64,7 +64,7 @@ const Reminder = (props) => {
 					dispatch(setAlert('Time is Expired!❌'));
 					return;
 				} else {
-					props.setShowReminder(false);
+					ref.current.classList.add('d-none');
 					props.setReminderValue(reminder);
 					dispatch(setAlert('Remainder Added Successfully!✅'));
 				}
@@ -76,7 +76,6 @@ const Reminder = (props) => {
 			return;
 		}
 	};
-
 	useEffect(() => {
 		currentTime();
 		setInterval(() => {
@@ -85,21 +84,11 @@ const Reminder = (props) => {
 		currentDate();
 	}, []);
 
-	useEffect(() => {
-		const container = document.getElementsByClassName('reminderContainer');
-		Array.from(container).forEach((item) => {
-			item.classList.add('d-none');
-		});
-		if (props.showReminder) {
-			reminderContainer.current.classList.remove('d-none');
-		}
-	}, [props.showReminder]);
-
 	return (
 		<div
 			data-remindercontainer
-			ref={reminderContainer}
-			className={`${styles.reminderContainer} reminderContainer`}>
+			ref={ref}
+			className={`${styles.reminderContainer} reminderContainer d-none`}>
 			<h2 className={`ff fs-400 fw-semibold`}>Reminder</h2>
 			
 			<div
@@ -134,7 +123,7 @@ const Reminder = (props) => {
 			<div className={`d-flex btn`}>
 				<button
 					onClick={() => {
-						props.setShowReminder(false);
+						ref.current.classList.add('d-none');
 					}}>
 					Cancel
 				</button>
@@ -144,6 +133,6 @@ const Reminder = (props) => {
 			</div>
 		</div>
 	);
-};
+});
 
 export default Reminder;
