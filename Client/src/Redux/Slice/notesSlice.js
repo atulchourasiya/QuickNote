@@ -24,6 +24,8 @@ export const fetchAllNotes = createAsyncThunk('notes/fetchAllNotes', async (user
 			const json = await response.json();
 			dispatch(setLoading(false));
 			return json;
+		} else if (response.status === 401) {
+			window.open(`${process.env.REACT_APP_API_HOST}/auth/google`, '_self');
 		} else throw new Error('Something went wrong!');
 	} catch (err) {
 		console.error(err);
@@ -49,7 +51,9 @@ export const addANote = createAsyncThunk('notes/addNote', async (note, { dispatc
 			dispatch(fetchAllNotes(note.email));
 			dispatch(setLoading(false));
 			return res;
-		}
+		} else if (response.status === 401) {
+			window.open(`${process.env.REACT_APP_API_HOST}/auth/google`, '_self');
+		} else throw new Error('Something went wrong!');
 	} catch (error) {
 		console.error(error);
 		dispatch(setAlert('Something Went Wrong!❌'));
@@ -78,7 +82,9 @@ export const updateNote = createAsyncThunk(
 				dispatch(fetchAllNotes(updatedNoteObj.email));
 				dispatch(setLoading(false));
 				return res;
-			}
+			} else if (response.status === 401) {
+				window.open(`${process.env.REACT_APP_API_HOST}/auth/google`, '_self');
+			} else throw new Error('Something went wrong!');
 		} catch (error) {
 			console.error(error);
 			dispatch(setAlert('Something Went Wrong!❌'));
@@ -107,7 +113,9 @@ export const deleteNote = createAsyncThunk(
 				dispatch(fetchAllNotes(deleteNoteObj.email));
 				dispatch(setLoading(false));
 				return res;
-			}
+			} else if (response.status === 401) {
+				window.open(`${process.env.REACT_APP_API_HOST}/auth/google`, '_self');
+			} else throw new Error('Something went wrong!');
 		} catch (error) {
 			console.error(error);
 			dispatch(setAlert('Something Went Wrong!❌'));
@@ -133,7 +141,9 @@ export const updateManyNote = createAsyncThunk(
 				dispatch(fetchAllNotes(Noteobj.email));
 				dispatch(setLoading(false));
 				return res;
-			}
+			} else if (response.status === 401) {
+				window.open(`${process.env.REACT_APP_API_HOST}/auth/google`, '_self');
+			} else throw new Error('Something went wrong!');
 		} catch (error) {
 			console.error(error);
 			dispatch(setAlert('Something Went Wrong!❌'));

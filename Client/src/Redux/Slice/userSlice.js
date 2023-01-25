@@ -28,6 +28,8 @@ export const getUser = createAsyncThunk('user/getUser', async (_, { dispatch }) 
 			dispatch(setLoading(false));
 			dispatch(setLogin(false));
 			return json.user;
+		} else if (response.status === 401) {
+			window.open(`${process.env.REACT_APP_API_HOST}/auth/google`, '_self');
 		} else throw new Error('Authentication has been failed!');
 	} catch (err) {
 		dispatch(setInitialLoading(false));

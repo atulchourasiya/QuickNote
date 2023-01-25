@@ -13,7 +13,7 @@ exports.verifyToken = (token) => {
 exports.signToken = (req) => {
 	try {
 		const token = jwt.sign({ userId: req.user._id.toHexString() }, process.env.JWT_SECRET, {
-			expiresIn: '12h'
+			expiresIn: '1h'
 		});
 		return token;
 	} catch (err) {

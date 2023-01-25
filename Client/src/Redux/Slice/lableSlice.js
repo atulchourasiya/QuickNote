@@ -25,6 +25,8 @@ export const fetchLable = createAsyncThunk('notes/fetchLable', async (user, { di
 			dispatch(setLoading(false));
 			dispatch(setInitialLoading(false));
 			return json;
+		} else if (response.status === 401) {
+			window.open(`${process.env.REACT_APP_API_HOST}/auth/google`, '_self');
 		} else throw new Error('Something went wrong!');
 	} catch (err) {
 		console.error(err);
@@ -50,7 +52,9 @@ export const addLable = createAsyncThunk('notes/addLable', async (lable, { dispa
 			dispatch(fetchLable(lable.user));
 			dispatch(setLoading(false));
 			return res;
-		}
+		} else if (response.status === 401) {
+			window.open(`${process.env.REACT_APP_API_HOST}/auth/google`, '_self');
+		} else throw new Error('Something went wrong!');
 	} catch (error) {
 		console.error(error);
 		dispatch(setAlert('Something Went Wrong!❌'));
@@ -95,7 +99,9 @@ export const deleteLable = createAsyncThunk('notes/deleteLable', async (lable, {
 			);
 			dispatch(setLoading(false));
 			return res;
-		}
+		} else if (response.status === 401) {
+			window.open(`${process.env.REACT_APP_API_HOST}/auth/google`, '_self');
+		} else throw new Error('Something went wrong!');
 	} catch (error) {
 		console.error(error);
 		dispatch(setAlert('Something Went Wrong!❌'));
