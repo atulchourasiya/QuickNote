@@ -29,7 +29,7 @@ export const fetchLable = createAsyncThunk('notes/fetchLable', async (user, { di
 			return json;
 		} else if (response.status === 401) {
 			dispatch(setUser(null));
-			alert('Login session is over you have to login again!❌');
+			alert('Login session is over, you have to login again!❌');
 			dispatch(setLogin(true));
 		} else throw new Error('Something went wrong!');
 	} catch (err) {
@@ -58,7 +58,7 @@ export const addLable = createAsyncThunk('notes/addLable', async (lable, { dispa
 			return res;
 		} else if (response.status === 401) {
 			dispatch(setUser(null));
-			alert('Login session is over you have to login again!❌');
+			alert('Login session is over, you have to login again!❌');
 			dispatch(setLogin(true));
 		} else throw new Error('Something went wrong!');
 	} catch (error) {
@@ -107,7 +107,7 @@ export const deleteLable = createAsyncThunk('notes/deleteLable', async (lable, {
 			return res;
 		} else if (response.status === 401) {
 			dispatch(setUser(null));
-			alert('Login session is over you have to login again!❌');
+			alert('Login session is over, you have to login again!❌');
 			dispatch(setLogin(true));
 		} else throw new Error('Something went wrong!');
 	} catch (error) {
