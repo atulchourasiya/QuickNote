@@ -2,6 +2,8 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { setInitialLoading, setLoading } from './loadingSlice';
 import { setAlert } from './alertSlice';
 import { updateManyNote } from './notesSlice';
+import { setUser } from './userSlice';
+import { setLogin } from './viewSlice';
 
 const initialState = {
 	lable: []
@@ -26,7 +28,9 @@ export const fetchLable = createAsyncThunk('notes/fetchLable', async (user, { di
 			dispatch(setInitialLoading(false));
 			return json;
 		} else if (response.status === 401) {
-			window.open(`${process.env.REACT_APP_API_HOST}/auth/google`, '_self');
+			dispatch(setUser(null));
+			alert('Login session is over you have to login again!❌');
+			dispatch(setLogin(true));
 		} else throw new Error('Something went wrong!');
 	} catch (err) {
 		console.error(err);
@@ -53,7 +57,9 @@ export const addLable = createAsyncThunk('notes/addLable', async (lable, { dispa
 			dispatch(setLoading(false));
 			return res;
 		} else if (response.status === 401) {
-			window.open(`${process.env.REACT_APP_API_HOST}/auth/google`, '_self');
+			dispatch(setUser(null));
+			alert('Login session is over you have to login again!❌');
+			dispatch(setLogin(true));
 		} else throw new Error('Something went wrong!');
 	} catch (error) {
 		console.error(error);
@@ -100,7 +106,9 @@ export const deleteLable = createAsyncThunk('notes/deleteLable', async (lable, {
 			dispatch(setLoading(false));
 			return res;
 		} else if (response.status === 401) {
-			window.open(`${process.env.REACT_APP_API_HOST}/auth/google`, '_self');
+			dispatch(setUser(null));
+			alert('Login session is over you have to login again!❌');
+			dispatch(setLogin(true));
 		} else throw new Error('Something went wrong!');
 	} catch (error) {
 		console.error(error);

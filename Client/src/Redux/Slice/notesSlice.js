@@ -1,6 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { setInitialLoading, setLoading } from './loadingSlice';
 import { setAlert } from './alertSlice';
+import { setUser } from './userSlice';
+import { setLogin } from './viewSlice';
 
 const initialState = {
 	notes: null,
@@ -25,7 +27,9 @@ export const fetchAllNotes = createAsyncThunk('notes/fetchAllNotes', async (user
 			dispatch(setLoading(false));
 			return json;
 		} else if (response.status === 401) {
-			window.open(`${process.env.REACT_APP_API_HOST}/auth/google`, '_self');
+			dispatch(setUser(null));
+			alert('Login session is over you have to login again!❌');
+			dispatch(setLogin(true));
 		} else throw new Error('Something went wrong!');
 	} catch (err) {
 		console.error(err);
@@ -52,7 +56,9 @@ export const addANote = createAsyncThunk('notes/addNote', async (note, { dispatc
 			dispatch(setLoading(false));
 			return res;
 		} else if (response.status === 401) {
-			window.open(`${process.env.REACT_APP_API_HOST}/auth/google`, '_self');
+			dispatch(setUser(null));
+			alert('Login session is over you have to login again!❌');
+			dispatch(setLogin(true));
 		} else throw new Error('Something went wrong!');
 	} catch (error) {
 		console.error(error);
@@ -83,7 +89,9 @@ export const updateNote = createAsyncThunk(
 				dispatch(setLoading(false));
 				return res;
 			} else if (response.status === 401) {
-				window.open(`${process.env.REACT_APP_API_HOST}/auth/google`, '_self');
+				dispatch(setUser(null));
+				alert('Login session is over you have to login again!❌');
+				dispatch(setLogin(true));
 			} else throw new Error('Something went wrong!');
 		} catch (error) {
 			console.error(error);
@@ -114,7 +122,9 @@ export const deleteNote = createAsyncThunk(
 				dispatch(setLoading(false));
 				return res;
 			} else if (response.status === 401) {
-				window.open(`${process.env.REACT_APP_API_HOST}/auth/google`, '_self');
+				dispatch(setUser(null));
+				alert('Login session is over you have to login again!❌');
+				dispatch(setLogin(true));
 			} else throw new Error('Something went wrong!');
 		} catch (error) {
 			console.error(error);
@@ -142,7 +152,9 @@ export const updateManyNote = createAsyncThunk(
 				dispatch(setLoading(false));
 				return res;
 			} else if (response.status === 401) {
-				window.open(`${process.env.REACT_APP_API_HOST}/auth/google`, '_self');
+				dispatch(setUser(null));
+				alert('Login session is over you have to login again!❌');
+				dispatch(setLogin(true));
 			} else throw new Error('Something went wrong!');
 		} catch (error) {
 			console.error(error);
