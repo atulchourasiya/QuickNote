@@ -114,7 +114,6 @@ const Navbar = () => {
 			} else if (document.documentElement.msRequestFullscreen) {
 				document.documentElement.msRequestFullscreen();
 			}
-			setFullScreen(true);
 		} else {
 			if (document.exitFullscreen) {
 				document.exitFullscreen();
@@ -125,10 +124,11 @@ const Navbar = () => {
 			} else if (document.msExitFullscreen) {
 				document.msExitFullscreen();
 			}
-			setFullScreen(false);
 		}
 	};
-
+	const fullScreenChange = () => {
+	setFullScreen(isDocumentInFullScreenMode());
+	};
 	const handleDriveIcon = async () => {
 		driveLogo.current?.classList.remove('d-none');
 		arrowIcon.current?.classList.add('d-none');
@@ -277,10 +277,12 @@ const Navbar = () => {
 		window.addEventListener('resize', handleSpinnerSize);
 		window.addEventListener('resize', handleMediaWidth);
 		document.addEventListener('click', checkIfClickedOutside);
+		 document.addEventListener('fullscreenchange', fullScreenChange);
 		return () => {
 			window.removeEventListener('resize', handleSpinnerSize);
 			window.removeEventListener('resize', handleMediaWidth);
 			document.removeEventListener('click', checkIfClickedOutside);
+			document.removeEventListener('fullscreenchange', fullScreenChange);
 		};
 		// eslint-disable-next-line
 	}, []);
